@@ -1,0 +1,6 @@
+digraph G {
+  rankdir="LR";
+  "q1" -> "OR" [arrowhead=obox]
+  "OR" -> "q2"
+  "OR" -> "q3"
+}

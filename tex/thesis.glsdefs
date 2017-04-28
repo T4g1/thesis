@@ -1,0 +1,30 @@
+\ifglsentryexists{fpsLabel}{}%
+{%
+\gls@defglossaryentry{fpsLabel}%
+{%
+name={RUG},%
+sort={RUG},%
+type={main},%
+first={Railster Universal Gateway\glsspace (RUG)},%
+firstplural={Railster Universal Gateways\glsspace (RUGs)},%
+text={RUG},%
+plural={RUGs},%
+description={Railster Universal Gateway},%
+descriptionplural={Railster Universal Gateway\acrpluralsuffix },%
+symbol={\relax },%
+symbolplural={\relax },%
+user1={},%
+user2={},%
+user3={},%
+user4={},%
+user5={},%
+user6={},%
+long={Railster Universal Gateway},%
+longplural={Railster Universal Gateways},%
+short={RUG},%
+shortplural={RUGs},%
+counter={page},%
+parent={},%
+%
+}%
+}%

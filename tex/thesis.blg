@@ -1,0 +1,67 @@
+This is BibTeX, Version 0.99d (TeX Live 2016/Arch Linux)
+Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
+The top-level auxiliary file: thesis.aux
+The style file: IEEEtran.bst
+Reallocated singl_function (elt_size=8) to 100 items from 50.
+Reallocated singl_function (elt_size=8) to 100 items from 50.
+Reallocated singl_function (elt_size=8) to 100 items from 50.
+Reallocated wiz_functions (elt_size=8) to 6000 items from 3000.
+Reallocated singl_function (elt_size=8) to 100 items from 50.
+Database file #1: ref.bib
+Repeated entry---line 63 of file ref.bib
+ : @misc{EconomicsWiki:2017
+ :                         ,
+I'm skipping whatever remains of this entry
+-- IEEEtran.bst version 1.14 (2015/08/26) by Michael Shell.
+-- http://www.michaelshell.org/tex/ieeetran/bibtex/
+-- See the "IEEEtran_bst_HOWTO.pdf" manual for usage information.
+Warning--empty author in IEEEStd1990
+Warning--empty journal in Laurie.W:Black-box
+Warning--empty author in BenderRBTRequirementBasedTesting:2017
+Warning--empty journal in BenderRBTRequirementBasedTesting:2017
+Warning--missing publisher in Keller-FSM
+Warning--empty year in Keller-FSM
+
+Done.
+You've used 18 entries,
+            4087 wiz_defined-function locations,
+            924 strings with 10019 characters,
+and the built_in function-call counts, 6806 in all, are:
+= -- 499
+> -- 55
+< -- 20
++ -- 37
+- -- 7
+* -- 253
+:= -- 1111
+add.period$ -- 35
+call.type$ -- 18
+change.case$ -- 24
+chr.to.int$ -- 48
+cite$ -- 24
+duplicate$ -- 595
+empty$ -- 717
+format.name$ -- 7
+if$ -- 1562
+int.to.chr$ -- 0
+int.to.str$ -- 18
+missing$ -- 114
+newline$ -- 77
+num.names$ -- 7
+pop$ -- 340
+preamble$ -- 1
+purify$ -- 0
+quote$ -- 2
+skip$ -- 532
+stack$ -- 0
+substring$ -- 142
+swap$ -- 336
+text.length$ -- 4
+text.prefix$ -- 0
+top$ -- 5
+type$ -- 18
+warning$ -- 6
+while$ -- 19
+width$ -- 20
+write$ -- 153
+(There was 1 error message)

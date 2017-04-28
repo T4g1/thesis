@@ -1,0 +1,52 @@
+\contentsline {section}{\numberline {1}Introduction}{6}
+\contentsline {part}{I\hspace {1em}Software testing}{8}
+\contentsline {section}{\numberline {2}Software development}{9}
+\contentsline {section}{\numberline {3}Validation and verification}{9}
+\contentsline {section}{\numberline {4}Code coverage}{10}
+\contentsline {section}{\numberline {5}Black-box and white-box testing}{11}
+\contentsline {subsection}{\numberline {5.1}Grey-box testing}{11}
+\contentsline {section}{\numberline {6}Static and Dynamic testing}{12}
+\contentsline {section}{\numberline {7}Type of testing}{12}
+\contentsline {subsection}{\numberline {7.1}Unit testing}{12}
+\contentsline {subsection}{\numberline {7.2}Integration testing}{13}
+\contentsline {subsection}{\numberline {7.3}Functional testing}{13}
+\contentsline {subsection}{\numberline {7.4}System testing}{13}
+\contentsline {subsection}{\numberline {7.5}Acceptance testing}{14}
+\contentsline {subsection}{\numberline {7.6}Regression testing}{14}
+\contentsline {subsection}{\numberline {7.7}Beta testing}{15}
+\contentsline {section}{\numberline {8}Requirements-based testing}{15}
+\contentsline {part}{II\hspace {1em}Case study}{17}
+\contentsline {section}{\numberline {9}RailNOVA}{18}
+\contentsline {subsection}{\numberline {9.1}Existing system}{18}
+\contentsline {subsection}{\numberline {9.2}Short story}{19}
+\contentsline {section}{\numberline {10}The economics of software testing}{20}
+\contentsline {part}{III\hspace {1em}Design}{23}
+\contentsline {section}{\numberline {11}Requirements analysis}{24}
+\contentsline {section}{\numberline {12}Testing environment}{24}
+\contentsline {section}{\numberline {13}Finite State Machine}{26}
+\contentsline {subsection}{\numberline {13.1}Acceptors}{28}
+\contentsline {subsection}{\numberline {13.2}Non-Determinism}{29}
+\contentsline {subsection}{\numberline {13.3}Description of Finite State Machine using graphs}{30}
+\contentsline {section}{\numberline {14}Alternate Finite Automaton}{31}
+\contentsline {section}{\numberline {15}Timed Finite State Machine}{32}
+\contentsline {section}{\numberline {16}Mixing alternate and timed automata}{33}
+\contentsline {section}{\numberline {17}Choices}{33}
+\contentsline {section}{\numberline {18}Mathematical description of our custom \gls {fsm}}{35}
+\contentsline {part}{IV\hspace {1em}Abstraction of Inputs/Outputs}{38}
+\contentsline {section}{\numberline {19}About Inputs/Outputs}{39}
+\contentsline {section}{\numberline {20}Outputs}{39}
+\contentsline {subsection}{\numberline {20.1}How does it works}{40}
+\contentsline {subsection}{\numberline {20.2}Wanesy}{40}
+\contentsline {subsection}{\numberline {20.3}Log}{41}
+\contentsline {subsection}{\numberline {20.4}Miscelaneous}{41}
+\contentsline {section}{\numberline {21}Inputs}{41}
+\contentsline {subsection}{\numberline {21.1}Alimentation}{42}
+\contentsline {subsection}{\numberline {21.2}Connectivity}{42}
+\contentsline {section}{\numberline {22}The generic way}{43}
+\contentsline {subsection}{\numberline {22.1}Outputs}{43}
+\contentsline {subsection}{\numberline {22.2}Inputs}{44}
+\contentsline {part}{V\hspace {1em}Test cases}{45}
+\contentsline {section}{\numberline {23}Timeout check}{46}
+\contentsline {part}{VI\hspace {1em}Conclusion}{47}
+\contentsline {section}{References}{48}
+\contentsline {section}{Glossary}{50}

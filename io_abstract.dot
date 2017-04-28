@@ -1,0 +1,12 @@
+digraph io_abstract {
+
+    system [shape = box];
+    Nursery [shape = box];
+    inputs [shape = circle];
+    outputs [shape = circle];
+
+    system -> outputs;
+    Nursery -> inputs;
+    inputs -> system;
+    outputs -> Nursery;
+}

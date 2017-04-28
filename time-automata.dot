@@ -1,0 +1,12 @@
+digraph timed_automaton {
+    // node define
+    initial [style = invisible];
+    polling [shape = circle];
+    reset [shape = circle];
+    failure [shape = doublecircle];
+
+    initial -> polling;
+    polling -> reset [label = "data received"];
+    polling -> failure [label = "X > 30"];
+    reset -> polling [label = "X := 0"];
+}

@@ -1,0 +1,42 @@
+TODO:
+-----
+
+Pour le 7 Novembre, dégrossir ce qui sera fait (20 pages ?)
+Ce qui existe déjà (voir Xavier)
+Ce qui est voulu
+Définir les interfaces a explorer (les plus utiles ou celles voulues)
+Présentation de la boite ?
+
+
+RESEARCH:
+---------
+
+Examiner les techniques de test existante
+Examiner les outils existant
+
+
+TOOLS:
+------
+Selenia
+TestComplete
+
+
+TECHNIQUES:
+-----------
+
+White-box
+Grey-box
+Black-box
+
+Code-coverage
+
+
+
+ABSTRACT
+INTRODUCTION
+RAILNOVA
+TESTING PROTOCOL
+CASE ANALYSIS 1
+...
+CASE ANALYSIS N
+CONCLUSION
