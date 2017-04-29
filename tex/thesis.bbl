@@ -31,6 +31,11 @@ B.~W. Boehm, ``Software process management: Lessons learned from history,''
   \emph{ICSE '87 Proceedings of the 9th international conference on Software
   Engineering}, pp. 296--298, 1987.
 
+\bibitem{ScrumAlliance:2017}
+``What is scrum? an agile framework for completing complex projects,''
+  \url{https://www.scrumalliance.org/why-scrum}, [Online; accessed
+  29-April-2017].
+
 \bibitem{VnV:2016}
 ``Software verification and validation,''
   \url{https://en.wikipedia.org/wiki/Software\_verification\_and\_validation},

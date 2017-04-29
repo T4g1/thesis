@@ -23,45 +23,45 @@ Warning--missing publisher in Keller-FSM
 Warning--empty year in Keller-FSM
 
 Done.
-You've used 19 entries,
+You've used 20 entries,
             4087 wiz_defined-function locations,
-            930 strings with 10207 characters,
-and the built_in function-call counts, 7537 in all, are:
-= -- 561
-> -- 66
+            935 strings with 10385 characters,
+and the built_in function-call counts, 7849 in all, are:
+= -- 584
+> -- 67
 < -- 28
-+ -- 45
++ -- 46
 - -- 8
-* -- 283
-:= -- 1221
-add.period$ -- 37
-call.type$ -- 19
-change.case$ -- 25
+* -- 292
+:= -- 1270
+add.period$ -- 39
+call.type$ -- 20
+change.case$ -- 27
 chr.to.int$ -- 69
-cite$ -- 25
-duplicate$ -- 647
-empty$ -- 774
+cite$ -- 26
+duplicate$ -- 678
+empty$ -- 809
 format.name$ -- 8
-if$ -- 1736
+if$ -- 1808
 int.to.chr$ -- 0
-int.to.str$ -- 19
-missing$ -- 120
-newline$ -- 80
+int.to.str$ -- 20
+missing$ -- 127
+newline$ -- 83
 num.names$ -- 8
-pop$ -- 353
+pop$ -- 375
 preamble$ -- 1
 purify$ -- 0
 quote$ -- 2
-skip$ -- 590
+skip$ -- 615
 stack$ -- 0
-substring$ -- 192
-swap$ -- 379
+substring$ -- 195
+swap$ -- 394
 text.length$ -- 5
 text.prefix$ -- 0
 top$ -- 5
-type$ -- 19
+type$ -- 20
 warning$ -- 6
 while$ -- 23
-width$ -- 21
-write$ -- 162
+width$ -- 22
+write$ -- 169
 (There was 1 error message)
