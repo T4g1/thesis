@@ -66,25 +66,29 @@ To guide us during this work, we will focus on a concrete case study that was en
 
 Despite the fact that this paper will try yo stay generic, we will not talk about hardware testing even if we can see that as a particular case of testing in a developpement process. Despite the fact that strong timing constraint doesn't allows us to performs this hardware analysis, we think that focussing on software developpement will help the reader to get a better understanding of the principles used and developped ideas.\\
 
-I tried to divided this work in many big parts that introduces themself one after the other. As this topic and all thetechniques involved are closely related, there will often be references to area not already covered during the sequential reading of this paper.\\
+I tried to divided this work in many big parts that introduces themself one after the other. As this topic and all the techniques involved are closely related, there will often be references to area not already covered during the sequential reading of this paper.\\
 
-To begin with, we will present the very basics of one software testing by analyzing one of them mainly to introduce technical terms used all along this paper. Following this technical introduction, we will present the studied case that was the starting point of this work at the RailNOVA company. Then, we will start with the real work by explaining how we designed the testing process and finally, we will describe how our particular case was handled by explaining how we integrated every inuts and outputs of our software into our testing process. We'll also give a more summarized/generic way of doing the same work for any kind of inputs and outputs.
+The first part of this work will describe the existing techniques in software testing and discuss of what are some of the motivations of this work to introduce \gls{fsm} and how they work. Following this, we will discuss about the work that was done, why it is an important improvement and what are the decisions that lead us to this particular implementation. Then, we will explain how we designed the testing process and finally, we will describe how our particular case was handled by explaining how we integrated every inputs and outputs of our software into our testing process. We'll also give a more summarized/generic way of doing the same work for any kind of inputs and outputs.
 
 
 %------------------------------------------------------------------------%
 %                                                                        %
 %                                                                        %
-% SOFTWARE TESTING                                                       %
+% PRELIMINARIES                                                          %
 %                                                                        %
 %                                                                        %
 %------------------------------------------------------------------------%
 
 \clearpage
-\part{Software testing}
+\part{Preliminaries}
+
+To begin with, we will present the very basics of software testing, what are the common practices and how we uses them nowadays. This will allows us to introduce the technical terms used all along this paper. Following this technical introduction, we will present the studied case that was the starting point of this work at the RailNOVA company to introduce \gls{fsm}. Finaly, we will describe what is a \gls{fsm} exactly and some of its variations.
+
+\clearpage
+\section{Software testing}
 
 Software development is a complex area and a lot of differents processes exists but at the very last, they all have some key principles in common. One of them being the testing part. For this work to be fully understood, we need to introduce a bit of software development and then, explain which are the different techniques used in software testing. This will provide us the required technical vocabulary to describe our own testing process.
 
-\clearpage
 \section{Software development}
 
 Software development can be defined in a lot of differents ways, every one of them being more or less equivalent but in this work, we will focus on the basis and simply say that software development is some kind of plan to produce a given software. This plan can be more or less complex and must involves at some point, some testing steps.\\
@@ -93,7 +97,78 @@ Software are usually ordered by a client that can be ourself, some company or an
 
 Then the software can be built. Of course, if we got the wrong requirements specifications, our software will not be what the client asked and therefore, they will want us to start again from scratch. Lets assume that those requirements are good, then, once the software is built, we want to test it to ensure that it works and that it meets the given requirements. Once those test are succesfully passed, we can ship the software to our client.\\
 
-This whole process, starting from the client order to the shipping of the produced software is what we call the software development process. Of course, this is not the only way of doing it even for a simple process like this one their can be divergence of workflow from one team to another. But lets keep our simple view of it and introduces the tools that are of interest for every testing process.
+This whole process, starting from the client order to the shipping of the produced software is what we call the software development process. Of course, there is not one only way of doing it even for the most simple process like this one their can be divergence of workflow from one team to another. Lets introduce some of them.
+
+TODO http://onlinelibrary.wiley.com/doi/10.1002/j.2334-5837.2001.tb02348.x/full
+
+\subsection{Waterfall}
+
+The waterfall model is probably the most basic development process still used today, it is often attributed to Winston Walker Royce in a paper from 1970~\cite{BARYWBoehm:1987}. The whole process is sequential or plan driven. The whole process is divided in big part and each of them is done only one time and one after the other. The original model was designed as follows:\\
+
+\begin{itemize}
+
+\item System and software requirements: captured in a product requirements document
+\item Analysis: resulting in models, schema, and business rules
+\item Design: resulting in the software architecture
+\item Coding: the development, proving, and integration of software
+\item Testing: the systematic discovery and debugging of defects
+\item Operations: the installation, migration, support, and maintenance of complete systems
+
+\end{itemize}
+
+Of course, this process is very risky and organizations tends to avoid it when possible. Between the first and the last step of it, there can be a lot of weeks, months or years ! During this time, the project needs can evolve and then, the delivered product will only match outdated requierements. Which, of course, is not a good thing for the client.\\
+
+If some problems occurs during the writting of the product requierements, lets say that the client forgot to talk about a key feature. Then, again, the product we will deliver will miss that feature. Producing the wrong product is really a big problem of this methodology.\\
+
+Despites those well known problems, there is still a lot of qualities to this process. As the first steps are strongly related to documentation of the product, if a team member leaves during the process, we have less risk of loosing knowledge of what has been done or what is left to do. New team members will simply need to read the requierements, the produced models and the software architecture.\\
+
+This process is also one of the most easiest to understand, every step of the project is well documented and one can easily jump in any project using this methodology and be ready to participate in a realy small amount of time.\\
+
+\begin{figure}
+    \centering
+    \includegraphics[scale=0.8]{waterfall.jpg}
+    \caption{Waterfall model. You should see why it is called waterfall from this picture.}
+    \label{Waterfall}
+\end{figure}
+
+\subsection{Prototyping}
+
+Sometimes, you want to produce a product as soon as possible so you can conquer the market sooner. In that case, the waterfall approach is not gonna be very usefull. The prototyping process though, can help you towards this goal.\\
+
+The idea is to produce some prototype as soon as possible, test it and then, iterate over it again and again until the final product is fully functionnal. It is a trial-and-error process. This works especially well when the final product requierements are not fully known. By presenting a prototype to the client, he is able to give feedbacks and explain the following most wanted features. Like for the waterfall model, we have a plan for the whole process:\\
+
+The whole product is divided into as many sub-product as needed. Each of those division will be prototyped on top of the last ones until we get the final product.\\
+
+\begin{itemize}
+
+\item System requierements are defined in as much details as possible.
+\item A first design is created.
+\item The first prototype is created.
+\item Client reviews the prototype.
+\item Devellopers change the prototype accordingly.
+\item We repeat those steps as many times as needed.
+\item The final product is constructed based on the last prototype.
+
+\end{itemize}
+
+Using this model, the probability to deliver a product that does not meet the client requierements is very small as he can give a feedback throughout the whole developement process. But there are some drawbacks to that.\\
+
+Focussing on small sub-problems/sub-features distracts the developers from conducting a good and in depth analysis. This is also due to the lack of fully specified requierements from the start. Adding more and more features on top of existing ones can quickly create a complicated product both difficult to maintain and improve.\\
+
+\begin{figure}
+    \centering
+    \includegraphics[scale=0.4]{prototyping.png}
+    \caption{Schema of the prototyping process.}
+    \label{Prototyping}
+\end{figure}
+
+\subsection{Spiral}
+
+
+
+\subsection{Agile}
+
+
 
 \section{Validation and verification}
 
