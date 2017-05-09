@@ -85,11 +85,9 @@ The first part of this work will describe the existing techniques in software te
 To begin with, we will present the very basics of software testing, what are the common practices and how we uses them nowadays. This will allows us to introduce the technical terms used all along this paper. Following this technical introduction, we will present the studied case that was the starting point of this work at the RailNOVA company to introduce \gls{fsm}. Finaly, we will describe what is a \gls{fsm} exactly and some of its variations.
 
 \clearpage
-\section{Software testing}
+\section{Software development and software testing}
 
 Software development is a complex area and a lot of differents processes exists but at the very last, they all have some key principles in common. One of them being the testing part. For this work to be fully understood, we need to introduce a bit of software development and then, explain which are the different techniques used in software testing. This will provide us the required technical vocabulary to describe our own testing process.
-
-\section{Software development}
 
 Software development can be defined in a lot of differents ways, every one of them being more or less equivalent but in this work, we will focus on the basis and simply say that software development is some kind of plan to produce a given software. This plan can be more or less complex and must involves at some point, some testing steps.\\
 
@@ -97,9 +95,7 @@ Software are usually ordered by a client that can be ourself, some company or an
 
 Then the software can be built. Of course, if we got the wrong requirements specifications, our software will not be what the client asked and therefore, they will want us to start again from scratch. Lets assume that those requirements are good, then, once the software is built, we want to test it to ensure that it works and that it meets the given requirements. Once those test are succesfully passed, we can ship the software to our client.\\
 
-This whole process, starting from the client order to the shipping of the produced software is what we call the software development process. Of course, there is not one only way of doing it even for the most simple process like this one their can be divergence of workflow from one team to another. Lets introduce some of them.
-
-TODO http://onlinelibrary.wiley.com/doi/10.1002/j.2334-5837.2001.tb02348.x/full
+This whole process, starting from the client order to the shipping of the produced software is what we call the software development process. Of course, there is not one only way of doing it even for the most simple process like this one their can be divergence of workflow from one team to another. Lets introduce some of them~\cite{IIS2:IIS202348}.
 
 \subsection{Waterfall}
 
@@ -331,158 +327,18 @@ Requirements-based testing is a testing approach in which test cases, conditions
 
 Requirements-based testing is exactly what we are trying to do with black-box testing. For each given requirements stating, for example, that we want to produce some result Y when you give some input X, we want to produce a test case that maps the input X to our software and gets the output Y'. Comparing Y and Y' will allow us to decide whether or not, there is a fault and/or decide if the requirement is met or not. If not, our software is not built correctly and we need to work more on it before shipping it for the client.\\
 
-
 %------------------------------------------------------------------------%
 %                                                                        %
 %                                                                        %
-% CASE STUDY                                                             %
-%                                                                        %
-%                                                                        %
-%------------------------------------------------------------------------%
-
-\clearpage
-\part{Case study}
-
-Now that you now what software testing is all about, lets introduce the case that is of interest to us, namely, Nursery ! I'll first introduce the RailNOVA enterprise and the system we will work with all along this paper. Then I will explain why this work is of critical importance for them and generaly speaking, for every software development process.
-
-\clearpage
-\section{RailNOVA}
-
-This work is done in partnership with RailNOVA. Railnova is a technology company that provides telematics and software solutions to the railway industry. Their headquarter is located in Brussels and they count approximatively 30 employees. Some of them comes from the ULB/VUB.
-
-The main goal of this work is to develop a better testing suite for their embedded software called \gls{railsteros}. Of course, the developed solution will not be limited to a particullar software and our scope is a lot wider than that.
-
-\subsection{Existing system}
-
-\gls{railsteros} is a software developed at RailNOVA which purpose is to collect and stream data from a train to a server. This data is then processed to give various insigths about the train status. Thus allowing RailNOVA's client to manage their fleet with ease.\\
-
-The \gls{railsteros} is executed on a dedicated hardware also built by RailNOVA which is called \gls{rug}. Those \gls{rug} are mainly installed in trains in Germany, France, Belgium, Netherlands and Spain at the time this work was written. More specifically, the \gls{rug} is installed in the engine of trains.\\
-
-This dedicated hardware provides a lot of data from the train. We can access informations like remaining fuel (if it is not an electrical engine), the total running time since last power on of the engine, where is the engine located, current speed if the engine is moving and all the data that the client wants to access remotely.\\
-
-Every engine is more or less unique. They can use a wide range of different component and thus have different parameters like their maximal speed when loaded or not, the maximal weigth they can carry or even the number of wheels the engine uses. Because of that \gls{railsteros} need to accept a wide range of different configuration so we don't stream fuel remaining if we are on an electrical engine for example. We can also have two kinds of motors that give information about their speed without using the same type of cable or protocol. To achieve this flexibility, we allow \gls{railsteros} to start only a subset of its internal software using some configuration files. All this software's modules, which we call \gls{daemons}, are small applications used to interface with a given protocol. For example, we have one deamon that is dedicated to GPS location's informations. The set of deamon we use, which is defined in the configuration files, defines what type of engine we can handle and what operations we can do.\\
-
-To retrieve all those informations, we need to use different communication protocols and wires because engines built by different companies will have different behaviors and communication protocols. All of them, we will call interfaces. Each of those interface needs proper test that relies on the used protocol, we want to be able to describe our needs by saying things like "I want this particular data when I receive this kind of message on this interface". As there is a lot of them, this will take time to implement proper testing for all of them so we will only cover a subset of them in this paper but we will provide a generic way of implementing test for them all.
-
-\subsection{Short story}
-
-Some of the \gls{rug} were experiencing troubleshoot during then end of fall 2016. 8\% of the fleet had to be replaced by the team for unknown reasons. After a bit of testing, some members of the team thought that it could come from an unexpected electrical over-consumption of the \gls{rug} while connecting to a GPS antenna. To validate this hypothesis, some testing had to be done. It was the end of summer so the outside temperature was going down so the team thought that maybe it had something to do with that.
-
-The test procedure was defined as follow:
-In a thermic chamber set to a temperature of -10 celsius degrees, to simulate the outside temperature as best as we can, we put a \gls{rug} and we connect with a computer next to it to the serial communication port of the system. Once we are connected, we issue some command to mannualy choose which GPS protocol to use out of the four of them supported and for each of them, we manually set the emiting power of the GPRS chip in order to reproduce the problem seen on the practical field.\\
-
-Those test were made, approximately 30 for different temperatures of the thermic chamber, different band and different emiting power. Those took one person an entire day of work ! That's because the thermic chamber needs an hour to set a fixed temperature, the system needs 5 minutes to reboot when we set the band to use and we wait 10 minutes for each test to be sure the problem did not appear (or did). After each test, if we want to do another one, we need to wait for the system to cool down as each time we boot it up, it produces heat.\\
-
-And those tests are just to prove the initial hypothesis. Once this was proved, we wanted to know for sure, what emiting power we could use for each \gls{rug} (not only for one) depending on the band used and the external temperature. This would need hundreds of tests if not a thousand on a lot more than just one \gls{rug} to be able to make enough data and say for sure which levels are safe, which levels are risky and which levels are forbidden to avoid problems in the real world.\\
-
-And that's without mentionning that the thermic chamber makes a lot of noise to work, wasting an entire room as people can not work long in such a noisy environment.\\
-
-This is where the Nursery project comes in handy. The goal of it is to provide an environnement fully automatized to realize all those testing when we want, like during the night so the room stays silent during the day for men to work in, without needing one or more persons to take weeks or years of works.
-
-\section{The economics of software testing}
-
-Usually, when you work on a development project, you have many different development stages. The main ones are the proper development of the product and the final stage of the product, when it is shipped to the production environment.\\
-
-Shipping the product to production simply means that you put the product into its real environment. In other words, you begin to manipulates real world data and not the tests sets that you where probably using during the development. In our case, we install a RUG running \gls{railsteros} in some engine.\\
-
-But if the shipped product contains faults, it will probably begins to produce incorrect results and, depending on the product, it can even harm people or destroy things by using them incorrectly. The client will not be able to use the product he paid for to its full capabilities and will maybe want to switch to another company that produce more reliable products. Its easy to imagine other cases in which having fault in the final product must imperatively be avoided.\\
-
-All of this comes with a cost, for example, we can imagine that we are working on a assembly line controller. If our controller (product) does not work correctly, the assembly line can be damaged because of incorrect usage or the materials being manipulated can be damaged too resulting in repair cost for the assembly line and incorrect/damaged product assembled that cannot be sold afterwards.\\
-
-In the \gls{rug} ecosystem, if our product, \gls{railsteros} isn't working well, the \gls{rug} its running on will not send the intended data to the client. For him, it is like the engine itself is misfunctionning or not functionning at all if we are unable to send any data ! He will then need to send a team to the engine to find the problems and a lot of work will be delayed because the engine is not running and, of course, every step in this process is very costly for the client and for the company itself because when a product in production is faulty, we also need to get back the devices that are malfunctionning and, perhaps, every other device running the same software of having the same hardware. And finally, we need to replace them and invest time in correcting them or, at least, solving the issue for the other product versions.\\
-
-\begin{figure}
-    \centering
-    \includegraphics[scale=0.8]{STBC-costfixs.jpg}
-    \caption{Relative costs of fixing faults~\cite{EconomicsSTBC:2017}}
-    \label{STBC-costfixs}
-\end{figure}
-
-It is commonly believed that the earliest a fault is found, the cheaper it is to correct it~\cite{EconomicsSTBC:2017}~\cite{EconomicsWiki:2017}. The case we mentionned is the latest possible time to detect a fault so, according to the previous statement, it is also the costier ! Those reasons are why we want to create some process that can be used to drastically reduces the amount of unexpected faults in the final product. That's the main motivation behind the project that is the subject of this paper called Nursery.\\
-
-
-%------------------------------------------------------------------------%
-%                                                                        %
-%                                                                        %
-% DESIGN                                                                 %
+% FINITE AUTOMATA                                                        %
 %                                                                        %
 %                                                                        %
 %------------------------------------------------------------------------%
 
 \clearpage
-\part{Design}
-
-Now that we have a global view of what software testing is and what is the concrete problem we are dealing with, we will try to design a testing process that can be applied to it and possibly ot any other given problem that needs black-box testing. One of our main goal is also to design a tool that will be usefull and easy to use but we want it to be powerfull enough to be able to handle every test case we can think of.\\
-
-
-\clearpage
-\section{Requirements analysis}
-
-So one of the problem that we are focussing on is what do we need to build a reliable process that can reduce drastically the odds of shipping incorrect or faulty products to our clients ?\\
-
-To reply to this question, we need to analyze what we need or what are our requierments. We can begin by saying that we need to handle a set of inputs and a set of outputs. We also need rules to parse the set of outputs and validate them or not.\\
-
-What we mean by saying "validating the outputs" is simply determining if those are the expected outputs or the correct outputs. If not, we encountered some invalid outputs meaning that our product is faulty and cannot be shipped.\\
-
-For the \gls{rug}, we have a really huge amount of different inputs sources and all of them can produce a wide range of various outputs. So, for this work to be done in time, we choose to only cover a given subset of those inputs/outputs. But, we cover them, we'll try to give some general ways of handling them so this work can easilly be extended to all kind of inputs/outputs regardless of the project being considered.
-
-
-\section{Testing environment}
-
-The testing environment should emulate perfectly any given train/engine. Each train have a set of interfaces that are plugged into the tested system. What we mean by "interface" is one particular input type, those will be described later on. The system that will emulate the train (or the testing environment) will be given a set of "scenario"\\
-
-Those scenario will describe what can happen to the system and how it will react to it. A strong constraint in the case that concerns us is that, those scenario will be writted by people with poor or no knowledge of advanced programming so we need to provide a simple yet powerful language to write those stories.\\
-
-We will assume that our testing environment have a way of sending every kind of inputs to the software being tested and retrieved every kind of outputs from it. Of course, in some case this is very difficult to achieve. Lets consider a practical example that is happening for the \gls{rug} case.\\
-
-The \gls{railsteros} communicates with a GPS/GSM chipset that is connected to antenna that are not under our control. This is an issue because under those circunstances, if the antenna can behave differently in production than during our tests sessions so some faults can goes undiscovered until that.\\
-
-Some solutions exists for this kind of problems like having our own antenna or using development boards for this chipset. We could also try to write some kind of simulator that will interface with the GPS/GSM chipset but we would need to reverse engineer the whole GSM/GPS networks or at least one particular anenna which would be really time and ressource consuming. Not to mention that it will also probably be way costier than fixing hypotetical faults when they arise in the production envrionment. So the complex interfaces needed for those kind of technical component and specificaly, their implementations are not a simple matter and are way beyond the scope of this paper so we will not talk more about them. \\
-
-In this paper and for case like this one, we will simply consider that it is not a part of the system that we can test. So every component that are part of the whole system being tested are provided with some interface that allows us to communicate with them, sends and retrieves data.\\
-
-With that in mind, we want to be able to describe what happens on the input side of the studied system and then, what are the expected results or outputs produced. For example, when you put some money in a vending machine to buy a soda, the system is the vending machine, you don't know how it works (or at least, most people dont), you feed it some inputs (some money) and you expect a given output (a soda) (figure~\ref{vm-io}). This is exactly what you want to describe in your tests.\\
-
-\begin{figure}
-    \centering
-    \includegraphics[scale=0.8]{vending-io.png}
-    \caption{The vending machine I/O mapping}
-    \label{vm-io}
-\end{figure}
-
-A naïve idea to do so could be to write a file mapping every possible inputs to every possible outputs and claim that our process works only when no unpredicted input/output pair occurs during some run of it (figure~\ref{io_map1}). But then, what if we want to produce a different output depending on how many times we seen some given output ? With this first idea, it would not be possible to handle this as we dont keep track the current state of the process. We don't have a way of counting how many given inputs have been encountered since the start of the process.\\
-
-\begin{figure}
-    \centering
-    \begin{tikzpicture}[ele/.style={fill=black,circle,minimum width=.8pt,inner sep=1pt},every fit/.style={ellipse,draw,inner sep=-2pt}]
-    \node[ele,label=left:$a$] (a1) at (0,5) {};
-    \node[ele,label=left:$b$] (a2) at (0,4) {};
-    \node[ele,label=left:$c$] (a3) at (0,3) {};
-    \node[ele,label=left:$d$] (a4) at (0,2) {};
-    \node[ele,label=left:$e$] (a5) at (0,1) {};
-
-    \node[ele,,label=right:$1$] (b1) at (4,5) {};
-    \node[ele,,label=right:$2$] (b2) at (4,4) {};
-    \node[ele,,label=right:$3$] (b3) at (4,3) {};
-    \node[ele,,label=right:$4$] (b4) at (4,2) {};
-    \node[ele,,label=right:$5$] (b5) at (4,1) {};
-
-    \node[draw,fit= (a1) (a2) (a3) (a4) (a5), minimum width=2cm, label=above:$Inputs$] {} ;
-    \node[draw,fit= (b1) (b2) (b3) (b4) (b5), minimum width=2cm, label=above:$Outputs$] {} ;
-    \draw[->,thick,shorten <=2pt,shorten >=2pt] (a1) -- (b4);
-    \draw[->,thick,shorten <=2pt,shorten >=2pt] (a1) -- (b2);
-    \draw[->,thick,shorten <=2pt,shorten >=2] (a2) -- (b2);
-    \draw[->,thick,shorten <=2pt,shorten >=2] (a3) -- (b1);
-    \draw[->,thick,shorten <=2pt,shorten >=2] (a4) -- (b3);
-    \end{tikzpicture}
-
-    \caption{Not explicit schematisation of a valid mapping of inputs to outputs, all possible cases are not taken into account. On the left, the input we send into the system and on the rigth, the outputs we can receive. Arrows shows what are the expected outputs for a particular input}
-    \label{io_map1}
-\end{figure}
-
-This first idea gave us an important lesson, we need to keep track of the state of the process or at least of what hapenned before the current time. This does correspond to what we call \gls{fsm}. So let's introduce them and some expansions of \gls{fsm} that seems pertinent in our case.\\
-
 \section{Finite State Machine}
+
+Our particular case is a requirements-based testing because we don't know how the product works but we do know what we expect of it. The goal of this work is to produce a product that can test any piece of sotfware or hardware without knowledge of how it works. We want a simple and robust tool to specify what is a correct behavior for any tested entity. By testing, we simply means that we want to be able to say wether or not the described behaviors where followed by the system or not. Without too much details now, such a tool is provided by \gls{fsm}.\\
 
 A \gls{fsm} is a mathematical model of computation. It is a mathematical structure used to provide an abstract description of the behavior of a system. This mathematical structure is composed of a list of state. There is usualy a state for each possible 'state' of the system's memory and thus, we will only talk about finite state machine because the system we try to describe is made of finite memory and because of that, it can only have a finite set of state which is a function of it's internal memory.\\
 
@@ -609,11 +465,174 @@ The most basic case is the one in which you can only use one clock with a global
 
 TODO DISCUSSION WITH MR GEERAERTS HERE
 
+%------------------------------------------------------------------------%
+%                                                                        %
+%                                                                        %
+% CASE STUDY                                                             %
+%                                                                        %
+%                                                                        %
+%------------------------------------------------------------------------%
+
+\clearpage
+\section{Case study}
+
+Now that you now what software testing and \gls{fsm} are all about, lets introduce the case that is of interest to us, namely, Nursery ! I'll first introduce the RailNOVA enterprise and the system we will work with all along this paper. Then I will explain why this work is of critical importance for them and generaly speaking, for every software development process.
+
+\subsection{RailNOVA}
+
+This work is done in partnership with RailNOVA. Railnova is a technology company that provides telematics and software solutions to the railway industry. Their headquarter is located in Brussels and they count approximatively 30 employees. Some of them comes from the ULB/VUB.
+
+The main goal of this work is to develop a better testing suite for their embedded software called \gls{railsteros}. Of course, the developed solution will not be limited to a particullar software and our scope is a lot wider than that.
+
+\subsection{Existing system}
+
+\gls{railsteros} is a software developed at RailNOVA which purpose is to collect and stream data from a train to a server. This data is then processed to give various insigths about the train status. Thus allowing RailNOVA's client to manage their fleet with ease.\\
+
+The \gls{railsteros} is executed on a dedicated hardware also built by RailNOVA which is called \gls{rug}. Those \gls{rug} are mainly installed in trains in Germany, France, Belgium, Netherlands and Spain at the time this work was written. More specifically, the \gls{rug} is installed in the engine of trains.\\
+
+This dedicated hardware provides a lot of data from the train. We can access informations like remaining fuel (if it is not an electrical engine), the total running time since last power on of the engine, where is the engine located, current speed if the engine is moving and all the data that the client wants to access remotely.\\
+
+Every engine is more or less unique. They can use a wide range of different component and thus have different parameters like their maximal speed when loaded or not, the maximal weigth they can carry or even the number of wheels the engine uses. Because of that \gls{railsteros} need to accept a wide range of different configuration so we don't stream fuel remaining if we are on an electrical engine for example. We can also have two kinds of motors that give information about their speed without using the same type of cable or protocol. To achieve this flexibility, we allow \gls{railsteros} to start only a subset of its internal software using some configuration files. All this software's modules, which we call \gls{daemons}, are small applications used to interface with a given protocol. For example, we have one deamon that is dedicated to GPS location's informations. The set of deamon we use, which is defined in the configuration files, defines what type of engine we can handle and what operations we can do.\\
+
+To retrieve all those informations, we need to use different communication protocols and wires because engines built by different companies will have different behaviors and communication protocols. All of them, we will call interfaces. Each of those interface needs proper test that relies on the used protocol, we want to be able to describe our needs by saying things like "I want this particular data when I receive this kind of message on this interface". As there is a lot of them, this will take time to implement proper testing for all of them so we will only cover a subset of them in this paper but we will provide a generic way of implementing test for them all.
+
+\subsection{Short story}
+
+Some of the \gls{rug} were experiencing troubleshoot during then end of fall 2016. 8\% of the fleet had to be replaced by the team for unknown reasons. After a bit of testing, some members of the team thought that it could come from an unexpected electrical over-consumption of the \gls{rug} while connecting to a GPS antenna. To validate this hypothesis, some testing had to be done. It was the end of summer so the outside temperature was going down so the team thought that maybe it had something to do with that.
+
+The test procedure was defined as follow:
+In a thermic chamber set to a temperature of -10 celsius degrees, to simulate the outside temperature as best as we can, we put a \gls{rug} and we connect with a computer next to it to the serial communication port of the system. Once we are connected, we issue some command to mannualy choose which GPS protocol to use out of the four of them supported and for each of them, we manually set the emiting power of the GPRS chip in order to reproduce the problem seen on the practical field.\\
+
+Those test were made, approximately 30 for different temperatures of the thermic chamber, different band and different emiting power. Those took one person an entire day of work ! That's because the thermic chamber needs an hour to set a fixed temperature, the system needs 5 minutes to reboot when we set the band to use and we wait 10 minutes for each test to be sure the problem did not appear (or did). After each test, if we want to do another one, we need to wait for the system to cool down as each time we boot it up, it produces heat.\\
+
+And those tests are just to prove the initial hypothesis. Once this was proved, we wanted to know for sure, what emiting power we could use for each \gls{rug} (not only for one) depending on the band used and the external temperature. This would need hundreds of tests if not a thousand on a lot more than just one \gls{rug} to be able to make enough data and say for sure which levels are safe, which levels are risky and which levels are forbidden to avoid problems in the real world.\\
+
+And that's without mentionning that the thermic chamber makes a lot of noise to work, wasting an entire room as people can not work long in such a noisy environment.\\
+
+This is where the Nursery project comes in handy. The goal of it is to provide an environnement fully automatized to realize all those testing when we want, like during the night so the room stays silent during the day for men to work in, without needing one or more persons to take weeks or years of works.
+
+\section{The economics of software testing}
+
+Usually, when you work on a development project, you have many different development stages. The main ones are the proper development of the product and the final stage of the product, when it is shipped to the production environment.\\
+
+Shipping the product to production simply means that you put the product into its real environment. In other words, you begin to manipulates real world data and not the tests sets that you where probably using during the development. In our case, we install a RUG running \gls{railsteros} in some engine.\\
+
+But if the shipped product contains faults, it will probably begins to produce incorrect results and, depending on the product, it can even harm people or destroy things by using them incorrectly. The client will not be able to use the product he paid for to its full capabilities and will maybe want to switch to another company that produce more reliable products. Its easy to imagine other cases in which having fault in the final product must imperatively be avoided.\\
+
+All of this comes with a cost, for example, we can imagine that we are working on a assembly line controller. If our controller (product) does not work correctly, the assembly line can be damaged because of incorrect usage or the materials being manipulated can be damaged too resulting in repair cost for the assembly line and incorrect/damaged product assembled that cannot be sold afterwards.\\
+
+In the \gls{rug} ecosystem, if our product, \gls{railsteros} isn't working well, the \gls{rug} its running on will not send the intended data to the client. For him, it is like the engine itself is misfunctionning or not functionning at all if we are unable to send any data ! He will then need to send a team to the engine to find the problems and a lot of work will be delayed because the engine is not running and, of course, every step in this process is very costly for the client and for the company itself because when a product in production is faulty, we also need to get back the devices that are malfunctionning and, perhaps, every other device running the same software of having the same hardware. And finally, we need to replace them and invest time in correcting them or, at least, solving the issue for the other product versions.\\
+
+\begin{figure}
+    \centering
+    \includegraphics[scale=0.8]{STBC-costfixs.jpg}
+    \caption{Relative costs of fixing faults~\cite{EconomicsSTBC:2017}}
+    \label{STBC-costfixs}
+\end{figure}
+
+It is commonly believed that the earliest a fault is found, the cheaper it is to correct it~\cite{EconomicsSTBC:2017}~\cite{EconomicsWiki:2017}. The case we mentionned is the latest possible time to detect a fault so, according to the previous statement, it is also the costier ! Those reasons are why we want to create some process that can be used to drastically reduces the amount of unexpected faults in the final product. That's the main motivation behind the project that is the subject of this paper called Nursery.\\
+
+
+%------------------------------------------------------------------------%
+%                                                                        %
+%                                                                        %
+% CONTRIBUTION                                                           %
+%                                                                        %
+%                                                                        %
+%------------------------------------------------------------------------%
+
+\clearpage
+\part{Contribution}
+
+TODO
+
+Now that we have a global view of what software testing is and what is the concrete problem we are dealing with, we will try to design a testing process that can be applied to it and possibly ot any other given problem that needs black-box testing. One of our main goal is also to design a tool that will be usefull and easy to use but we want it to be powerfull enough to be able to handle every test case we can think of.\\
+
+
+\clearpage
+\section{Requirements analysis}
+
+So one of the problem that we are focussing on is what do we need to build a reliable process that can reduce drastically the odds of shipping incorrect or faulty products to our clients ?\\
+
+To reply to this question, we need to analyze what we need or what are our requierments. We can begin by saying that we need to handle a set of inputs and a set of outputs. We also need rules to parse the set of outputs and validate them or not.\\
+
+What we mean by saying "validating the outputs" is simply determining if those are the expected outputs or the correct outputs. If not, we encountered some invalid outputs meaning that our product is faulty and cannot be shipped.\\
+
+For the \gls{rug}, we have a really huge amount of different inputs sources and all of them can produce a wide range of various outputs. So, for this work to be done in time, we choose to only cover a given subset of those inputs/outputs. But, we cover them, we'll try to give some general ways of handling them so this work can easilly be extended to all kind of inputs/outputs regardless of the project being considered.
+
+
+\section{Testing environment}
+
+The testing environment should emulate perfectly any given train/engine. Each train have a set of interfaces that are plugged into the tested system. What we mean by "interface" is one particular input type, those will be described later on. The system that will emulate the train (or the testing environment) will be given a set of "scenario"\\
+
+Those scenario will describe what can happen to the system and how it will react to it. A strong constraint in the case that concerns us is that, those scenario will be writted by people with poor or no knowledge of advanced programming so we need to provide a simple yet powerful language to write those stories.\\
+
+We will assume that our testing environment have a way of sending every kind of inputs to the software being tested and retrieved every kind of outputs from it. Of course, in some case this is very difficult to achieve. Lets consider a practical example that is happening for the \gls{rug} case.\\
+
+The \gls{railsteros} communicates with a GPS/GSM chipset that is connected to antenna that are not under our control. This is an issue because under those circunstances, if the antenna can behave differently in production than during our tests sessions so some faults can goes undiscovered until that.\\
+
+Some solutions exists for this kind of problems like having our own antenna or using development boards for this chipset. We could also try to write some kind of simulator that will interface with the GPS/GSM chipset but we would need to reverse engineer the whole GSM/GPS networks or at least one particular anenna which would be really time and ressource consuming. Not to mention that it will also probably be way costier than fixing hypotetical faults when they arise in the production envrionment. So the complex interfaces needed for those kind of technical component and specificaly, their implementations are not a simple matter and are way beyond the scope of this paper so we will not talk more about them. \\
+
+In this paper and for case like this one, we will simply consider that it is not a part of the system that we can test. So every component that are part of the whole system being tested are provided with some interface that allows us to communicate with them, sends and retrieves data.\\
+
+With that in mind, we want to be able to describe what happens on the input side of the studied system and then, what are the expected results or outputs produced. For example, when you put some money in a vending machine to buy a soda, the system is the vending machine, you don't know how it works (or at least, most people dont), you feed it some inputs (some money) and you expect a given output (a soda) (figure~\ref{vm-io}). This is exactly what you want to describe in your tests.\\
+
+\begin{figure}
+    \centering
+    \includegraphics[scale=0.8]{vending-io.png}
+    \caption{The vending machine I/O mapping}
+    \label{vm-io}
+\end{figure}
+
+A naïve idea to do so could be to write a file mapping every possible inputs to every possible outputs and claim that our process works only when no unpredicted input/output pair occurs during some run of it (figure~\ref{io_map1}). But then, what if we want to produce a different output depending on how many times we seen some given output ? With this first idea, it would not be possible to handle this as we dont keep track the current state of the process. We don't have a way of counting how many given inputs have been encountered since the start of the process.\\
+
+\begin{figure}
+    \centering
+    \begin{tikzpicture}[ele/.style={fill=black,circle,minimum width=.8pt,inner sep=1pt},every fit/.style={ellipse,draw,inner sep=-2pt}]
+    \node[ele,label=left:$a$] (a1) at (0,5) {};
+    \node[ele,label=left:$b$] (a2) at (0,4) {};
+    \node[ele,label=left:$c$] (a3) at (0,3) {};
+    \node[ele,label=left:$d$] (a4) at (0,2) {};
+    \node[ele,label=left:$e$] (a5) at (0,1) {};
+
+    \node[ele,,label=right:$1$] (b1) at (4,5) {};
+    \node[ele,,label=right:$2$] (b2) at (4,4) {};
+    \node[ele,,label=right:$3$] (b3) at (4,3) {};
+    \node[ele,,label=right:$4$] (b4) at (4,2) {};
+    \node[ele,,label=right:$5$] (b5) at (4,1) {};
+
+    \node[draw,fit= (a1) (a2) (a3) (a4) (a5), minimum width=2cm, label=above:$Inputs$] {} ;
+    \node[draw,fit= (b1) (b2) (b3) (b4) (b5), minimum width=2cm, label=above:$Outputs$] {} ;
+    \draw[->,thick,shorten <=2pt,shorten >=2pt] (a1) -- (b4);
+    \draw[->,thick,shorten <=2pt,shorten >=2pt] (a1) -- (b2);
+    \draw[->,thick,shorten <=2pt,shorten >=2] (a2) -- (b2);
+    \draw[->,thick,shorten <=2pt,shorten >=2] (a3) -- (b1);
+    \draw[->,thick,shorten <=2pt,shorten >=2] (a4) -- (b3);
+    \end{tikzpicture}
+
+    \caption{Not explicit schematisation of a valid mapping of inputs to outputs, all possible cases are not taken into account. On the left, the input we send into the system and on the rigth, the outputs we can receive. Arrows shows what are the expected outputs for a particular input}
+    \label{io_map1}
+\end{figure}
+
+This first idea gave us an important lesson, we need to keep track of the state of the process or at least of what hapenned before the current time. This does correspond to what we call \gls{fsm} and this is why we introduced them earlier.\\
+
 \section{Choices}
 
-For certainty, there are a lot of available possibility when it comes to designing an abstract machine. Some of them are purely theoritical abstract machine so we wont even mention them as we need only a practical implementation, and some of them are simply not adapted to our case. Lets review them all and justify the choices we made.\\
+When asked what is the type of \gls{fsm} that fits our needs the best, we want to give the best possible answer. To do that, we need to rank the different possibilities that we have introduced based on the following criteria. First, we want to make sure that a particular \gls{fsm} type is possible to apply in our case. If it is an abstract \gls{fsm} that uses infinite memory or another paradigms that is impossible to implement on modern computer, we know that we can discard it.\\
 
-First of all, let's explain what are the main differences between our practical case and theory. In theorical \gls{fsm}, the number of state is upper bound by the system's internal memory. If we want to test every possible state it would gives us $2^x$ states to analyze (where $x$ is the system's internal memory expressed in bit). In modern computers, this memory can be around two to height gigabits maybe and this is raising every passing years. So having to describe what should happen in $2^2*10^9$ different states is not really a possible choice.\\
+Then, how easy it is to describe a system's behavior with such \gls{fsm} ? If it takes to much times or if we find it too difficult for non-technical peoples to describe a system's behavior using that particulare \gls{fsm} type, we know that it will probably be deprecated over time and wont be used as it should be.\\
+
+Lastly, if the choosen \gls{fsm} introduces restriction on what can be described, those restriction must not prevent us from doing every testing needed. And if it introduces new possibilities that allows us to describe more system's behaviors, the complexity that it introduces into the system should be worth it.\\
+
+Those three criteria are the ones that where choosen as the most relevant for the choice of the \gls{fsm} that will be used.
+
+\begin{itemize}
+\item Is it possible to implement ?
+\item Is it user friendly ?
+\item Does this introduces restrictions ?
+\end{itemize}
+
+Lets review the possible choices we have and justify the one we picked. But first, let's explain what are the main differences between our practical case and theory. In theorical \gls{fsm}, the number of state is upper bound by the system's internal memory. If we want to test every possible state it would gives us $2^x$ states to analyze (where $x$ is the system's internal memory expressed in bit). In modern computers, this memory can be around two to height gigabits maybe and this is raising every passing years. So having to describe what should happen in $2^2*10^9$ different states is not really a possible choice.\\
 
 To address this problem, we need to abstract the state definition. We'll aggregate formal states into a more complex structure that we will still call a state but for the user, it will just be something like "initialisation state", "error state", "processing data state" and so on. A state will simply be a set of computation that needs to be applied. Three optional function, one for the computation needed when we reach the state, one for when we leave the state and the last one for the computation we need to do every time a new symbol is read.\\
 
@@ -800,6 +819,37 @@ This test was designed to make sure that the \gls{rug} is sending informations t
 \end{figure}
 
 The figure~\ref{timeoutcheck} shows how we designed this test. Transition are, of course, complex so we only show a simplified name for them. They are quite obvious given the rest of the diagram.
+
+\section{Date check}
+
+This test verify that the system uses the correct date. With an incorrect date set, the messages sent by it to the Railnova servers will be discarded resulting in a loss of communication from this device.\\
+
+This test uses the serial connection and make uses of Unix commands directly on the system thus this is not a black-box testing processes.\\
+
+The most complicated part here is to get the serial connection, a lot of troubles can arrise while trying to log-in the system. Once we have a valid serial connection, we can simply issue a "date" command and parse the result. The date is updated through GPS/GSM antenna communication and this proces can take up to an hour so if the date is not set rigth (if the date appears to be in 1970), we simply wait an hour and then, issue the test again.\\
+
+1970 is the date you get when the timestamp is not set. This is because of how Unix and timestamp systems works.
+
+TODO
+\begin{figure}
+    \centering
+    \includegraphics[scale=0.6]{graph/TimeoutCheck}
+    \caption{\gls{fsm} for the date check}
+    \label{datecheck}
+\end{figure}
+
+\section{Battery cycle}
+
+We made some test that where not related to the \gls{rug}. One of those was able to charge a battery and then discharge it. The goal of this was measure the electrical levels all along those steps to determine wether or not the battery is working.\\
+
+As shown in the figure~\ref{battcycle2}, we made several cycle of charge/discharge. This particular test was designed for a piece of hardware and not for a software. This is a sufficent proof to show that our system work as well for a software thant it does for hardware.
+
+\begin{figure}
+    \centering
+    \includegraphics[scale=0.4]{graph/BatteryCycle.png}
+    \caption{\gls{fsm} for the battery cycle}
+    \label{battcycle2}
+\end{figure}
 
 %------------------------------------------------------------------------%
 %                                                                        %

@@ -26,6 +26,15 @@
   \url{https://en.wikipedia.org/wiki/Software\_development}, [Online; accessed
   19-December-2016].
 
+\bibitem{IIS2:IIS202348}
+\BIBentryALTinterwordspacing
+H.~Mooz and K.~Forsberg, ``4.4.3 a visual explanation of development methods
+  and strategies including the waterfall, spiral, vee, vee+, and vee++
+  models,'' \emph{INCOSE International Symposium}, vol.~11, no.~1, pp.
+  610--617, 2001. [Online]. Available:
+  \url{http://dx.doi.org/10.1002/j.2334-5837.2001.tb02348.x}
+\BIBentrySTDinterwordspacing
+
 \bibitem{BARYWBoehm:1987}
 B.~W. Boehm, ``Software process management: Lessons learned from history,''
   \emph{ICSE '87 Proceedings of the 9th international conference on Software
@@ -77,16 +86,6 @@ A.~K. Dorota~Huizinga, \emph{Automated Defect Prevention: Best Practices in
 \bibitem{BenderRBTRequirementBasedTesting:2017}
 ``Requirements based testing process overview,'' pp. 1--18, 2009.
 
-\bibitem{EconomicsSTBC:2017}
-``The economics of testing,''
-  \url{http://www.riceconsulting.com/public\_pdf/STBC-WM.pdf}, [Online;
-  accessed 12-April-2017].
-
-\bibitem{EconomicsWiki:2017}
-``Software tesing - economics,''
-  \url{https://en.wikipedia.org/wiki/Software\_testing\#Economics}, [Online;
-  accessed 12-April-2017].
-
 \bibitem{FSM:2017}
 ``Finite-state machine,''
   \url{https://en.wikipedia.org/wiki/Finite-state\_machine}, [Online; accessed
@@ -112,5 +111,15 @@ R.~M. Keller, \emph{Finite-State Machines}.
 \bibitem{TimedAutomaton:2016}
 ``Timed automaton,'' \url{https://en.wikipedia.org/wiki/Timed\_automaton},
   [Online; accessed 12-December-2016].
+
+\bibitem{EconomicsSTBC:2017}
+``The economics of testing,''
+  \url{http://www.riceconsulting.com/public\_pdf/STBC-WM.pdf}, [Online;
+  accessed 12-April-2017].
+
+\bibitem{EconomicsWiki:2017}
+``Software tesing - economics,''
+  \url{https://en.wikipedia.org/wiki/Software\_testing\#Economics}, [Online;
+  accessed 12-April-2017].
 
 \end{thebibliography}
