@@ -4,54 +4,63 @@
 \contentsline {subsection}{\numberline {2.1}Waterfall}{10}
 \contentsline {subsection}{\numberline {2.2}Prototyping}{11}
 \contentsline {subsection}{\numberline {2.3}Agile}{12}
-\contentsline {section}{\numberline {3}Validation and verification}{14}
-\contentsline {section}{\numberline {4}Code coverage}{15}
-\contentsline {section}{\numberline {5}Black-box and white-box testing}{16}
-\contentsline {subsection}{\numberline {5.1}Grey-box testing}{17}
-\contentsline {section}{\numberline {6}Static and Dynamic testing}{17}
-\contentsline {section}{\numberline {7}Type of testing}{17}
-\contentsline {subsection}{\numberline {7.1}Unit testing}{17}
-\contentsline {subsection}{\numberline {7.2}Integration testing}{18}
-\contentsline {subsection}{\numberline {7.3}Functional testing}{18}
-\contentsline {subsection}{\numberline {7.4}System testing}{19}
-\contentsline {subsection}{\numberline {7.5}Acceptance testing}{19}
-\contentsline {subsection}{\numberline {7.6}Regression testing}{20}
-\contentsline {subsection}{\numberline {7.7}Beta testing}{20}
-\contentsline {section}{\numberline {8}Requirements-based testing}{20}
-\contentsline {section}{\numberline {9}Finite State Machine}{22}
-\contentsline {subsection}{\numberline {9.1}Acceptors}{23}
-\contentsline {subsection}{\numberline {9.2}Non-Determinism}{24}
-\contentsline {subsection}{\numberline {9.3}Description of Finite State Machine using graphs}{25}
-\contentsline {section}{\numberline {10}Alternate Finite Automaton}{26}
-\contentsline {section}{\numberline {11}Timed Finite State Machine}{27}
-\contentsline {section}{\numberline {12}Mixing alternate and timed automata}{28}
-\contentsline {section}{\numberline {13}Case study}{29}
-\contentsline {subsection}{\numberline {13.1}RailNOVA}{29}
-\contentsline {subsection}{\numberline {13.2}Existing system}{29}
-\contentsline {subsection}{\numberline {13.3}Short story}{30}
-\contentsline {section}{\numberline {14}The economics of software testing}{31}
-\contentsline {part}{II\hspace {1em}Contribution}{35}
-\contentsline {section}{\numberline {15}Requirements analysis}{36}
-\contentsline {section}{\numberline {16}Testing environment}{36}
-\contentsline {section}{\numberline {17}Choices}{38}
-\contentsline {section}{\numberline {18}Mathematical description of our custom \gls {fsm}}{42}
-\contentsline {part}{III\hspace {1em}Abstraction of Inputs/Outputs}{45}
-\contentsline {section}{\numberline {19}About Inputs/Outputs}{46}
-\contentsline {section}{\numberline {20}Outputs}{46}
-\contentsline {subsection}{\numberline {20.1}How does it works}{47}
-\contentsline {subsection}{\numberline {20.2}Wanesy}{47}
-\contentsline {subsection}{\numberline {20.3}Log}{48}
-\contentsline {subsection}{\numberline {20.4}Miscelaneous}{48}
-\contentsline {section}{\numberline {21}Inputs}{48}
-\contentsline {subsection}{\numberline {21.1}Alimentation}{49}
-\contentsline {subsection}{\numberline {21.2}Connectivity}{49}
-\contentsline {section}{\numberline {22}The generic way}{50}
-\contentsline {subsection}{\numberline {22.1}Outputs}{50}
-\contentsline {subsection}{\numberline {22.2}Inputs}{51}
-\contentsline {part}{IV\hspace {1em}Test cases}{52}
-\contentsline {section}{\numberline {23}Timeout check}{53}
-\contentsline {section}{\numberline {24}Date check}{53}
-\contentsline {section}{\numberline {25}Battery cycle}{54}
-\contentsline {part}{V\hspace {1em}Conclusion}{56}
+\contentsline {subsection}{\numberline {2.4}Validation and verification}{14}
+\contentsline {subsection}{\numberline {2.5}Code coverage}{15}
+\contentsline {subsection}{\numberline {2.6}Black-box and white-box testing}{16}
+\contentsline {subsubsection}{\numberline {2.6.1}Grey-box testing}{16}
+\contentsline {subsection}{\numberline {2.7}Static and Dynamic testing}{17}
+\contentsline {subsection}{\numberline {2.8}Type of testing}{17}
+\contentsline {subsubsection}{\numberline {2.8.1}Unit testing}{17}
+\contentsline {subsubsection}{\numberline {2.8.2}Integration testing}{18}
+\contentsline {subsubsection}{\numberline {2.8.3}Functional testing}{18}
+\contentsline {subsubsection}{\numberline {2.8.4}System testing}{18}
+\contentsline {subsubsection}{\numberline {2.8.5}Acceptance testing}{19}
+\contentsline {subsubsection}{\numberline {2.8.6}Regression testing}{19}
+\contentsline {subsubsection}{\numberline {2.8.7}Beta testing}{20}
+\contentsline {subsection}{\numberline {2.9}Requirements-based testing}{20}
+\contentsline {section}{\numberline {3}Formal Verification and Model Checking}{21}
+\contentsline {subsection}{\numberline {3.1}Finite State Machine}{21}
+\contentsline {subsubsection}{\numberline {3.1.1}Acceptors}{22}
+\contentsline {subsubsection}{\numberline {3.1.2}Non-Determinism}{23}
+\contentsline {subsubsection}{\numberline {3.1.3}Description of Finite State Machine using graphs}{24}
+\contentsline {subsection}{\numberline {3.2}Alternate Finite Automaton}{25}
+\contentsline {subsection}{\numberline {3.3}Timed Finite State Machine}{26}
+\contentsline {subsection}{\numberline {3.4}Markov model}{27}
+\contentsline {subsection}{\numberline {3.5}Others}{27}
+\contentsline {part}{II\hspace {1em}Case study}{29}
+\contentsline {section}{\numberline {4}Railnova}{30}
+\contentsline {subsection}{\numberline {4.1}Existing system}{30}
+\contentsline {subsection}{\numberline {4.2}Railster Universal Gateway}{31}
+\contentsline {subsection}{\numberline {4.3}Short story}{32}
+\contentsline {section}{\numberline {5}The economics of software testing}{33}
+\contentsline {part}{III\hspace {1em}Contribution}{36}
+\contentsline {section}{\numberline {6}Requirements analysis}{37}
+\contentsline {section}{\numberline {7}Testing environment}{37}
+\contentsline {section}{\numberline {8}Choices}{39}
+\contentsline {section}{\numberline {9}Mathematical description of our custom \gls {fsm}}{43}
+\contentsline {part}{IV\hspace {1em}Results}{45}
+\contentsline {section}{\numberline {10}Nursery}{46}
+\contentsline {subsection}{\numberline {10.1}Architecture}{46}
+\contentsline {subsection}{\numberline {10.2}Configuration}{46}
+\contentsline {subsection}{\numberline {10.3}Command line tools}{46}
+\contentsline {subsection}{\numberline {10.4}Web-administration}{46}
+\contentsline {part}{V\hspace {1em}Conclusion}{47}
+\contentsline {section}{\numberline {A}Abstraction of Inputs/Outputs}{48}
+\contentsline {subsection}{\numberline {A.1}About Inputs/Outputs}{48}
+\contentsline {subsection}{\numberline {A.2}Outputs}{48}
+\contentsline {subsubsection}{\numberline {A.2.1}How does it works}{49}
+\contentsline {subsubsection}{\numberline {A.2.2}Wanesy}{49}
+\contentsline {subsubsection}{\numberline {A.2.3}Log}{50}
+\contentsline {subsubsection}{\numberline {A.2.4}Miscelaneous}{50}
+\contentsline {subsection}{\numberline {A.3}Inputs}{51}
+\contentsline {subsubsection}{\numberline {A.3.1}Alimentation}{51}
+\contentsline {subsubsection}{\numberline {A.3.2}Connectivity}{52}
+\contentsline {subsection}{\numberline {A.4}The generic way}{52}
+\contentsline {subsubsection}{\numberline {A.4.1}Outputs}{52}
+\contentsline {subsubsection}{\numberline {A.4.2}Inputs}{53}
+\contentsline {section}{\numberline {B}Test cases}{54}
+\contentsline {subsection}{\numberline {B.1}Timeout check}{54}
+\contentsline {subsection}{\numberline {B.2}Date check}{54}
+\contentsline {subsection}{\numberline {B.3}Battery cycle}{55}
 \contentsline {section}{References}{57}
 \contentsline {section}{Glossary}{59}

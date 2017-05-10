@@ -62,7 +62,7 @@ There are a lot of available softwares nowadays but have you ever wondered where
 
 Not so surprisingly, this paper is all about this particular testing step. The goal of it will be to provide a way of automating this step. As we will explain later on, providing this automatic process is of major interest in term of time gained in the developpement process and fiability for the final software. Of course, detecting all problems during tests is a really complex tasks and the process developped here will only help to reduce the risk of shipping faulty softwares and to make sure that previously encountered/corrected problems are not re-introduce between different versions of it.\\
 
-To guide us during this work, we will focus on a concrete case study that was encountered at the RailNOVA company in Brussels. Of course, as the goal of this work is to stay generic, we will go from the concrete example's solution to more generic solutions that can easilly be extended for any other software.\\
+To guide us during this work, we will focus on a concrete case study that was encountered at the Railnova company in Brussels. Of course, as the goal of this work is to stay generic, we will go from the concrete example's solution to more generic solutions that can easilly be extended for any other software.\\
 
 Despite the fact that this paper will try yo stay generic, we will not talk about hardware testing even if we can see that as a particular case of testing in a developpement process. Despite the fact that strong timing constraint doesn't allows us to performs this hardware analysis, we think that focussing on software developpement will help the reader to get a better understanding of the principles used and developped ideas.\\
 
@@ -82,7 +82,7 @@ The first part of this work will describe the existing techniques in software te
 \clearpage
 \part{Preliminaries}
 
-To begin with, we will present the very basics of software testing, what are the common practices and how we uses them nowadays. This will allows us to introduce the technical terms used all along this paper. Following this technical introduction, we will present the studied case that was the starting point of this work at the RailNOVA company to introduce \gls{fsm}. Finaly, we will describe what is a \gls{fsm} exactly and some of its variations.
+To begin with, we will present the very basics of software testing, what are the common practices and how we uses them nowadays. This will allows us to introduce the technical terms used all along this paper. Following this technical introduction, we will present the studied case that was the starting point of this work at the Railnova company to introduce \gls{fsm}. Finaly, we will describe what is a \gls{fsm} exactly and some of its variations.
 
 \clearpage
 \section{Software development and software testing}
@@ -209,7 +209,7 @@ This allows for a very dynamic development process in which no ones get stuck to
     \label{Scrum}
 \end{figure}
 
-\section{Validation and verification}
+\subsection{Validation and verification}
 
 Now that we have settled down our requirements specifications, we need to introduces the validation and verification topic. Validation and verification is what we use to make sure that our software is meeting the previously specified requirements. In short, that our software is exactly what we specified. Failing to this would produce a software that will maybe not meet the clients requirements and, therefore, be of little or no use to him.\\
 
@@ -224,13 +224,13 @@ Both concepts are closely related but are completely independant. Software valid
 
 Simply put, validation is answering to "Are we trying to build the right thing ?" whil verification is answering to "Have we made what we were trying to make ?". Of course, in our case, we are more interested in the verification part and we will leave the validation part out of this work. We will assume that the requirements are correct and therefore that if we follow them, the built software will be the one our client wants.
 
-\section{Code coverage}
+\subsection{Code coverage}
 
 Code coverage is a metrics used in software testing that basically tells you how much of your code has been tested. It can be computed on many differents criteria like how many subroutines have been called, how many line of code have been interpreted and so on.\\
 
 The idea behind this metric usage is that, if all of your code is tested, then there is probably no bugs left, or at least, there is a good probability that we will encounter less bug in a completely tested software than in an untested one. Getting a good code coverage is therefore a key point in testing as it improve the software quality by reducing the probability of faults left in it~\cite{TestingForContinuousDelivery:2016}.
 
-\section{Black-box and white-box testing}
+\subsection{Black-box and white-box testing}
 
 Black-box testing and white-box are two terms used by softwares testers to describe how they approach their testing~\cite{Patton:2005}. They describes two of the most common used techniques in software testing.
 
@@ -242,19 +242,19 @@ Black-box testing, on the other hand, provides another point-of-view and does no
 
 White-box testing is more or less done by developpers themselves while black-box testing can be performed by anyone with poor programing skills. Code coverage can not be used while doing black-box testing for the obvious reason that you dont know what is done internally so you dont know what part of the software code is interpreted.
 
-\subsection{Grey-box testing}
+\subsubsection{Grey-box testing}
 
 There is also a third option there which is called "Grey-Box testing". We are doing Grey-Box testing when we do both Black-Box testing and White-Box testing.
 
-\section{Static and Dynamic testing}
+\subsection{Static and Dynamic testing}
 
 Two other terms used in software testing are static and dynamic testing. Static testing is the process of reviewing something that is not running. For example, some compilers (like gcc) perform static testing by finding unafected variables, unused variables, dead code, syntax errors and so on. Dynamic testing, on the other hand, is performed while the program is running.
 
-\section{Type of testing}
+\subsection{Type of testing}
 
 There exists a lot of different types of software testing, explaining them all is way out of the boundaries of this work so we have choosen 6 of them that are closely related and can be spanned on a whole software devellopement process~\cite{Laurie.W:Black-box}.
 
-\subsection{Unit testing}
+\subsubsection{Unit testing}
 
 Scope: White-box testing\\
 Who: Coder\\
@@ -263,14 +263,14 @@ Unit testing is a software testing method by which individual units of source co
 
 In a more practical point-of-view, it's about isolating each function/method/class/... from the code and test their behavior for a wide range of input values. A lot of faults can stay undetected after this step. One of the reason of this being that people who write unit-test have a deep knowledge of the underlying code. This knowledge influence them when writing unit-test so it becomes really hard to set realistic test cases. Also, if those who write the unit-test are the same ones that wrote the code that is being tested, the test code is likely to be as faulty as the code being tested itself !
 
-\subsection{Integration testing}
+\subsubsection{Integration testing}
 
 Scope: Black-box and white-box testing\\
 Who: Coder\\
 
 Integration testing is the phase in software testing in which individual software modules are combined and tested as a group. It occurs after unit testing and before validation testing. Integration testing takes as its input modules that have been unit tested, groups them in larger aggregates, applies tests defined in an integration test plan to those aggregates, and delivers as its output the integrated system ready for system testing~\cite{TestingInSoftwareDevelopment:1987}.
 
-\subsection{Functional testing}
+\subsubsection{Functional testing}
 
 Scope: Black-box testing\\
 Who: Independant tester\\
@@ -286,7 +286,7 @@ Functional testing tests a slice of functionality of the whole system. Functiona
 
 Then you will have test cases that try to add clients, another one that try to send invoices and acknowledges that the client, preferably a fake one, received it and a last test case that will create various different invoices.
 
-\subsection{System testing}
+\subsubsection{System testing}
 
 Scope: Black-box testing\\
 Who: Independant tester\\
@@ -296,7 +296,7 @@ system compliance with its specified requirements~\cite{IEEEStd1990}.\\
 
 This is especialy relevant in computer science where every computer is built from different component and can have many different operating systems. To perform system testing, you will usualy run the program on different operating systems (Unix based systems or DOS based systems) and also on different hardware configuration. Of course, testing every possible combination is not possible so some exotic systems can still prove themselves unable to run the program after this steps. Of course, if your program is built to run on a specific pre-defined system, this testing will be really straigthforward.
 
-\subsection{Acceptance testing}
+\subsubsection{Acceptance testing}
 
 Scope: Black-box testing\\
 Who: Client\\
@@ -305,7 +305,7 @@ Acceptance testing is formal testing conducted to determine whether or not a sys
 
 Usually, the user will provide some test or use case for each desired functionality. You can add your own test to those but at least the client test must be statisfied before trying to deploy the product otherwise the client will probably not even try the product.
 
-\subsection{Regression testing}
+\subsubsection{Regression testing}
 
 Scope: Black-box and white-box testing\\
 Who: Coder\\
@@ -314,18 +314,33 @@ Regression testing is a type of software testing used to ensure that a software 
 
 Practically speaking, we will only add new test when we are adding new functionalities and we will remove test only when the functionnality covered is no longer needed or maintained. Then, if all the tests are still running without error on our new software, we will assume that previously developed functionality still works.
 
-\subsection{Beta testing}
+\subsubsection{Beta testing}
 
 Scope: Black-box testing\\
 Who: Client\\
 
 This step is performed when the software is fully or well developed. The software is shipped to a limited amount of users so that they can test it as they wish. The purpose is to detect fault by providing inputs that testers have not thought about because of their advanced knowledge of the software and its purpose.
 
-\section{Requirements-based testing}
+\subsection{Requirements-based testing}
 
 Requirements-based testing is a testing approach in which test cases, conditions and data are derived from requirements~\cite{IBMRequirementBasedTesting:2017}. Those test can be performed from the start of the development process and to the end of it~\cite{BenderRBTRequirementBasedTesting:2017}. Of course, if the requirements are not good, those test will be of little use. Good requirements are critical but requirements checking is, again, out of our scope. So we will simply assume that we have good requirements for this work.\\
 
 Requirements-based testing is exactly what we are trying to do with black-box testing. For each given requirements stating, for example, that we want to produce some result Y when you give some input X, we want to produce a test case that maps the input X to our software and gets the output Y'. Comparing Y and Y' will allow us to decide whether or not, there is a fault and/or decide if the requirement is met or not. If not, our software is not built correctly and we need to work more on it before shipping it for the client.\\
+
+
+%------------------------------------------------------------------------%
+%                                                                        %
+%                                                                        %
+% MODEL CHECKING                                                         %
+%                                                                        %
+%                                                                        %
+%------------------------------------------------------------------------%
+
+\clearpage
+\section{Formal Verification and Model Checking}
+
+Our goal is to be able to verify that any kind of product, software or hardware, is working as expected. Formal verification can help us to achieve this goal. It is a process that allows us to check wether or not a given model satisfies given properties. You can, for example, create a model of a given software and verify that it does not contains bug. To be able to do that, both the model and the specification must be formaly described in a mathematical language. Let's introduce \gls{fsm} which is the generalization of every system's modeling.\\
+
 
 %------------------------------------------------------------------------%
 %                                                                        %
@@ -335,10 +350,7 @@ Requirements-based testing is exactly what we are trying to do with black-box te
 %                                                                        %
 %------------------------------------------------------------------------%
 
-\clearpage
-\section{Finite State Machine}
-
-Our particular case is a requirements-based testing because we don't know how the product works but we do know what we expect of it. The goal of this work is to produce a product that can test any piece of sotfware or hardware without knowledge of how it works. We want a simple and robust tool to specify what is a correct behavior for any tested entity. By testing, we simply means that we want to be able to say wether or not the described behaviors where followed by the system or not. Without too much details now, such a tool is provided by \gls{fsm}.\\
+\subsection{Finite State Machine}
 
 A \gls{fsm} is a mathematical model of computation. It is a mathematical structure used to provide an abstract description of the behavior of a system. This mathematical structure is composed of a list of state. There is usualy a state for each possible 'state' of the system's memory and thus, we will only talk about finite state machine because the system we try to describe is made of finite memory and because of that, it can only have a finite set of state which is a function of it's internal memory.\\
 
@@ -370,7 +382,7 @@ Because of those rules, a transition function can start and end in the same stat
 
 About the input alphabet, we usualy define every input as a character or token read on the input tape of the \gls{fsm}. Where the input tape is a sequential list of every symbols feed into the system. This is a lot like a Turing Machine.
 
-\subsection{Acceptors}
+\subsubsection{Acceptors}
 
 An acceptor takes a set of input from the input alphabet and run a \gls{fsm} on it. Every state of the acceptor is either and accept state or a reject state. When the computation ends in an accept state, we say that the input is accepted and the input is not accepted otherwise (figure~\ref{acceptor}). The set of sequence of input symbols accepted by an acceptor is called a regular language.\\
 
@@ -381,7 +393,7 @@ An acceptor takes a set of input from the input alphabet and run a \gls{fsm} on 
     \label{acceptor}
 \end{figure}
 
-\subsection{Non-Determinism}
+\subsubsection{Non-Determinism}
 
 A \gls{nfa} is a kind of \gls{fsm} in which transition does not requires the reading of an input symbols. We can take transitions from one state to another without looking at the input tape. The decision of taking such a transition is done in a non-deterministic way. And some transition can also lead to more than one state. So reading a given symbol $x$ in state $q1$ can lead to $q2$ or $q3$ for example (see figure~\ref{nfa}).~\cite{FA-DecisionProblems:1959}
 
@@ -406,7 +418,7 @@ In a \gls{nfa}, the input alphabet $\Sigma$ usualy contains a special symbol for
 
 It is well known that a \gls{dfa} is equivalent to a \gls{nfa}. One can translates from one to another quite easily. Thus this paradigm adds only a bit of freedom in the way we describe the automaton.\\
 
-\subsection{Description of Finite State Machine using graphs}
+\subsubsection{Description of Finite State Machine using graphs}
 
 Having a more human friendly way of presenting \gls{fsm} is possible using graphs. Any \gls{fsm} with a finite set of nodes and a finite $\delta$ transition function can be shown as a graph~\cite{Keller-FSM}.\\
 
@@ -421,7 +433,7 @@ If we have accepting state in our \gls{fsm}, we represent the node for those sta
     \label{battcycle}
 \end{figure}
 
-\section{Alternate Finite Automaton}
+\subsection{Alternate Finite Automaton}
 
 An \gls{afa} is a 6-tuple, $(S(\exists), S(\forall), \Sigma, \delta, P_0, F)$, where:
 
@@ -447,7 +459,7 @@ The introduction of those new transition type introduce a lot of complexity in t
 
 Thus the computation of such an automaton is now a tree. And deciding wether or not an \gls{afa} accepts a word $w$ if there exists a run tree on $w$ such that every path ends in an accepting state.~\cite{AFA:2017}\\
 
-\section{Timed Finite State Machine}
+\subsection{Timed Finite State Machine}
 
 Those are finite automaton with real-valued clocks added to it.~\cite{TimedAutomaton:2016} This allows us to do things like this:
 
@@ -461,9 +473,24 @@ The key point to describe timed automaton is that we now have clocks that can be
 
 The most basic case is the one in which you can only use one clock with a global scope (all the automaton has access to it). You can reset the clock when you take a transition or in a given state. That's what we use in the figure~\ref{timed_automata_e1}.\\
 
-\section{Mixing alternate and timed automata}
+\subsection{Markov model}
 
-TODO DISCUSSION WITH MR GEERAERTS HERE
+Markov Model is a stochastic model used to model randomly changing systems~\cite{1165342}~\cite{MarkovModel:2017}. The difference between a classic \gls{fsm} and a Markov Model is simply that the Markov Model take transitions randomly based on given probabilities.\\
+
+This particular type of Markov Model is the simplest one. Probabilities are not influenced by previous state of the system. We will not introduce the other types of Markov Model here as we don't need them later on.
+
+\begin{figure}
+    \centering
+    \includegraphics[scale=0.3]{MarkovModel.png}
+    \caption{Example of a Markov Model. It shows the probabilities for the weather to be sunny or rainy and then, the probabilities for the person to go take a walk, clean or go shopping.}
+    \label{MarkovModel}
+\end{figure}
+
+\subsection{Others}
+
+We can imagine a lot of other type of \gls{fsm}. For example, we discussed the possibility to mix timed automaton and alternate automaton. Such an automaton would need its own formal mathematical description and anylizis to make sure that it can succesfully be used to solve given problems.\\
+
+The final choice we made is such a \gls{fsm} but we will describe it formally later on.
 
 %------------------------------------------------------------------------%
 %                                                                        %
@@ -474,27 +501,38 @@ TODO DISCUSSION WITH MR GEERAERTS HERE
 %------------------------------------------------------------------------%
 
 \clearpage
-\section{Case study}
+\part{Case study}
 
-Now that you now what software testing and \gls{fsm} are all about, lets introduce the case that is of interest to us, namely, Nursery ! I'll first introduce the RailNOVA enterprise and the system we will work with all along this paper. Then I will explain why this work is of critical importance for them and generaly speaking, for every software development process.
+Now that you now what software testing and \gls{fsm} are all about, lets introduce the case that is of interest to us, namely, Nursery ! I'll first introduce the Railnova enterprise and the system we will work with all along this paper. Then I will explain why this work is of critical importance for them and generaly speaking, for every software development process.
 
-\subsection{RailNOVA}
+\clearpage
+\section{Railnova}
 
-This work is done in partnership with RailNOVA. Railnova is a technology company that provides telematics and software solutions to the railway industry. Their headquarter is located in Brussels and they count approximatively 30 employees. Some of them comes from the ULB/VUB.
+This work is done in partnership with Railnova. Railnova is a technology company that provides telematics and software solutions to the railway industry. Their headquarter is located in Brussels and they count approximatively 30 employees. Some of them coming from the ULB/VUB.\\
 
-The main goal of this work is to develop a better testing suite for their embedded software called \gls{railsteros}. Of course, the developed solution will not be limited to a particullar software and our scope is a lot wider than that.
+The main goal of this work is to develop a better testing suite for their embedded software called \gls{railsteros}. Of course, the developed solution will not be limited to a particullar software and our scope is a lot wider than that.\\
 
 \subsection{Existing system}
 
-\gls{railsteros} is a software developed at RailNOVA which purpose is to collect and stream data from a train to a server. This data is then processed to give various insigths about the train status. Thus allowing RailNOVA's client to manage their fleet with ease.\\
+\gls{railsteros} is a software developed at Railnova which purpose is to collect and stream data from a train to a server. This data is then processed to give various insigths about the train status. Thus allowing Railnova's client to manage their fleet with ease.\\
 
-The \gls{railsteros} is executed on a dedicated hardware also built by RailNOVA which is called \gls{rug}. Those \gls{rug} are mainly installed in trains in Germany, France, Belgium, Netherlands and Spain at the time this work was written. More specifically, the \gls{rug} is installed in the engine of trains.\\
+The \gls{railsteros} is executed on a dedicated hardware also built by Railnova which is called \gls{rug}. Those \gls{rug} are mainly installed in trains in Germany, France, Belgium, Netherlands and Spain at the time this work was written. More specifically, the \gls{rug} is installed in the engine of trains.\\
 
 This dedicated hardware provides a lot of data from the train. We can access informations like remaining fuel (if it is not an electrical engine), the total running time since last power on of the engine, where is the engine located, current speed if the engine is moving and all the data that the client wants to access remotely.\\
 
 Every engine is more or less unique. They can use a wide range of different component and thus have different parameters like their maximal speed when loaded or not, the maximal weigth they can carry or even the number of wheels the engine uses. Because of that \gls{railsteros} need to accept a wide range of different configuration so we don't stream fuel remaining if we are on an electrical engine for example. We can also have two kinds of motors that give information about their speed without using the same type of cable or protocol. To achieve this flexibility, we allow \gls{railsteros} to start only a subset of its internal software using some configuration files. All this software's modules, which we call \gls{daemons}, are small applications used to interface with a given protocol. For example, we have one deamon that is dedicated to GPS location's informations. The set of deamon we use, which is defined in the configuration files, defines what type of engine we can handle and what operations we can do.\\
 
 To retrieve all those informations, we need to use different communication protocols and wires because engines built by different companies will have different behaviors and communication protocols. All of them, we will call interfaces. Each of those interface needs proper test that relies on the used protocol, we want to be able to describe our needs by saying things like "I want this particular data when I receive this kind of message on this interface". As there is a lot of them, this will take time to implement proper testing for all of them so we will only cover a subset of them in this paper but we will provide a generic way of implementing test for them all.
+
+\subsection{Railster Universal Gateway}
+
+As stated before, \gls{railsteros} is running on \gls{rug}. Those hardware are built by Railnova. Actually, the majority of them are in their first version (RUG1) but the RUG2 is on its way. It is important to keep that in mind to understand why we tried to keep this work as generic as possible. Indeed, in a year, maybe less, the majority of the product used will be RUG2 so if the system can only work for a dedicated and specific hardware, we will need to start over all this work for the RUG2.\\
+
+\gls{railsteros} is being develloped incrementally since the start of the company. It means that the software is kind of messy with all the new features coming in and the old ones being deprecated or deleted. Actualy, there is more than 10 different versions of the software in production and those are not the only exisiting versions.\\
+
+It is frequent to encounter new bug after the release of a new version that were supposed to be fixed since earlier versions simply because the new changes re-introduced the problem. This is mainly because Railnova is a young company, a start-up, and the work priority are realy end-user scheduled. If a system stop working, a quick fix is developed and pushed to production as fast as possible to avoid loosing too much money but the cost on the long run for this operation can be greater than what we saved by fixing the problem quickly.\\
+
+Say that the problem is fixed by a quick and dirty patch. Then, one year later maybe, a major problem arise because all the fixes deployed are preventing us from adding wanted features. Then, the whole system is to be re-developed from the start. That was what hapenned when they tried to put \gls{railsteros} on the RUG2. RUG1 was developed the quick and dirty way to be on the market as soon as possible. So a lot of concepton errors were made. The software had been modified to a point where it needed all those conception errors from the RUG1 to operate correctly.\\
 
 \subsection{Short story}
 
@@ -544,10 +582,7 @@ It is commonly believed that the earliest a fault is found, the cheaper it is to
 \clearpage
 \part{Contribution}
 
-TODO
-
-Now that we have a global view of what software testing is and what is the concrete problem we are dealing with, we will try to design a testing process that can be applied to it and possibly ot any other given problem that needs black-box testing. One of our main goal is also to design a tool that will be usefull and easy to use but we want it to be powerfull enough to be able to handle every test case we can think of.\\
-
+All the problems described above provides us a lot of informations. We know what can go wrong, we know what we need and we know that a proper validation of all the developed product is a key for success of any given product on the long run. So having a global view of what software testing is and what is the concrete problem we are dealing with, we will try to design a testing process that can be applied to it and possibly ot any other given problem that needs black-box testing. One of our main goal is also to design a tool that will be usefull and easy to use but we want it to be powerfull enough to be able to handle every test case we can think of.\\
 
 \clearpage
 \section{Requirements analysis}
@@ -690,18 +725,75 @@ Also concerning the states, they are not simple maping of the system's internal 
 %------------------------------------------------------------------------%
 %                                                                        %
 %                                                                        %
+% RESULTS                                                                %
+%                                                                        %
+%                                                                        %
+%------------------------------------------------------------------------%
+
+\clearpage
+\part{Results}
+
+This part is a in depth description of how the implemented system works, how it has been developed and what it can and cannot do. This is a more technical part dedicated to the implementation where we will not talk a lot about the mathematical concept behind it as those have already been explained before.\\
+
+\clearpage
+\section{Nursery}
+\subsection{Architecture}
+\subsection{Configuration}
+\subsection{Command line tools}
+\subsection{Web-administration}
+
+%------------------------------------------------------------------------%
+%                                                                        %
+%                                                                        %
+% CONCLUSION                                                             %
+%                                                                        %
+%                                                                        %
+%------------------------------------------------------------------------%
+
+\clearpage
+\part{Conclusion}
+
+This conclude my work at Railnova.
+
+
+%------------------------------------------------------------------------%
+%                                                                        %
+%                                                                        %
+%                                                                        %
+%                                                                        %
+%                                                                        %
+%                                                                        %
+%                                                                        %
+%                                                                        %
+%                                                                        %
+% APPENDIX                                                               %
+%                                                                        %
+%                                                                        %
+%                                                                        %
+%                                                                        %
+%                                                                        %
+%                                                                        %
+%                                                                        %
+%                                                                        %
+%                                                                        %
+%------------------------------------------------------------------------%
+
+\appendix
+
+%------------------------------------------------------------------------%
+%                                                                        %
+%                                                                        %
 % IO ABSTRACT                                                            %
 %                                                                        %
 %                                                                        %
 %------------------------------------------------------------------------%
 
 \clearpage
-\part{Abstraction of Inputs/Outputs}
+\section{Abstraction of Inputs/Outputs}
 
 This part of the work is dedicated on describing how we managed to write simple piece of software that assure the link between Nursery and the real world/\gls{rug}.
 
-\clearpage
-\section{About Inputs/Outputs}
+\subsection{About Inputs/Outputs}
 
 As we are working with a system that we feed with inputs and as we are ourselves feeded by the system's outputs, the concept of \gls{io} is a bit confusing. On the figure~\ref{io_abstract}, you can visually see why it is ambigous. So at this point, we'll simply consider that when we talk about inputs, we mean inputs of the system and when we talk about outputs, we talk of what the system produce.\\
 
@@ -712,13 +804,13 @@ As we are working with a system that we feed with inputs and as we are ourselves
     \label{io_abstract}
 \end{figure}
 
-\section{Outputs}
+\subsection{Outputs}
 
 Let us start with the outputs. By outputs we mean all the data produced by the \gls{rug} or, more generally speaking, all data produced by the reviewed system. Those have been abstracted with a layer of object called output providers. Their goal is to retrieve outputs from various places and feed them into Nursery as they go.\\
 
 For example, we can imagine that we want to receive some data each time the system sends data to a server, each time the system produce a sound, ect. All of this is possible as we simply need to write a script that detects that and use some kind of API to feed them througth Nursery.\\
 
-\subsection{How does it works}
+\subsubsection{How does it works}
 
 So, internally, each output provider defines a type of data it provides. For example, lets say we want to send data to nursery each time someone put a message on Twitter, we could name our data type: "TWITTER". Then, each test that is interested in data of type "TWITTER" will be subscribed to our output provider. It also allows us to ignore output providers for which no test are interested in. Practilly speaking, the only output providers rnning for a given test will be those that provide a data type usefull for the test.\\
 
@@ -727,13 +819,13 @@ In our provider, we have a function that allows us to broadcast data to all list
 
 One limitation though is that every data type can be produced by at most one output provider. On the other hand, every output provider can produce as much data type we want if this becomes a requirement at some point.\\
 
-\subsection{Wanesy}
+\subsubsection{Wanesy}
 
 The first data type we have devellop is the WANESY data type. Data of type WANESY are triggered when we receive a new paquet of data sent by \gls{railsteros} to our server online. The method to retrieve them is simply to poll a JSON generated list of message by HTTP and check timestamp of generated messages, when a newer timestamp appears, we get the message and send it into Nursery.\\
 
 Another more effective way of doing this would be by direct connection to the database but this would probably introduce security issues and is not really required for our use case. Note that it is still feasible in future version of this work.
 
-\subsection{Log}
+\subsubsection{Log}
 \label{subsec:log}
 
 This data type is more of Grey-Box testing as it requires a direct serial connection into the studied system so we assume that we  are working on some kind of \gls{rug} andthat we know where the log are located on it. Nevertheless, this data type ("LOG") is usefull to provide more complex information wen fault arise and also help us to design more intrusive tests.\\
@@ -742,18 +834,18 @@ So even if they are a bit out of scope here, they do not invalidate the fact tha
 
 To design those test, as we previously stated, we simply initiate a serial connection over the \gls{rug} and then download the file located in the log folder. Then, our script process it and send new lines into Nursery.
 
-\subsection{Miscelaneous}
+\subsubsection{Miscelaneous}
 \label{subsec:misc}
 
 As we talked in sub-section ~\ref{subsec:log}, we can initiate a serial communication with the \gls{rug}. Using this serial communication, we cand send command to it in an Unix environment so it's easy for us to check a lot of properties for our tests needs. Of course, this is clearly white-box testing, we know how the system is supposed to work so we can ask it if some key file are in place, if all environement variables seems to be correct, do some statistics on some values to be sure they have correct values all along our tests and things like that.\\
 
-\section{Inputs}
+\subsection{Inputs}
 
 Some of our test make use of external devices to produces inputs that are feeded to the \gls{rug} or to the hardware being tested. Those devices are, for example, an alimentation module that can charge the battery of our \gls{rug}, thermic chamber that can manipulate the current temperature to stress test our hardware in extreme conditions and things like that.\\
 
 We also have more direct inputs like the ethernet connection, we want to be able to disconnect or re-connect the tested process or hardware.
 
-\subsection{Alimentation}
+\subsubsection{Alimentation}
 
 \begin{figure}
     \centering
@@ -764,17 +856,17 @@ We also have more direct inputs like the ethernet connection, we want to be able
 
 To control the alimentation, we need to send a command to a Wago module like the one of the figure~\ref{wago}. Those modules are connected via an ethernet connection thus we need to open a TCP port to communicate with it and then send a command to select which alimentation we want to control and what we want to do (power on or power off).
 
-\subsection{Connectivity}
+\subsubsection{Connectivity}
 
 Controlling the connectivity is not something we did but this is easilly done by using some advanced switch. We simply need to communicate with it and send commands to deactivate the ethernet port to which the \gls{rug} is connected.
 
-\section{The generic way}
+\subsection{The generic way}
 
 Some techniques we mentionned, like in sub-section ~\ref{subsec:log} and sub-section ~\ref{subsec:misc}, use some kind of white-box testing. As one could expect, those techniques can only be used for one given device. We cannot initiate a serial connection with every process or hardware we want and all of them don't have the same Unix environment to dialog with.\\
 
 But even the ones that applies to black-box testing can only be sepcific to some restraint set of process or hardware. Here, our techniques are all specific for \gls{rug} hardware. So every time we need to test a new kind of process or hardware, we will need to write some code to retrieve outputs and provides inputs for it. That's what we kept in mind all along this project by designing what we called \gls{op}.\\
 
-\subsection{Outputs}
+\subsubsection{Outputs}
 
 \gls{op} were designed to provides asynchronous capabilities to our tests. Polling \gls{io} is a process that takes a lot of times compared to the execution time of our test. With \gls{op}, we get the data when they are ready and we don't have to wait for them by freezing all the test. Two ways of retrieving data were implemented.\\
 
@@ -784,7 +876,7 @@ The second way is to ask for data from the test. The call is asynchronous so you
 
 So the first method is more for data you want to be able to monitor and the secnd method is more for data you will only need once.\\
 
-\subsection{Inputs}
+\subsubsection{Inputs}
 
 For inputs, we simply need some software to which we can send commands so we don't need so much abstraction as for the outputs. We are not in an asynchronous system. The way to go we adopted was simply to devellop some software that accepts command and send inputs to whatever we want.\\
 
@@ -802,12 +894,11 @@ Another example, more specific, was a software used to control a device that cou
 %------------------------------------------------------------------------%
 
 \clearpage
-\part{Test cases}
+\section{Test cases}
 
 Here we will give explanation and details on some practical cases wa had to deal with.
 
-\clearpage
-\section{Timeout check}
+\subsection{Timeout check}
 
 This test was designed to make sure that the \gls{rug} is sending informations to our servers. To do that, we need an \gls{op} that will fetch all messages received from the studied \gls{rug} and fetch them to our \gls{fsm}. Our \gls{fsm} will then check that data are received at least every 30 seconds.\\
 
@@ -820,7 +911,7 @@ This test was designed to make sure that the \gls{rug} is sending informations t
 
 The figure~\ref{timeoutcheck} shows how we designed this test. Transition are, of course, complex so we only show a simplified name for them. They are quite obvious given the rest of the diagram.
 
-\section{Date check}
+\subsection{Date check}
 
 This test verify that the system uses the correct date. With an incorrect date set, the messages sent by it to the Railnova servers will be discarded resulting in a loss of communication from this device.\\
 
@@ -838,7 +929,7 @@ TODO
     \label{datecheck}
 \end{figure}
 
-\section{Battery cycle}
+\subsection{Battery cycle}
 
 We made some test that where not related to the \gls{rug}. One of those was able to charge a battery and then discharge it. The goal of this was measure the electrical levels all along those steps to determine wether or not the battery is working.\\
 
@@ -850,19 +941,6 @@ As shown in the figure~\ref{battcycle2}, we made several cycle of charge/dischar
     \caption{\gls{fsm} for the battery cycle}
     \label{battcycle2}
 \end{figure}
-
-%------------------------------------------------------------------------%
-%                                                                        %
-%                                                                        %
-% CONCLUSION                                                             %
-%                                                                        %
-%                                                                        %
-%------------------------------------------------------------------------%
-
-\clearpage
-\part{Conclusion}
-
-\appendix
 
 \clearpage
 \addcontentsline{toc}{section}{References}

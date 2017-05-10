@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (MiKTeX 2.9.6300 64-bit) (preloaded format=pdflatex 2017.5.9)  9 MAY 2017 10:19
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (MiKTeX 2.9.6300 64-bit) (preloaded format=pdflatex 2017.5.9)  10 MAY 2017 16:22
 entering extended mode
 **./thesis.tex
 (thesis.tex
@@ -1007,12 +1007,12 @@ Overfull \hbox (10.20973pt too wide) in paragraph at lines 264--265
 ach func-tion/method-
  []
 
-[17]
+
 Underfull \hbox (badness 10000) in paragraph at lines 268--270
 
  []
 
-
+[17]
 Underfull \hbox (badness 10000) in paragraph at lines 275--277
 
  []
@@ -1022,12 +1022,12 @@ Underfull \hbox (badness 10000) in paragraph at lines 291--293
 
  []
 
-[18]
+
 Underfull \hbox (badness 10000) in paragraph at lines 294--296
 
  []
 
-
+[18]
 Underfull \hbox (badness 10000) in paragraph at lines 301--303
 
  []
@@ -1042,12 +1042,12 @@ Underfull \hbox (badness 10000) in paragraph at lines 310--312
 
  []
 
-[19]
+
 Underfull \hbox (badness 10000) in paragraph at lines 313--314
 
  []
 
-
+[19]
 Underfull \hbox (badness 10000) in paragraph at lines 319--321
 
  []
@@ -1062,500 +1062,558 @@ Underfull \hbox (badness 10000) in paragraph at lines 328--329
 
  []
 
-[20] [21]
-Underfull \hbox (badness 10000) in paragraph at lines 341--342
+[20]
+Underfull \hbox (badness 10000) in paragraph at lines 342--343
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 343--344
+Underfull \hbox (badness 10000) in paragraph at lines 355--356
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 347--348
+Underfull \hbox (badness 10000) in paragraph at lines 359--360
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 349--350
+Underfull \hbox (badness 10000) in paragraph at lines 361--362
 
  []
 
-[22
+[21
 
 ]
-Underfull \hbox (badness 10000) in paragraph at lines 375--376
+Underfull \hbox (badness 10000) in paragraph at lines 387--388
 
  []
 
-<../img/acceptor.png, id=88, 486.618pt x 283.459pt>
+<../img/acceptor.png, id=84, 486.618pt x 283.459pt>
 File: ../img/acceptor.png Graphic file (type png)
  <use ../img/acceptor.png>
-Package pdftex.def Info: ../img/acceptor.png used on input line 379.
+Package pdftex.def Info: ../img/acceptor.png used on input line 391.
 (pdftex.def)             Requested size: 389.29492pt x 226.7675pt.
 
-[23]
-Underfull \hbox (badness 10000) in paragraph at lines 398--399
+[22]
+Underfull \hbox (badness 10000) in paragraph at lines 410--411
 
  []
 
-[24 <../img/acceptor.png>]
-<../img/graph/nfa.png, id=97, 424.58624pt x 231.86626pt>
+[23 <../img/acceptor.png>]
+<../img/graph/nfa.png, id=94, 424.58624pt x 231.86626pt>
 File: ../img/graph/nfa.png Graphic file (type png)
 
 <use ../img/graph/nfa.png>
-Package pdftex.def Info: ../img/graph/nfa.png used on input line 402.
+Package pdftex.def Info: ../img/graph/nfa.png used on input line 414.
 (pdftex.def)             Requested size: 169.83148pt x 92.74484pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 407--408
+Underfull \hbox (badness 10000) in paragraph at lines 419--420
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 411--412
+Underfull \hbox (badness 10000) in paragraph at lines 423--424
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 413--414
+Underfull \hbox (badness 10000) in paragraph at lines 425--426
 
  []
 
-<../img/graph/BatteryCycle.png, id=98, 770.88pt x 297.11pt>
+<../img/graph/BatteryCycle.png, id=95, 770.88pt x 297.11pt>
 File: ../img/graph/BatteryCycle.png Graphic file (type png)
 
 <use ../img/graph/BatteryCycle.png>
-Package pdftex.def Info: ../img/graph/BatteryCycle.png used on input line 419.
+Package pdftex.def Info: ../img/graph/BatteryCycle.png used on input line 431.
 (pdftex.def)             Requested size: 308.34654pt x 118.84189pt.
- [25 <../img/graph/nfa.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 437--438
+ [24 <../img/graph/nfa.png>]
+Underfull \hbox (badness 10000) in paragraph at lines 449--450
 
  []
 
-<../img/graph/afa.png, id=104, 327.2225pt x 271.0125pt>
+<../img/graph/afa.png, id=100, 327.2225pt x 271.0125pt>
 File: ../img/graph/afa.png Graphic file (type png)
 
 <use ../img/graph/afa.png>
-Package pdftex.def Info: ../img/graph/afa.png used on input line 441.
+Package pdftex.def Info: ../img/graph/afa.png used on input line 453.
 (pdftex.def)             Requested size: 261.77835pt x 216.81029pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 446--447
+Underfull \hbox (badness 10000) in paragraph at lines 458--459
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 448--449
-
- []
-
-[26 <../img/graph/BatteryCycle.png>]
 Underfull \hbox (badness 10000) in paragraph at lines 460--461
 
  []
 
-
-Underfull \hbox (badness 10000) in paragraph at lines 462--463
-
- []
-
-[27 <../img/graph/afa.png>] [28]
-Underfull \hbox (badness 10000) in paragraph at lines 489--490
+[25 <../img/graph/BatteryCycle.png>]
+Underfull \hbox (badness 10000) in paragraph at lines 472--473
 
  []
 
+
+Underfull \hbox (badness 10000) in paragraph at lines 474--475
+
+ []
+
+[26 <../img/graph/afa.png>]
+Underfull \hbox (badness 10000) in paragraph at lines 478--479
+
+ []
+
+<../img/MarkovModel.png, id=112, 1284.8pt x 990.70125pt>
+File: ../img/MarkovModel.png Graphic file (type png)
+
+<use ../img/MarkovModel.png>
+Package pdftex.def Info: ../img/MarkovModel.png used on input line 484.
+(pdftex.def)             Requested size: 385.44298pt x 297.21266pt.
 
 Underfull \hbox (badness 10000) in paragraph at lines 491--492
 
  []
 
-
-Underfull \hbox (badness 10000) in paragraph at lines 493--494
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 495--496
-
- []
-
-[29
+[27] [28 <../img/MarkovModel.png>] [29
 
 ]
-Underfull \hbox (badness 10000) in paragraph at lines 503--505
-
- []
-
-[30]
-Underfull \hbox (badness 10000) in paragraph at lines 506--507
+Underfull \hbox (badness 10000) in paragraph at lines 511--512
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 508--509
+Underfull \hbox (badness 10000) in paragraph at lines 513--514
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 510--511
+Underfull \hbox (badness 10000) in paragraph at lines 517--518
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 516--517
-
- []
-
-[31]
-Underfull \hbox (badness 10000) in paragraph at lines 518--519
+Underfull \hbox (badness 10000) in paragraph at lines 519--520
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 520--521
+Underfull \hbox (badness 10000) in paragraph at lines 521--522
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 522--523
+Underfull \hbox (badness 10000) in paragraph at lines 523--524
+
+ []
+
+[30
+
+]
+Underfull \hbox (badness 10000) in paragraph at lines 529--530
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 524--525
+Underfull \hbox (badness 10000) in paragraph at lines 531--532
 
  []
 
-<../img/STBC-costfixs.jpg, id=128, 430.60875pt x 325.215pt>
-File: ../img/STBC-costfixs.jpg Graphic file (type jpg)
-
-<use ../img/STBC-costfixs.jpg>
-Package pdftex.def Info: ../img/STBC-costfixs.jpg used on input line 528.
-(pdftex.def)             Requested size: 344.48746pt x 260.17235pt.
 
 Underfull \hbox (badness 10000) in paragraph at lines 533--534
 
  []
 
-[32] [33 <../img/STBC-costfixs.jpg>] [34]
-Underfull \hbox (badness 10000) in paragraph at lines 549--550
-
- []
-
-[35
-
-]
-Underfull \hbox (badness 10000) in paragraph at lines 555--556
+[31]
+Underfull \hbox (badness 10000) in paragraph at lines 535--536
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 557--558
+Underfull \hbox (badness 10000) in paragraph at lines 541--543
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 559--560
+Underfull \hbox (badness 10000) in paragraph at lines 544--545
+
+ []
+
+[32]
+Underfull \hbox (badness 10000) in paragraph at lines 546--547
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 566--567
+Underfull \hbox (badness 10000) in paragraph at lines 548--549
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 568--569
+Underfull \hbox (badness 10000) in paragraph at lines 554--555
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 570--571
+Underfull \hbox (badness 10000) in paragraph at lines 556--557
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 558--559
+
+ []
+
+[33]
+Underfull \hbox (badness 10000) in paragraph at lines 560--561
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 562--563
+
+ []
+
+<../img/STBC-costfixs.jpg, id=136, 430.60875pt x 325.215pt>
+File: ../img/STBC-costfixs.jpg Graphic file (type jpg)
+
+<use ../img/STBC-costfixs.jpg>
+Package pdftex.def Info: ../img/STBC-costfixs.jpg used on input line 566.
+(pdftex.def)             Requested size: 344.48746pt x 260.17235pt.
+
+Underfull \hbox (badness 10000) in paragraph at lines 571--572
+
+ []
+
+[34] [35 <../img/STBC-costfixs.jpg>]
+Underfull \hbox (badness 10000) in paragraph at lines 585--586
 
  []
 
 [36
 
 ]
-Underfull \hbox (badness 10000) in paragraph at lines 572--573
+Underfull \hbox (badness 10000) in paragraph at lines 590--591
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 574--575
+Underfull \hbox (badness 10000) in paragraph at lines 592--593
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 576--577
+Underfull \hbox (badness 10000) in paragraph at lines 594--595
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 578--579
+Underfull \hbox (badness 10000) in paragraph at lines 601--602
 
  []
 
-<../img/vending-io.png, id=144, 421.575pt x 230.8625pt>
+
+Underfull \hbox (badness 10000) in paragraph at lines 603--604
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 605--606
+
+ []
+
+[37
+
+]
+Underfull \hbox (badness 10000) in paragraph at lines 607--608
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 609--610
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 611--612
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 613--614
+
+ []
+
+<../img/vending-io.png, id=150, 421.575pt x 230.8625pt>
 File: ../img/vending-io.png Graphic file (type png)
 
 <use ../img/vending-io.png>
-Package pdftex.def Info: ../img/vending-io.png used on input line 582.
+Package pdftex.def Info: ../img/vending-io.png used on input line 617.
 (pdftex.def)             Requested size: 337.26045pt x 184.69023pt.
 Missing character: There is no Ã in font cmr12!
 Missing character: There is no ¯ in font cmr12!
 
-Underfull \hbox (badness 10000) in paragraph at lines 587--588
+Underfull \hbox (badness 10000) in paragraph at lines 622--623
 
  []
 
-[37]
-Underfull \hbox (badness 10000) in paragraph at lines 617--618
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 621--622
+[38]
+Underfull \hbox (badness 10000) in paragraph at lines 652--653
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 623--624
+Underfull \hbox (badness 10000) in paragraph at lines 656--657
 
  []
 
-[38 <../img/vending-io.png>]
-Overfull \hbox (1.33621pt too wide) in paragraph at lines 625--626
+
+Underfull \hbox (badness 10000) in paragraph at lines 658--659
+
+ []
+
+[39 <../img/vending-io.png>]
+Overfull \hbox (1.33621pt too wide) in paragraph at lines 660--661
 \OT1/cmr/m/n/12 scribed, those re-stric-tion must not pre-vent us from do-ing e
 v-ery test-ing needed.
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 625--626
+Underfull \hbox (badness 10000) in paragraph at lines 660--661
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 635--636
-
- []
-
-[39]
-Underfull \hbox (badness 10000) in paragraph at lines 637--638
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 639--640
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 641--642
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 643--644
+Underfull \hbox (badness 10000) in paragraph at lines 670--671
 
  []
 
 [40]
-Underfull \hbox (badness 10000) in paragraph at lines 645--646
+Underfull \hbox (badness 10000) in paragraph at lines 672--673
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 674--675
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 676--677
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 678--679
+
+ []
+
+[41]
+Underfull \hbox (badness 10000) in paragraph at lines 680--681
 
  []
 
 Missing character: There is no Ã in font cmr12!
 Missing character: There is no ¼ in font cmr12!
 
-Underfull \hbox (badness 10000) in paragraph at lines 647--648
+Underfull \hbox (badness 10000) in paragraph at lines 682--683
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 649--650
+Underfull \hbox (badness 10000) in paragraph at lines 684--685
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 651--652
+Underfull \hbox (badness 10000) in paragraph at lines 686--687
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 653--654
+Underfull \hbox (badness 10000) in paragraph at lines 688--689
 
  []
 
-[41]
-Overfull \hbox (40.04926pt too wide) in paragraph at lines 667--668
+[42]
+Overfull \hbox (40.04926pt too wide) in paragraph at lines 702--703
 [][][][][][][][][][][][][][] 
  []
 
-<../img/timed_automata.png, id=163, 279.0425pt x 380.42125pt>
+<../img/timed_automata.png, id=168, 279.0425pt x 380.42125pt>
 File: ../img/timed_automata.png Graphic file (type png)
 
 <use ../img/timed_automata.png>
-Package pdftex.def Info: ../img/timed_automata.png used on input line 678.
+Package pdftex.def Info: ../img/timed_automata.png used on input line 713.
 (pdftex.def)             Requested size: 223.2343pt x 304.3374pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 685--686
+Overfull \hbox (17.74586pt too wide) in paragraph at lines 718--718
+[]\OT1/cmr/bx/n/17.28 Mathematical de-scrip-tion of our cus-tom []FSM 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 720--721
 
  []
 
-[42] [43 <../img/timed_automata.png>] [44] [45
+[43] [44 <../img/timed_automata.png>]
+Underfull \hbox (badness 10000) in paragraph at lines 736--737
+
+ []
+
+[45
+
+] [46
+
+] [47
 
 ]
-Underfull \hbox (badness 10000) in paragraph at lines 706--707
+Underfull \hbox (badness 10000) in paragraph at lines 798--799
 
  []
 
-<../img/io_abstract.png, id=178, 360.34625pt x 312.16624pt>
+<../img/io_abstract.png, id=186, 360.34625pt x 312.16624pt>
 File: ../img/io_abstract.png Graphic file (type png)
 
 <use ../img/io_abstract.png>
-Package pdftex.def Info: ../img/io_abstract.png used on input line 710.
+Package pdftex.def Info: ../img/io_abstract.png used on input line 802.
 (pdftex.def)             Requested size: 216.20941pt x 187.3012pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 717--718
+Underfull \hbox (badness 10000) in paragraph at lines 809--810
 
  []
 
-
-Underfull \hbox (badness 10000) in paragraph at lines 719--720
-
- []
-
-[46
+[48
 
  <../img/io_abstract.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 723--724
+Underfull \hbox (badness 10000) in paragraph at lines 811--812
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 725--727
+Underfull \hbox (badness 10000) in paragraph at lines 815--816
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 728--729
+Underfull \hbox (badness 10000) in paragraph at lines 817--819
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 732--733
-
- []
-
-[47]
-Underfull \hbox (badness 10000) in paragraph at lines 739--740
+Underfull \hbox (badness 10000) in paragraph at lines 820--821
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 741--742
+Underfull \hbox (badness 10000) in paragraph at lines 824--825
+
+ []
+
+[49]
+Underfull \hbox (badness 10000) in paragraph at lines 831--832
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 748--749
+Underfull \hbox (badness 10000) in paragraph at lines 833--834
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 752--753
+Underfull \hbox (badness 10000) in paragraph at lines 840--841
 
  []
 
-[48] <../img/wago_module.jpg, id=188, 401.5pt x 324.21124pt>
+
+Underfull \hbox (badness 10000) in paragraph at lines 844--845
+
+ []
+
+[50] <../img/wago_module.jpg, id=197, 401.5pt x 324.21124pt>
 File: ../img/wago_module.jpg Graphic file (type jpg)
 
 <use ../img/wago_module.jpg>
-Package pdftex.def Info: ../img/wago_module.jpg used on input line 760.
+Package pdftex.def Info: ../img/wago_module.jpg used on input line 852.
 (pdftex.def)             Requested size: 240.90184pt x 194.52824pt.
-
-Underfull \hbox (badness 10000) in paragraph at lines 773--774
-
- []
-
-[49 <../img/wago_module.jpg>]
-Underfull \hbox (badness 10000) in paragraph at lines 775--776
+ [51 <../img/wago_module.jpg>]
+Underfull \hbox (badness 10000) in paragraph at lines 865--866
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 779--780
+Underfull \hbox (badness 10000) in paragraph at lines 867--868
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 781--782
+Underfull \hbox (badness 10000) in paragraph at lines 871--872
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 783--784
+Underfull \hbox (badness 10000) in paragraph at lines 873--874
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 785--786
+Underfull \hbox (badness 10000) in paragraph at lines 875--876
+
+ []
+
+[52]
+Underfull \hbox (badness 10000) in paragraph at lines 877--878
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 789--790
+Underfull \hbox (badness 10000) in paragraph at lines 881--882
 
  []
 
-[50] [51] [52
-
-]
-Underfull \hbox (badness 10000) in paragraph at lines 812--813
+[53]
+Underfull \hbox (badness 10000) in paragraph at lines 903--904
 
  []
 
-<../img/graph/TimeoutCheck.png, id=202, 484.81125pt x 310.15875pt>
+<../img/graph/TimeoutCheck.png, id=207, 484.81125pt x 310.15875pt>
 File: ../img/graph/TimeoutCheck.png Graphic file (type png)
 
 <use ../img/graph/TimeoutCheck.png>
-Package pdftex.def Info: ../img/graph/TimeoutCheck.png used on input line 816.
+Package pdftex.def Info: ../img/graph/TimeoutCheck.png used on input line 907.
 (pdftex.def)             Requested size: 290.88899pt x 186.09668pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 825--826
+Underfull \hbox (badness 10000) in paragraph at lines 916--917
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 827--828
+Underfull \hbox (badness 10000) in paragraph at lines 918--919
 
  []
 
-
-Underfull \hbox (badness 10000) in paragraph at lines 829--830
-
- []
-
-[53
+[54
 
  <../img/graph/TimeoutCheck.png>]
-File: ../img/graph/TimeoutCheck.png Graphic file (type png)
- <use ../img/graph/TimeoutCheck.png>
-Package pdftex.def Info: ../img/graph/TimeoutCheck.png used on input line 836.
-(pdftex.def)             Requested size: 290.88899pt x 186.09668pt.
-
-Underfull \hbox (badness 10000) in paragraph at lines 843--844
+Underfull \hbox (badness 10000) in paragraph at lines 920--921
 
  []
 
-File: ../img/graph/BatteryCycle.png Graphic file (type png)
-<use ../img/graph/BatteryCycle.png>
-Package pdftex.def Info: ../img/graph/BatteryCycle.png used on input line 850.
-(pdftex.def)             Requested size: 308.34654pt x 118.84189pt.
- [54] [55] [56
+File: ../img/graph/TimeoutCheck.png Graphic file (type png)
+<use ../img/graph/TimeoutCheck.png>
+Package pdftex.def Info: ../img/graph/TimeoutCheck.png used on input line 927.
+(pdftex.def)             Requested size: 290.88899pt x 186.09668pt.
 
-] (thesis.bbl
+Underfull \hbox (badness 10000) in paragraph at lines 934--935
+
+ []
+
+[55]
+File: ../img/graph/BatteryCycle.png Graphic file (type png)
+ <use ../img/graph/BatteryCycle.png>
+Package pdftex.def Info: ../img/graph/BatteryCycle.png used on input line 940.
+(pdftex.def)             Requested size: 308.34654pt x 118.84189pt.
+ [56] (thesis.bbl
 Overfull \hbox (36.89917pt too wide) in paragraph at lines 25--28
 []\OT1/cmr/m/n/12 ``Software de-vel-op-ment,'' https://en.wikipedia.org/wiki/So
 ftware[]development,
@@ -1612,13 +1670,19 @@ iki/Alternating[]finite[]automaton,
  []
 
 
-Overfull \hbox (36.21169pt too wide) in paragraph at lines 116--119
+Underfull \hbox (badness 1874) in paragraph at lines 120--123
+[]\OT1/cmr/m/n/12 ``What is scrum? an ag-ile frame-work for com-plet-ing com-pl
+ex
+ []
+
+
+Overfull \hbox (36.21169pt too wide) in paragraph at lines 125--128
 []\OT1/cmr/m/n/12 ``The eco-nomics of test-ing,'' http://www.riceconsulting.com
 /public[]pdf/STBC-
  []
 
 
-Overfull \hbox (98.0291pt too wide) in paragraph at lines 121--124
+Overfull \hbox (98.0291pt too wide) in paragraph at lines 130--133
 []\OT1/cmr/m/n/12 ``Software tesing - eco-nomics,'' https://en.wikipedia.org/wi
 ki/Software[]testing#Economics,
  []
@@ -1627,10 +1691,10 @@ ki/Software[]testing#Economics,
 
 ] (thesis.aux) ) 
 Here is how much of TeX's memory you used:
- 20979 strings out of 493328
- 409740 string characters out of 3139122
- 538390 words of memory out of 3000000
- 24067 multiletter control sequences out of 15000+200000
+ 20987 strings out of 493328
+ 409902 string characters out of 3139122
+ 538409 words of memory out of 3000000
+ 24074 multiletter control sequences out of 15000+200000
  11954 words of font info for 43 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
  55i,8n,78p,1939b,1227s stack positions out of 5000i,500n,10000p,200000b,50000s
@@ -1646,9 +1710,9 @@ nts/cm/cmr7.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr
 8.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C
 :/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy8.pfb><C:/Program
  Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmti12.pfb>
-Output written on thesis.pdf (59 pages, 619485 bytes).
+Output written on thesis.pdf (59 pages, 674535 bytes).
 PDF statistics:
- 269 PDF objects out of 1000 (max. 8388607)
+ 271 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
- 78 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 83 words of extra memory for PDF output out of 10000 (max. 10000000)
 
