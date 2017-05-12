@@ -20,6 +20,11 @@
 \newacronym{dfa}{DFA}{Deterministic Finite Automaton}
 \newacronym{nfa}{NFA}{Non-Deterministic Finite Automaton}
 \newacronym{io}{I/O}{Inputs/Outputs}
+\newacronym{dtmc}{DTMC}{Discrete-Time Markov chain}
+\newacronym{mdp}{MDP}{Markov decision processe}
+\newacronym{pa}{PA}{Probabilistic Automata}
+\newacronym{ctmc}{CTMC}{continuous-time Markov Chain}
+\newacronym{pta}{PTA}{Probabilistic Timed Automata}
 \newglossaryentry{railsteros}
 { name=RailsterOS,
   description={A set of sub-program running on the \gls{rug} defining the behavior of it}
@@ -433,7 +438,7 @@ If we have accepting state in our \gls{fsm}, we represent the node for those sta
     \label{battcycle}
 \end{figure}
 
-\subsection{Alternate Finite Automaton}
+\subsubsection{Alternate Finite Automaton}
 
 An \gls{afa} is a 6-tuple, $(S(\exists), S(\forall), \Sigma, \delta, P_0, F)$, where:
 
@@ -459,7 +464,7 @@ The introduction of those new transition type introduce a lot of complexity in t
 
 Thus the computation of such an automaton is now a tree. And deciding wether or not an \gls{afa} accepts a word $w$ if there exists a run tree on $w$ such that every path ends in an accepting state.~\cite{AFA:2017}\\
 
-\subsection{Timed Finite State Machine}
+\subsubsection{Timed Finite State Machine}
 
 Those are finite automaton with real-valued clocks added to it.~\cite{TimedAutomaton:2016} This allows us to do things like this:
 
@@ -473,7 +478,7 @@ The key point to describe timed automaton is that we now have clocks that can be
 
 The most basic case is the one in which you can only use one clock with a global scope (all the automaton has access to it). You can reset the clock when you take a transition or in a given state. That's what we use in the figure~\ref{timed_automata_e1}.\\
 
-\subsection{Markov model}
+\subsubsection{Markov model}
 
 Markov Model is a stochastic model used to model randomly changing systems~\cite{1165342}~\cite{MarkovModel:2017}. The difference between a classic \gls{fsm} and a Markov Model is simply that the Markov Model take transitions randomly based on given probabilities.\\
 
@@ -486,11 +491,72 @@ This particular type of Markov Model is the simplest one. Probabilities are not 
     \label{MarkovModel}
 \end{figure}
 
-\subsection{Others}
+\subsubsection{Probabilistic Timed Automata}
+
+Those kind of \gls{fsm} can be seen as Timed \gls{fsm} in which we added probabilistic transition like the ones used in a Markov Model.
+
+\subsubsection{Others}
 
 We can imagine a lot of other type of \gls{fsm}. For example, we discussed the possibility to mix timed automaton and alternate automaton. Such an automaton would need its own formal mathematical description and anylizis to make sure that it can succesfully be used to solve given problems.\\
 
 The final choice we made is such a \gls{fsm} but we will describe it formally later on.
+
+\subsection{Applications}
+
+One of the first question one should ask is how is model checking and formal verification used in the everyday life or at least, for some projects. The following examples of what is currently used in this domain where taken from the most used tools at the time this paper was written. Unfortunately, this choice is rather subjective as metrics about each possible software usage is not always available but the only thing that interest us is to know how they works and what they have in common.
+
+\subsubsection{UPPAL}
+
+\begin{figure}
+    \centering
+    \includegraphics[scale=0.3]{UPPAAL_trace.jpg}
+    \caption{Main window of UPPAAL for the simulation part. You can see the execution trace in the lower left corner of the window as well as the model of the system on the right, shown as a \gls{fsm}}
+    \label{UPPAAL}
+\end{figure}
+
+The first software we came accross while searching for such applications was UPPAL. UPPAAL is a rather complete tool to work on model checking and formal verification. With it, one can modelize a system, simulate and verify it. All the three steps in only one tool~\cite{Bengtsson1996}~\cite{Behrmann2004}~\cite{Larsen1997}.\\
+
+UPPAAL was a great source of inspiration for some features of our own tool. We where specificaly interested with the simulation tools wich allows to navigate through the execution steps and visualizing what is going on with the model of our system. Also, UPPAAL uses \gls{fsm} which conforted us in our choice of such tool.\\
+
+\subsubsection{PRISM}
+
+\begin{figure}
+    \centering
+    \includegraphics[scale=0.6]{PRISM_model.png}
+    \caption{Example of model used by PRISM. This model was generated usign the lines of code in figure~\ref{PRISM_code}.}
+    \label{PRISM_model}
+\end{figure}
+
+We where also interested by PRISM, which is a tool for modelization and verification of probabilistic systems. PRISM supports different kind of probabilistic models like \gls{dtmc}, \gls{mdp}, \gls{pa}, \gls{ctmc} and \gls{pta}.\footnote{Probabilistic Automata are Markov Chains that also supports deterministic transitions.}~\cite{Kwiatkowska2011}~\cite{Hinton2006}\\
+
+PRISM uses a uniform modelling language for all the probabilistic models that it supports. This is a textual language, based on guarded command notation. See figure~\ref{PRISM_model}, this model was generated using the following lines of code:
+
+\begin{figure}
+    \label{PRISM_code}
+    \begin{lstlisting}[frame=single,caption="Dice model in PRISM",label={lst:PRISM_code}]
+dtmc
+
+module die
+
+    // local state
+    s : [0..7] init 0;
+    // value of the die
+    d : [0..6] init 0;
+
+    [] s=0 -> 0.5 : (s'=1) + 0.5 : (s'=2);
+    [] s=1 -> 0.5 : (s'=3) + 0.5 : (s'=4);
+    [] s=2 -> 0.5 : (s'=5) + 0.5 : (s'=6);
+    [] s=3 -> 0.5 : (s'=1) + 0.5 : (s'=7) & (d'=1);
+    [] s=4 -> 0.5 : (s'=7) & (d'=2) + 0.5 : (s'=7) & (d'=3);
+    [] s=5 -> 0.5 : (s'=7) & (d'=4) + 0.5 : (s'=7) & (d'=5);
+    [] s=6 -> 0.5 : (s'=2) + 0.5 : (s'=7) & (d'=6);
+    [] s=7 -> (s'=7);
+
+endmodule
+    \end{lstlisting}
+\end{figure}
+
+Again, this tools uses \gls{fsm} to modelize different systems.
 
 %------------------------------------------------------------------------%
 %                                                                        %
@@ -692,19 +758,19 @@ As we modified a lot the \gls{fsm} principles, we'll say that our \gls{fsm} succ
 \begin{figure}
     \label{python-pseudo-tsm}
     \begin{lstlisting}[frame=single,caption="Pseudo test case example",label={lst:python-pseudo-tsm}]
-    class MyTest:
-        add_state("init", enter=init_all)
-        add_state("wait")
-        add_state("success")
-        add_state("failure")
+class MyTest:
+    add_state("init", enter=init_all)
+    add_state("wait")
+    add_state("success")
+    add_state("failure")
 
-        init.add_transition("wait", True)
-        wait.add_transition("success", no_failure_since_long)
-        wait.add_transition("failure", timeout)
+    init.add_transition("wait", True)
+    wait.add_transition("success", no_failure_since_long)
+    wait.add_transition("failure", timeout)
 
-        set_initial_state("init")
+    set_initial_state("init")
 
-        listen_to("distant_data")
+    listen_to("distant_data")
     \end{lstlisting}
 \end{figure}
 

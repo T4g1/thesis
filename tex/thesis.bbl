@@ -121,6 +121,46 @@ L.~Rabiner and B.~Juang, ``An introduction to hidden markov models,''
   \url{https://en.wikipedia.org/wiki/Markov\_model}, [Online; accessed
   10-May-2017].
 
+\bibitem{Bengtsson1996}
+\BIBentryALTinterwordspacing
+J.~Bengtsson, K.~Larsen, F.~Larsson, P.~Pettersson, and W.~Yi, \emph{UPPAAL ---
+  a tool suite for automatic verification of real-time systems}.\hskip 1em plus
+  0.5em minus 0.4em\relax Berlin, Heidelberg: Springer Berlin Heidelberg, 1996,
+  pp. 232--243. [Online]. Available: \url{http://dx.doi.org/10.1007/BFb0020949}
+\BIBentrySTDinterwordspacing
+
+\bibitem{Behrmann2004}
+\BIBentryALTinterwordspacing
+G.~Behrmann, A.~David, and K.~G. Larsen, \emph{A Tutorial on Uppaal}.\hskip 1em
+  plus 0.5em minus 0.4em\relax Berlin, Heidelberg: Springer Berlin Heidelberg,
+  2004, pp. 200--236. [Online]. Available:
+  \url{http://dx.doi.org/10.1007/978-3-540-30080-9\_7}
+\BIBentrySTDinterwordspacing
+
+\bibitem{Larsen1997}
+\BIBentryALTinterwordspacing
+K.~G. Larsen, P.~Pettersson, and W.~Yi, ``Uppaal in a nutshell,''
+  \emph{International Journal on Software Tools for Technology Transfer},
+  vol.~1, no.~1, pp. 134--152, 1997. [Online]. Available:
+  \url{http://dx.doi.org/10.1007/s100090050010}
+\BIBentrySTDinterwordspacing
+
+\bibitem{Kwiatkowska2011}
+\BIBentryALTinterwordspacing
+M.~Kwiatkowska, G.~Norman, and D.~Parker, \emph{PRISM 4.0: Verification of
+  Probabilistic Real-Time Systems}.\hskip 1em plus 0.5em minus 0.4em\relax
+  Berlin, Heidelberg: Springer Berlin Heidelberg, 2011, pp. 585--591. [Online].
+  Available: \url{http://dx.doi.org/10.1007/978-3-642-22110-1\_47}
+\BIBentrySTDinterwordspacing
+
+\bibitem{Hinton2006}
+\BIBentryALTinterwordspacing
+A.~Hinton, M.~Kwiatkowska, G.~Norman, and D.~Parker, \emph{PRISM: A Tool for
+  Automatic Verification of Probabilistic Systems}.\hskip 1em plus 0.5em minus
+  0.4em\relax Berlin, Heidelberg: Springer Berlin Heidelberg, 2006, pp.
+  441--444. [Online]. Available: \url{http://dx.doi.org/10.1007/11691372\_29}
+\BIBentrySTDinterwordspacing
+
 \bibitem{EconomicsSTBC:2017}
 ``The economics of testing,''
   \url{http://www.riceconsulting.com/public\_pdf/STBC-WM.pdf}, [Online;
