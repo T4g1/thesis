@@ -743,9 +743,7 @@ Now to the choice of \gls{fsm} model, why don't we simply pick the most simple c
 
 All of those case requires you to create a new input type that will be the time. Say you receive this input each time a second pass. Already, it is a lot like timed state machine but lets say we want to use a pure \gls{fsm}. Now, we need to add state for each seconds passed, so if we want to wait 30 seconds, we need 30 states with 30 transitions for each seconds and 30 transitions for the event of "a data has been received" that will go back to initial state. And all of this needs to be written by someone. You can easilly see why this is unpracticable. So clearly, in this case, \gls{fsm} are too limited if we want to handle this in a simple and practicable way.\\
 
-Now with the \gls{afa}, the complexity of implementation required by this paradigm is quite important, we need to run multiple automaton, construct trees and analyze them. Compared to a simple \gls{fsm} implemnetation, this is quite a lot of work. So is it worht it ? To answer this question, we need to find practical case where such a paradigm would become indispensable and such case should be realy difficult to implement into a classic \gls{fsm} to justify choosing \gls{afa} as our main choice for the implementation of Nursery.\\
-
-TODO Chandra and Fellah, Jürgensen and Yu construction $2^n$ states for non-deterministic and $2^{2^n}$ for worst case.\\
+Now with the \gls{afa}, the complexity of implementation required by this paradigm is quite important, we need to run multiple automaton, construct execution trees and analyze them. Compared to a simple \gls{fsm} implementation, this is quite a lot of work. So is it worth it ? To answer this question, we need to find practical case where such a paradigm would become indispensable and such case should be realy difficult to implement into a classic \gls{fsm} to justify choosing \gls{afa} as our main choice for the implementation of Nursery. Based on the concrete needs we add when we analyzed this possibility, we choose not to consider it as a good solution because none of the case we add prepared needed such complexity and using this would have made it difficult to design test by inexperienced users.\\
 
 This left us with timed automaton. This is the choice we made. Those \gls{fsm} are really well adapted for our use case. Being able to manipulate time directly in our transitions and state gives us a lot of ease to write the code and its also very powerfull too ! With it, we are able, for example, to send a lot of data with a variable interval between them and then receive data accordingly. You can also decide to create a clock for timeout that will be reseted each time you receive a given data. There are really a lot of use case and some more will be described later on.\\
 
@@ -753,7 +751,7 @@ This choice of tool is also motivated by the fact that writting and understandin
 
 As an example, take the pseudo-code showing how test are designed using this tool in listing~\ref{lst:python-pseudo-tsm}. We create 4 states, one, "init", is purely optional, it's purpose is for initializing external tools or some variables if we need them. Then a state that will simply do nothing, waiting for some data to arrive. A success and a failure state. This test works by looping in wait-state every time a data is received. The test success when enough time has elpased without any timeout and it fails at the first timeout encountered.\\
 
-As we modified a lot the \gls{fsm} principles, we'll say that our \gls{fsm} succeed or fails when the test passed or failed. We will not say that our test accepts nor recognizes as we think this is not applicable for our case.
+As we modified a lot the \gls{fsm} principles, we'll say that our \gls{fsm} succeed or fails when the test passed or failed. We will not say that our test accepts nor recognizes as we think this is not applicable for our case.\\
 
 \begin{figure}
     \label{python-pseudo-tsm}
@@ -780,8 +778,6 @@ class MyTest:
     \caption{Example of a timed-out timed automata. X being one of the clocks that can be used}
     \label{timed_automata_e1}
 \end{figure}
-
-\section{Mathematical description of our custom \gls{fsm}}
 
 Theres a lot of modifications we did to the basic concept of \gls{fsm}. First of all, our input alphabet is never quantified. We don't know if it's finite or not. Theorically, we accept analogic inputs so it can be infinite but as we are working with computer, we know it will not be inifinite. The most important thing is that we don't need to quantify it to design our test, the choices we made keeps us from being forced to enumerate one and every possible input. Like we said, it will define itself based on what transition are defined in $\delta$ and a special symbol for a time step, let's say $t$.\\
 
@@ -819,8 +815,18 @@ This part is a in depth description of how the implemented system works, how it 
 \clearpage
 \part{Conclusion}
 
-This conclude my work at Railnova.
+Putting the complexity as a limitation gave us a software that can run on any moder system. The simulation is hosted on RaspBerry Pi which are low end system. This allowed us to build a lot of Nursery system for a realy cheap price, RaspBerry Pi costing around fifteen euros. We made around sixteen Nursery system separated into two areas. Height of them dedicated for RailsterOS verification and height of them used mainly for fingerprinting. So, using the work done in this paper, we are now able to fingerprint the faulty RUG way faster. We need only one guy to analyze up to height of them in paralel using the Nursery systems we just talked about. The same thing hold true for RailsterOS testing. We can now leave newly develloped version of it running on Nursery for days and get a report of all the errors that hapenned afterwards instead of waiting for errors to happen into the production environment.\\
 
+My personal analyzis lead me to think that the success of Nursery is based on the following key point:
+\begin{itemize}
+\item Will it be used by other users ?
+\item Will it save time or make life easier for some people ?
+\item Can we gain money from it ?
+\end{itemize}
+
+Clearly, detecting fault earlier allows us to save money and time. No need to call back some hardware and less fault in production means less loss of money. We do not longer need to invest days of analyze for fingerprinting, all it takes is to plug the faulty RUG into Nursery and click a button. This could easily take up to 3 hours per RUG where now, we can do it in just one day of work for height RUG using more intensive testing cases ! Lastly, some guys of the hardware team and from the supply chain were introduced with Nursery. We showed them how to write test for Nursery and they loved the way things were made and how simple it was. Their test were done in approximately one hour. This lead us to think that, with proper formations and documentation, other users could gladly uses Nursery.\\
+
+I think that Nursery is a key assets that will become more and more used inside of Railnova. We even talked about using it for production lines in the future. But a lot of work is yet to be done on the accessibility aspect of it. Proper documentation needs to be written, some ideas are expected to ease a bit more the writting of tests like adding a generic state allowing us to create a transition from "any state" to one particular state without needing to repeat this transition to every other states and theres probably a lot more thing we didn't think about.
 
 %------------------------------------------------------------------------%
 %                                                                        %
