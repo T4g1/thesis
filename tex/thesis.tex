@@ -13,6 +13,7 @@
 \graphicspath{{../img/}}
 
 \newacronym{rug}{RUG}{Railster Universal Gateway}
+\newacronym{fqm}{FQM}{Fleet Quality Management}
 \newacronym{ui}{UI}{User Interface}
 \newacronym{op}{O.P.}{Output Provider}
 \newacronym{afa}{AFA}{Alternate Finite Automaton}
@@ -576,7 +577,13 @@ Now that you now what software testing and \gls{fsm} are all about, lets introdu
 
 This work is done in partnership with Railnova. Railnova is a technology company that provides telematics and software solutions to the railway industry. Their headquarter is located in Brussels and they count approximatively 30 employees. Some of them coming from the ULB/VUB.\\
 
-The main goal of this work is to develop a better testing suite for their embedded software called \gls{railsteros}. Of course, the developed solution will not be limited to a particullar software and our scope is a lot wider than that.\\
+The main goal of this work is to develop a better testing suite for their embedded software called \gls{railsteros}. Of course, the developed solution will not be limited to a particullar software and our scope is a lot wider than that. Our solution will be considered successful if it meets the following requierements:
+
+\begin{itemize}
+\item The system can be used by non-developers
+\item It is a time saving technology
+\item The solution reduces costs
+\end{itemize}
 
 \subsection{Existing system}
 
@@ -635,6 +642,14 @@ In the \gls{rug} ecosystem, if our product, \gls{railsteros} isn't working well,
 \end{figure}
 
 It is commonly believed that the earliest a fault is found, the cheaper it is to correct it~\cite{EconomicsSTBC:2017}~\cite{EconomicsWiki:2017}. The case we mentionned is the latest possible time to detect a fault so, according to the previous statement, it is also the costier ! Those reasons are why we want to create some process that can be used to drastically reduces the amount of unexpected faults in the final product. That's the main motivation behind the project that is the subject of this paper called Nursery.\\
+
+\subsection{The Railnova Way}
+
+At Railnova, development in general is lead by the Agile framework. Because of that, softwares and hardwares developed tend to welcome changes and new features are added every week as well as small bug fixes or minor modifications there and there.\\
+
+This tend to make it difficult to keep track of what is working and waht is not during the lifecycle of any project. This is where Nursery becomes usefull. By providing a tool to check wether or not features are broken after modifications have been applied would be a great time saver. Testing everything manually is a tedious work and waiting for things to break in production envrionment is a realy bad idea like we saw previously.\\
+
+Usualy, when one of the \gls{rug} fails in production, the product is called back to the Railnova HQ for \gls{fqm}. \gls{fqm} consists of several phases. During the first one also called "fingerprinting", we try to identify the root cause of the failure. Then, we re-direct the product either to "Debug HW" for hardware debuging if the root cause is hardware linked or to "Debug SW" if the root cause is software linked. After those steps, the problem should be solved. The product is sent to "Fixing" to apply other pending modifications that did not necessited an immediate return of the product. Finaly, the product is sent to "Flash \& Validate" to re-initialize it completely and flag it as "ready to ship".\\
 
 
 %------------------------------------------------------------------------%
@@ -799,7 +814,26 @@ This part is a in depth description of how the implemented system works, how it 
 
 \clearpage
 \section{Nursery}
+
+Because of the platform imposed for this project, which is Raspberry Pi, we had the choice between C or Python for the implementation. We choose Python as it is easier to deploy, easier to write and easier to debug. Of course, the produced software is a bit slower than if it where written in C but this is not a limitating factor in our case.
+
 \subsection{Architecture}
+
+Nursery works on top of two main features, logging and reporting. Logging allows us to keep track of Nursery outputs. For every test, a file is created to log every one of them. Each line of output have an additional property which is the level of urgency of the output. The possible levels are the following:
+
+\begin{itemize}
+\item DEBUG. Used to output values that are not vital to understand what is going on but are of absolute necessity for debuging purposes.
+\item INFO. The default output level. Simple information messages.
+\item WARNING. Used for warnings. When an expected error occurs which is not broking the system.
+\item ERROR. Error messages. For the messages that should not happen.
+\item CRITICAL. When the system is broken, this kind of message should be used.
+\end{itemize}
+
+The goal of this logging feature is to produce files that contains every single informations needed to identify the reasons of test failure and contains all the tests parameters. A lot of time was put into this feature to allow for usufell context related informations for every outputed line which, we find, is a key component for Nursery.\\
+
+On top of this logging facility, we added a reporting feature. This one is intended to update bug trackers, product tracking facilities or anything else needing informations about the status of a particular hardware or software. Typically, this is used to update a product tracking server, Redmine, used at Railnova to keep an history of what happenned in fingerprinting. When a test is done, the results is added on Redmine by saying: "Test <name> success/failure on RUG <serial number>", of course, other informations are added such as the test version, test criteria and why the test failed. This can also be used to keep track of the status of a production line. At every stage of the production line, we can update the status of the product being build with this reporting tool.\\
+
+
 \subsection{Configuration}
 \subsection{Command line tools}
 \subsection{Web-administration}

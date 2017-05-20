@@ -37,33 +37,34 @@
 \contentsline {subsection}{\numberline {4.2}Railster Universal Gateway}{34}
 \contentsline {subsection}{\numberline {4.3}Short story}{35}
 \contentsline {section}{\numberline {5}The economics of software testing}{36}
-\contentsline {part}{III\hspace {1em}Contribution}{39}
-\contentsline {section}{\numberline {6}Requirements analysis}{40}
-\contentsline {section}{\numberline {7}Testing environment}{40}
-\contentsline {section}{\numberline {8}Choices}{42}
-\contentsline {part}{IV\hspace {1em}Results}{48}
-\contentsline {section}{\numberline {9}Nursery}{49}
-\contentsline {subsection}{\numberline {9.1}Architecture}{49}
-\contentsline {subsection}{\numberline {9.2}Configuration}{49}
-\contentsline {subsection}{\numberline {9.3}Command line tools}{49}
-\contentsline {subsection}{\numberline {9.4}Web-administration}{49}
-\contentsline {part}{V\hspace {1em}Conclusion}{50}
-\contentsline {section}{\numberline {A}Abstraction of Inputs/Outputs}{52}
-\contentsline {subsection}{\numberline {A.1}About Inputs/Outputs}{52}
-\contentsline {subsection}{\numberline {A.2}Outputs}{52}
-\contentsline {subsubsection}{\numberline {A.2.1}How does it works}{53}
-\contentsline {subsubsection}{\numberline {A.2.2}Wanesy}{53}
-\contentsline {subsubsection}{\numberline {A.2.3}Log}{54}
-\contentsline {subsubsection}{\numberline {A.2.4}Miscelaneous}{54}
-\contentsline {subsection}{\numberline {A.3}Inputs}{55}
-\contentsline {subsubsection}{\numberline {A.3.1}Alimentation}{55}
-\contentsline {subsubsection}{\numberline {A.3.2}Connectivity}{56}
-\contentsline {subsection}{\numberline {A.4}The generic way}{56}
-\contentsline {subsubsection}{\numberline {A.4.1}Outputs}{56}
-\contentsline {subsubsection}{\numberline {A.4.2}Inputs}{57}
-\contentsline {section}{\numberline {B}Test cases}{58}
-\contentsline {subsection}{\numberline {B.1}Timeout check}{58}
-\contentsline {subsection}{\numberline {B.2}Date check}{58}
-\contentsline {subsection}{\numberline {B.3}Battery cycle}{59}
-\contentsline {section}{References}{61}
-\contentsline {section}{Glossary}{64}
+\contentsline {subsection}{\numberline {5.1}The Railnova Way}{39}
+\contentsline {part}{III\hspace {1em}Contribution}{40}
+\contentsline {section}{\numberline {6}Requirements analysis}{41}
+\contentsline {section}{\numberline {7}Testing environment}{41}
+\contentsline {section}{\numberline {8}Choices}{43}
+\contentsline {part}{IV\hspace {1em}Results}{49}
+\contentsline {section}{\numberline {9}Nursery}{50}
+\contentsline {subsection}{\numberline {9.1}Architecture}{50}
+\contentsline {subsection}{\numberline {9.2}Configuration}{51}
+\contentsline {subsection}{\numberline {9.3}Command line tools}{51}
+\contentsline {subsection}{\numberline {9.4}Web-administration}{51}
+\contentsline {part}{V\hspace {1em}Conclusion}{52}
+\contentsline {section}{\numberline {A}Abstraction of Inputs/Outputs}{54}
+\contentsline {subsection}{\numberline {A.1}About Inputs/Outputs}{54}
+\contentsline {subsection}{\numberline {A.2}Outputs}{54}
+\contentsline {subsubsection}{\numberline {A.2.1}How does it works}{55}
+\contentsline {subsubsection}{\numberline {A.2.2}Wanesy}{55}
+\contentsline {subsubsection}{\numberline {A.2.3}Log}{56}
+\contentsline {subsubsection}{\numberline {A.2.4}Miscelaneous}{56}
+\contentsline {subsection}{\numberline {A.3}Inputs}{57}
+\contentsline {subsubsection}{\numberline {A.3.1}Alimentation}{57}
+\contentsline {subsubsection}{\numberline {A.3.2}Connectivity}{58}
+\contentsline {subsection}{\numberline {A.4}The generic way}{58}
+\contentsline {subsubsection}{\numberline {A.4.1}Outputs}{58}
+\contentsline {subsubsection}{\numberline {A.4.2}Inputs}{59}
+\contentsline {section}{\numberline {B}Test cases}{60}
+\contentsline {subsection}{\numberline {B.1}Timeout check}{60}
+\contentsline {subsection}{\numberline {B.2}Date check}{60}
+\contentsline {subsection}{\numberline {B.3}Battery cycle}{61}
+\contentsline {section}{References}{63}
+\contentsline {section}{Glossary}{66}
