@@ -833,10 +833,150 @@ The goal of this logging feature is to produce files that contains every single 
 
 On top of this logging facility, we added a reporting feature. This one is intended to update bug trackers, product tracking facilities or anything else needing informations about the status of a particular hardware or software. Typically, this is used to update a product tracking server, Redmine, used at Railnova to keep an history of what happenned in fingerprinting. When a test is done, the results is added on Redmine by saying: "Test <name> success/failure on RUG <serial number>", of course, other informations are added such as the test version, test criteria and why the test failed. This can also be used to keep track of the status of a production line. At every stage of the production line, we can update the status of the product being build with this reporting tool.\\
 
+Each type of reporting is described by a Python file. Adding one is a very easy process that any developer can achieve. To match the correct reporting to the test being performed, we specify a product type. Those are pre-defined in a configuration file that will be described later on. Each product type maps to a particular reporting type. For example, if we say that we want to perform a test on a product of type "RailsterOS", on the software then, we can have a reporting that will send reports by mails or send them on a bug tracker.\\
+
+TODO Arch
 
 \subsection{Configuration}
+
+The whole systems is based on one configuration file. This file contains all available test for Nursery. It also contains all output providers, all batch of tests and the list of all product that can be tested matched with their corresponding reporting. An output provider is a script that everyone can writte used to provide data to the test. We used it, for example, to gather data in an online database. Those data are then send to each test as we receive them. A batch of test is just a list of test that needs to be perforemed in the given order.\\
+
+Like we say earlier, we also have a concept of product type. Each possible product type is mapped to a given reporting file using a code similar to the one shown in the listing~\ref{lst:l_product_type}. The list of "tests batches" are listed using the code of listing~\ref{lst:l_batch} and finaly, each test is defined using a code similar to the listing~\ref{lst:l_test_op}.\\
+
+Several parameters are needed to add a test. \textbf{name} and \textbf{description} are simply used to display documentation about them. \textbf{l\_product} is a list of product to wich the test applied. This is purely used to warn the user if he tries to perform a test meant for RailsterOS on a battery pack for example. The duration specify the maximum duration of the test in second. After that, the test fails automatically. Finaly, the \textbf{l\_scenario} parameter is the most important one. It specifies all the \gls{fsm} that are run in parallel to obtain the desired behavior. Most of the test used only one \gls{fsm} because it proved difficult to conceive test thinking about multiple \gls{fsm} at once. A typical case where it is usefull to run multiple \gls{fsm} at once is for timeout check. One of them checks continuously for timeout between data gathered by the output provider and the other one performs the test without having to manage this problem.\\
+
+\begin{figure}
+    \label{masterlist_op}
+    \begin{lstlisting}[frame=single,caption="Output provider configuration",label={lst:masterlist_op}]
+masterlist_op = [
+    { "type": "WANESY", "name": "WanesyProvider" },
+    { "type": "SERIAL_WANESY", "name": "SerialWanesyProvider" },
+]
+    \end{lstlisting}
+\end{figure}
+
+\begin{figure}
+    \label{l_test_op}
+    \begin{lstlisting}[frame=single,caption="Tests configuration",label={lst:l_test_op}]
+l_test = [
+    # Efficiency Vs Current
+    {
+        "name": "efficiency_vs_current",
+        "l_product": ["battpack"],
+        "description": "Test the efficiency against the current",
+        "duration": 24*3600,
+        "l_scenario": [
+            {"name": "EfficiencyVersusCurrent", "settings": {}},
+        ],
+    },
+
+    # CAT test
+    {
+        "name": "cat",
+        "description": "CAT bullshit",
+        "duration": 500,
+        "l_scenario": [
+            {"name": "ReplayBullshiter", "settings": {
+                "filename": "cat.bullshit",
+                "csv_delimiter": ",",
+                "muted": True,
+            }},
+            {"name": "CATCheck", "settings": {}},
+            {"name": "TimeoutCheck", "settings": {}},
+        ],
+    },
+
+    # Charge Battery Pack
+    {
+        "name": "chargebattpack",
+        "description": "Charge fully the battery pack",
+        "duration": 7200,
+        "l_scenario": [
+            {"name": "ChargeBattPack", "settings": {}},
+        ],
+    },
+]
+    \end{lstlisting}
+\end{figure}
+
+\begin{figure}
+    \label{l_batch}
+    \begin{lstlisting}[frame=single,caption="Batch of tests configuration",label={lst:l_batch}]
+l_batch = [
+    {
+        "name": "fingerprint",
+        "l_test": [
+            "serial",
+            "symshow",
+            "twctrl",
+            "ifconfig",
+            "qstat",
+            "1970check",
+            "gps",
+            #"timeout",
+        ]
+    },
+]
+    \end{lstlisting}
+\end{figure}
+
+\begin{figure}
+    \label{l_product_type}
+    \begin{lstlisting}[frame=single,caption="Products configuration",label={lst:l_product_type}]
+l_product_type = [
+    {
+        "type": "none",
+        "description": """
+            Applied to all hardware/software. Mainly used to disable reporting
+        """,
+        "reporting": "NoneReporting",
+    },
+    {
+        "type": "rug1",
+        "description": """
+            Railster Universal Gateway 1
+        """,
+        "reporting": "RugReporting",
+    },
+    {
+        "type": "ros",
+        "description": """
+            Railster-OS. Used for software testing
+        """,
+        "reporting": "NoneReporting",
+    },
+    {
+        "type": "battpack",
+        "description": """
+            Testing for the battery pack
+        """,
+        "reporting": "NoneReporting",
+    },
+]
+    \end{lstlisting}
+\end{figure}
+
 \subsection{Command line tools}
+
+To run Nursery, the user can use a command line tool taking several inputs. Those inputs are the following:
+
+\begin{itemize}
+\item product: Type of hardware tested
+\item serial: RUG serial number to fetch informations with ouptut providers. Needed only for \gls{rug} testing.
+\item password: Password, if any, for serial connection.
+\item log: Level of informations displayed in the log files, can be "critical", "warning", "info", "error" or "debug"
+\item quiet: Used to remove console outputs
+\item batch: Batch name to be performed. This override the \textbf{test} parameter
+\item test: Name of the test to be performed
+\item logpath: Specify where to put the resulting log file
+\item checkmaster: used to verify the configuration file. Checking if no errors where introduced
+\item report: Indicate wether or not we want to generate a report. This allows us to disable the reporting feature
+\item fqm: Shortcut to run a batch named "fingerprint" and generating reports for those tests
+\end{itemize}
+
 \subsection{Web-administration}
+
+TODO Screen1
 
 %------------------------------------------------------------------------%
 %                                                                        %

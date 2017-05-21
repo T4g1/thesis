@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016/W32TeX) (preloaded format=pdflatex 2017.4.29)  20 MAY 2017 11:10
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016/W32TeX) (preloaded format=pdflatex 2017.4.29)  21 MAY 2017 11:16
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1523,168 +1523,211 @@ Underfull \hbox (badness 10000) in paragraph at lines 834--835
 
 [50
 
-] [51]
-Underfull \hbox (badness 10000) in paragraph at lines 852--853
+]
+Underfull \hbox (badness 10000) in paragraph at lines 836--837
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 861--862
+Underfull \hbox (badness 10000) in paragraph at lines 842--843
 
  []
 
-[52
 
-] [53]
-Underfull \hbox (badness 10000) in paragraph at lines 904--905
+Underfull \hbox (badness 10000) in paragraph at lines 844--845
 
  []
 
-<../img/io_abstract.png, id=209, 360.34625pt x 312.16624pt>
+
+Underfull \hbox (badness 10000) in paragraph at lines 846--847
+
+ []
+
+[51]
+Overfull \hbox (61.19922pt too wide) in paragraph at lines 853--854
+[][][][][][][][][][][][][][][][][][][][][][][][][] 
+ []
+
+
+Overfull \hbox (68.2492pt too wide) in paragraph at lines 866--867
+[][][][][][][][][][][][][][][][][][][][][][] 
+ []
+
+
+Overfull \hbox (61.19922pt too wide) in paragraph at lines 869--870
+[][][][][][][][][][][][][][][][][][][][] 
+ []
+
+
+LaTeX Warning: Float too large for page by 36.63272pt on input line 900.
+
+
+Overfull \hbox (159.89905pt too wide) in paragraph at lines 930--931
+[][][][][][][][][][][][][][][][][][][][][][][] 
+ []
+
+[52] [53] [54] [55]
+Underfull \hbox (badness 10000) in paragraph at lines 992--993
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1001--1002
+
+ []
+
+[56
+
+] [57]
+Underfull \hbox (badness 10000) in paragraph at lines 1044--1045
+
+ []
+
+<../img/io_abstract.png, id=223, 360.34625pt x 312.16624pt>
 File: ../img/io_abstract.png Graphic file (type png)
 
 <use ../img/io_abstract.png>
-Package pdftex.def Info: ../img/io_abstract.png used on input line 908.
+Package pdftex.def Info: ../img/io_abstract.png used on input line 1048.
 (pdftex.def)             Requested size: 216.20941pt x 187.3012pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 915--916
+Underfull \hbox (badness 10000) in paragraph at lines 1055--1056
 
  []
 
-[54
+[58
 
  <../img/io_abstract.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 917--918
+Underfull \hbox (badness 10000) in paragraph at lines 1057--1058
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 921--922
+Underfull \hbox (badness 10000) in paragraph at lines 1061--1062
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 923--925
+Underfull \hbox (badness 10000) in paragraph at lines 1063--1065
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 926--927
+Underfull \hbox (badness 10000) in paragraph at lines 1066--1067
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 930--931
-
- []
-
-[55]
-Underfull \hbox (badness 10000) in paragraph at lines 937--938
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 939--940
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 946--947
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 950--951
-
- []
-
-[56] <../img/wago_module.jpg, id=220, 401.5pt x 324.21124pt>
-File: ../img/wago_module.jpg Graphic file (type jpg)
-
-<use ../img/wago_module.jpg>
-Package pdftex.def Info: ../img/wago_module.jpg used on input line 958.
-(pdftex.def)             Requested size: 240.90184pt x 194.52824pt.
- [57 <../img/wago_module.jpg>]
-Underfull \hbox (badness 10000) in paragraph at lines 971--972
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 973--974
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 977--978
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 979--980
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 981--982
-
- []
-
-[58]
-Underfull \hbox (badness 10000) in paragraph at lines 983--984
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 987--988
+Underfull \hbox (badness 10000) in paragraph at lines 1070--1071
 
  []
 
 [59]
-Underfull \hbox (badness 10000) in paragraph at lines 1009--1010
+Underfull \hbox (badness 10000) in paragraph at lines 1077--1078
 
  []
 
-<../img/graph/TimeoutCheck.png, id=230, 484.81125pt x 310.15875pt>
+
+Underfull \hbox (badness 10000) in paragraph at lines 1079--1080
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1086--1087
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1090--1091
+
+ []
+
+[60] <../img/wago_module.jpg, id=233, 401.5pt x 324.21124pt>
+File: ../img/wago_module.jpg Graphic file (type jpg)
+
+<use ../img/wago_module.jpg>
+Package pdftex.def Info: ../img/wago_module.jpg used on input line 1098.
+(pdftex.def)             Requested size: 240.90184pt x 194.52824pt.
+ [61 <../img/wago_module.jpg>]
+Underfull \hbox (badness 10000) in paragraph at lines 1111--1112
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1113--1114
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1117--1118
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1119--1120
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1121--1122
+
+ []
+
+[62]
+Underfull \hbox (badness 10000) in paragraph at lines 1123--1124
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1127--1128
+
+ []
+
+[63]
+Underfull \hbox (badness 10000) in paragraph at lines 1149--1150
+
+ []
+
+<../img/graph/TimeoutCheck.png, id=244, 484.81125pt x 310.15875pt>
 File: ../img/graph/TimeoutCheck.png Graphic file (type png)
 
 <use ../img/graph/TimeoutCheck.png>
-Package pdftex.def Info: ../img/graph/TimeoutCheck.png used on input line 1013.
+Package pdftex.def Info: ../img/graph/TimeoutCheck.png used on input line 1153.
 
 (pdftex.def)             Requested size: 290.88899pt x 186.09668pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 1022--1023
+Underfull \hbox (badness 10000) in paragraph at lines 1162--1163
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1024--1025
+Underfull \hbox (badness 10000) in paragraph at lines 1164--1165
 
  []
 
-[60
+[64
 
  <../img/graph/TimeoutCheck.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 1026--1027
+Underfull \hbox (badness 10000) in paragraph at lines 1166--1167
 
  []
 
 File: ../img/graph/TimeoutCheck.png Graphic file (type png)
 <use ../img/graph/TimeoutCheck.png>
-Package pdftex.def Info: ../img/graph/TimeoutCheck.png used on input line 1033.
+Package pdftex.def Info: ../img/graph/TimeoutCheck.png used on input line 1173.
 
 (pdftex.def)             Requested size: 290.88899pt x 186.09668pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 1040--1041
+Underfull \hbox (badness 10000) in paragraph at lines 1180--1181
 
  []
 
-[61]
+[65]
 File: ../img/graph/BatteryCycle.png Graphic file (type png)
  <use ../img/graph/BatteryCycle.png>
-Package pdftex.def Info: ../img/graph/BatteryCycle.png used on input line 1046.
+Package pdftex.def Info: ../img/graph/BatteryCycle.png used on input line 1186.
 
 (pdftex.def)             Requested size: 308.34654pt x 118.84189pt.
- [62] (./thesis.bbl
+ [66] (./thesis.bbl
 Overfull \hbox (36.89917pt too wide) in paragraph at lines 25--28
 []\OT1/cmr/m/n/12 ``Software de-vel-op-ment,'' https://en.wikipedia.org/wiki/So
 ftware[]development,
@@ -1713,7 +1756,7 @@ Underfull \hbox (badness 1286) in paragraph at lines 58--62
 com/en-
  []
 
-[63
+[67
 
 ]
 Overfull \hbox (409.07477pt too wide) in paragraph at lines 82--85
@@ -1746,7 +1789,7 @@ Underfull \hbox (badness 1874) in paragraph at lines 120--123
 ex
  []
 
-[64]
+[68]
 Overfull \hbox (36.21169pt too wide) in paragraph at lines 165--168
 []\OT1/cmr/m/n/12 ``The eco-nomics of test-ing,'' http://www.riceconsulting.com
 /public[]pdf/STBC-
@@ -1758,14 +1801,14 @@ Overfull \hbox (98.0291pt too wide) in paragraph at lines 170--173
 ki/Software[]testing#Economics,
  []
 
-) [65] (./thesis.gls) [66
+) [69] (./thesis.gls) [70
 
 ] (./thesis.aux) ) 
 Here is how much of TeX's memory you used:
- 21216 strings out of 493013
- 413060 string characters out of 6136993
- 551468 words of memory out of 5000000
- 24306 multiletter control sequences out of 15000+600000
+ 21231 strings out of 493013
+ 413297 string characters out of 6136993
+ 585548 words of memory out of 5000000
+ 24321 multiletter control sequences out of 15000+600000
  11954 words of font info for 43 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  55i,8n,78p,1938b,1422s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -1780,10 +1823,10 @@ sfonts/cm/cmr7.pfb><c:/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/c
 mr8.pfb><c:/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb><
 c:/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb><c:/texlive
 /2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmti12.pfb>
-Output written on thesis.pdf (66 pages, 892448 bytes).
+Output written on thesis.pdf (70 pages, 903129 bytes).
 PDF statistics:
- 295 PDF objects out of 1000 (max. 8388607)
- 187 compressed objects within 2 object streams
+ 308 PDF objects out of 1000 (max. 8388607)
+ 196 compressed objects within 2 object streams
  0 named destinations out of 1000 (max. 500000)
  93 words of extra memory for PDF output out of 10000 (max. 10000000)
 

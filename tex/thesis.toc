@@ -46,25 +46,25 @@
 \contentsline {section}{\numberline {9}Nursery}{50}
 \contentsline {subsection}{\numberline {9.1}Architecture}{50}
 \contentsline {subsection}{\numberline {9.2}Configuration}{51}
-\contentsline {subsection}{\numberline {9.3}Command line tools}{51}
-\contentsline {subsection}{\numberline {9.4}Web-administration}{51}
-\contentsline {part}{V\hspace {1em}Conclusion}{52}
-\contentsline {section}{\numberline {A}Abstraction of Inputs/Outputs}{54}
-\contentsline {subsection}{\numberline {A.1}About Inputs/Outputs}{54}
-\contentsline {subsection}{\numberline {A.2}Outputs}{54}
-\contentsline {subsubsection}{\numberline {A.2.1}How does it works}{55}
-\contentsline {subsubsection}{\numberline {A.2.2}Wanesy}{55}
-\contentsline {subsubsection}{\numberline {A.2.3}Log}{56}
-\contentsline {subsubsection}{\numberline {A.2.4}Miscelaneous}{56}
-\contentsline {subsection}{\numberline {A.3}Inputs}{57}
-\contentsline {subsubsection}{\numberline {A.3.1}Alimentation}{57}
-\contentsline {subsubsection}{\numberline {A.3.2}Connectivity}{58}
-\contentsline {subsection}{\numberline {A.4}The generic way}{58}
-\contentsline {subsubsection}{\numberline {A.4.1}Outputs}{58}
-\contentsline {subsubsection}{\numberline {A.4.2}Inputs}{59}
-\contentsline {section}{\numberline {B}Test cases}{60}
-\contentsline {subsection}{\numberline {B.1}Timeout check}{60}
-\contentsline {subsection}{\numberline {B.2}Date check}{60}
-\contentsline {subsection}{\numberline {B.3}Battery cycle}{61}
-\contentsline {section}{References}{63}
-\contentsline {section}{Glossary}{66}
+\contentsline {subsection}{\numberline {9.3}Command line tools}{52}
+\contentsline {subsection}{\numberline {9.4}Web-administration}{54}
+\contentsline {part}{V\hspace {1em}Conclusion}{56}
+\contentsline {section}{\numberline {A}Abstraction of Inputs/Outputs}{58}
+\contentsline {subsection}{\numberline {A.1}About Inputs/Outputs}{58}
+\contentsline {subsection}{\numberline {A.2}Outputs}{58}
+\contentsline {subsubsection}{\numberline {A.2.1}How does it works}{59}
+\contentsline {subsubsection}{\numberline {A.2.2}Wanesy}{59}
+\contentsline {subsubsection}{\numberline {A.2.3}Log}{60}
+\contentsline {subsubsection}{\numberline {A.2.4}Miscelaneous}{60}
+\contentsline {subsection}{\numberline {A.3}Inputs}{61}
+\contentsline {subsubsection}{\numberline {A.3.1}Alimentation}{61}
+\contentsline {subsubsection}{\numberline {A.3.2}Connectivity}{62}
+\contentsline {subsection}{\numberline {A.4}The generic way}{62}
+\contentsline {subsubsection}{\numberline {A.4.1}Outputs}{62}
+\contentsline {subsubsection}{\numberline {A.4.2}Inputs}{63}
+\contentsline {section}{\numberline {B}Test cases}{64}
+\contentsline {subsection}{\numberline {B.1}Timeout check}{64}
+\contentsline {subsection}{\numberline {B.2}Date check}{64}
+\contentsline {subsection}{\numberline {B.3}Battery cycle}{65}
+\contentsline {section}{References}{67}
+\contentsline {section}{Glossary}{70}
