@@ -835,7 +835,19 @@ On top of this logging facility, we added a reporting feature. This one is inten
 
 Each type of reporting is described by a Python file. Adding one is a very easy process that any developer can achieve. To match the correct reporting to the test being performed, we specify a product type. Those are pre-defined in a configuration file that will be described later on. Each product type maps to a particular reporting type. For example, if we say that we want to perform a test on a product of type "RailsterOS", on the software then, we can have a reporting that will send reports by mails or send them on a bug tracker.\\
 
-TODO Arch
+\begin{figure}
+    \centering
+    \includegraphics[scale=0.8]{class_diagram.png}
+    \caption{Class diagram of the timed state machine implementation. Each scenario is a timed state machine and each test is composed of one or many scenario.}
+    \label{class_diagram}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \includegraphics[scale=0.5]{activity_diagram.png}
+    \caption{Activity diagram of the whole test processing. A batch of test is simply a list of one or more tests.}
+    \label{activity_diagram}
+\end{figure}
 
 \subsection{Configuration}
 
