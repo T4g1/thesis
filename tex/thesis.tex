@@ -756,7 +756,7 @@ The input alphabet $\Sigma$ formally defined earlier is also problematic, how ca
 
 Now to the choice of \gls{fsm} model, why don't we simply pick the most simple case of \gls{fsm} ? The reasons are very simple, take this case: You want to be able to detect a failure that happen if you receive a given data more than 10 seconds after some given data. How can you do this ? Or even simpler, you want to detect a failure if you didn't receive any data for 30 seconds.\\
 
-All of those case requires you to create a new input type that will be the time. Say you receive this input each time a second pass. Already, it is a lot like timed state machine but lets say we want to use a pure \gls{fsm}. Now, we need to add state for each seconds passed, so if we want to wait 30 seconds, we need 30 states with 30 transitions for each seconds and 30 transitions for the event of "a data has been received" that will go back to initial state. And all of this needs to be written by someone. You can easilly see why this is impracticable. So clearly, in this case, \gls{fsm} are too limited if we want to handle this in a simple and practicable way.\\
+All of those case requires you to create a new input type that will be the time. Say you receive this input each time a second pass. Already, it is a lot like timed state machine but lets say we want to use a pure \gls{fsm}. Now, we need to add state for each seconds passed, so if we want to wait 30 seconds, we need 30 states with 30 transitions for each seconds and 30 transitions for the event of "a data has been received" that will go back to initial state. And all of this needs to be written by someone. You can easily see why this is impracticable. So clearly, in this case, \gls{fsm} are too limited if we want to handle this in a simple and practicable way.\\
 
 Now with the \gls{afa}, the complexity of implementation required by this paradigm is quite important, we need to run multiple automaton, construct execution trees and analyze them. Compared to a simple \gls{fsm} implementation, this is quite a lot of work. So is it worth it ? To answer this question, we need to find practical case where such a paradigm would become indispensable and such case should be really difficult to implement into a classic \gls{fsm} to justify choosing \gls{afa} as our main choice for the implementation of Nursery. Based on the concrete needs we add when we analyzed this possibility, we choose not to consider it as a good solution because none of the case we add prepared needed such complexity and using this would have made it difficult to design test by inexperienced users.\\
 
@@ -1081,7 +1081,7 @@ This part of the work is dedicated on describing how we managed to write simple 
 
 \subsection{About Inputs/Outputs}
 
-As we are working with a system that we feed with inputs and as we are ourselves feeded by the system's outputs, the concept of \gls{io} is a bit confusing. On the figure~\ref{io_abstract}, you can visually see why it is ambigous. So at this point, we'll simply consider that when we talk about inputs, we mean inputs of the system and when we talk about outputs, we talk of what the system produce.\\
+As we are working with a system that we feed with inputs and as we are ourselves feeded by the system's outputs, the concept of \gls{io} is a bit confusing. On the figure~\ref{io_abstract}, you can visually see why it is ambiguous. So at this point, we'll simply consider that when we talk about inputs, we mean inputs of the system and when we talk about outputs, we talk of what the system produce.\\
 
 \begin{figure}
     \centering
@@ -1094,81 +1094,81 @@ As we are working with a system that we feed with inputs and as we are ourselves
 
 Let us start with the outputs. By outputs we mean all the data produced by the \gls{rug} or, more generally speaking, all data produced by the reviewed system. Those have been abstracted with a layer of object called output providers. Their goal is to retrieve outputs from various places and feed them into Nursery as they go.\\
 
-For example, we can imagine that we want to receive some data each time the system sends data to a server, each time the system produce a sound, ect. All of this is possible as we simply need to write a script that detects that and use some kind of API to feed them througth Nursery.\\
+For example, we can imagine that we want to receive some data each time the system sends data to a server, each time the system produce a sound, etc. All of this is possible as we simply need to write a script that detects that and use some kind of API to feed them through Nursery.\\
 
 \subsubsection{How does it works}
 
-So, internally, each output provider defines a type of data it provides. For example, lets say we want to send data to nursery each time someone put a message on Twitter, we could name our data type: "TWITTER". Then, each test that is interested in data of type "TWITTER" will be subscribed to our output provider. It also allows us to ignore output providers for which no test are interested in. Practilly speaking, the only output providers rnning for a given test will be those that provide a data type usefull for the test.\\
+So, internally, each output provider defines a type of data it provides. For example, lets say we want to send data to nursery each time someone put a message on Twitter, we could name our data type: "TWITTER". Then, each test that is interested in data of type "TWITTER" will be subscribed to our output provider. It also allows us to ignore output providers for which no test are interested in. Practically speaking, the only output providers running for a given test will be those that provide a data type useful for the test.\\
 
-Our provider is bundled with a mean of communication with all scenario that are subscribed to the data type it provide. With it, we can send data to every listenner with one simple call. All the communication process is managed internally in Nursery.
-In our provider, we have a function that allows us to broadcast data to all listener. With this approach, we can write output providers for any type of data we can think of, all we have to do is defining the data type we provide and wich output provider provides it in a configuration file and then implement this output provider, that's it, now any scenario can listen to this particular data type.\\
+Our provider is bundled with a mean of communication with all scenario that are subscribed to the data type it provide. With it, we can send data to every listener with one simple call. All the communication process is managed internally in Nursery.
+In our provider, we have a function that allows us to broadcast data to all listener. With this approach, we can write output providers for any type of data we can think of, all we have to do is defining the data type we provide and which output provider provides it in a configuration file and then implement this output provider, that's it, now any scenario can listen to this particular data type.\\
 
 One limitation though is that every data type can be produced by at most one output provider. On the other hand, every output provider can produce as much data type we want if this becomes a requirement at some point.\\
 
 \subsubsection{Wanesy}
 
-The first data type we have devellop is the WANESY data type. Data of type WANESY are triggered when we receive a new paquet of data sent by \gls{railsteros} to our server online. The method to retrieve them is simply to poll a JSON generated list of message by HTTP and check timestamp of generated messages, when a newer timestamp appears, we get the message and send it into Nursery.\\
+The first data type we have develop is the WANESY data type. Data of type WANESY are triggered when we receive a new pack of data sent by \gls{railsteros} to our server online. The method to retrieve them is simply to poll a JSON generated list of message by HTTP and check timestamp of generated messages, when a newer timestamp appears, we get the message and send it into Nursery.\\
 
 Another more effective way of doing this would be by direct connection to the database but this would probably introduce security issues and is not really required for our use case. Note that it is still feasible in future version of this work.
 
 \subsubsection{Log}
 \label{subsec:log}
 
-This data type is more of Grey-Box testing as it requires a direct serial connection into the studied system so we assume that we  are working on some kind of \gls{rug} andthat we know where the log are located on it. Nevertheless, this data type ("LOG") is usefull to provide more complex information wen fault arise and also help us to design more intrusive tests.\\
+This data type is more of Grey-Box testing as it requires a direct serial connection into the studied system so we assume that we  are working on some kind of \gls{rug} and that we know where the log are located on it. Nevertheless, this data type ("LOG") is useful to provide more complex information wen fault arise and also help us to design more intrusive tests.\\
 
 So even if they are a bit out of scope here, they do not invalidate the fact that our system can work on Black-Box testing.\\
 
 To design those test, as we previously stated, we simply initiate a serial connection over the \gls{rug} and then download the file located in the log folder. Then, our script process it and send new lines into Nursery.
 
-\subsubsection{Miscelaneous}
+\subsubsection{Miscellaneous}
 \label{subsec:misc}
 
-As we talked in sub-section ~\ref{subsec:log}, we can initiate a serial communication with the \gls{rug}. Using this serial communication, we cand send command to it in an Unix environment so it's easy for us to check a lot of properties for our tests needs. Of course, this is clearly white-box testing, we know how the system is supposed to work so we can ask it if some key file are in place, if all environement variables seems to be correct, do some statistics on some values to be sure they have correct values all along our tests and things like that.\\
+As we talked in sub-section ~\ref{subsec:log}, we can initiate a serial communication with the \gls{rug}. Using this serial communication, we can send command to it in an Unix environment so it's easy for us to check a lot of properties for our tests needs. Of course, this is clearly white-box testing, we know how the system is supposed to work so we can ask it if some key file are in place, if all environment variables seems to be correct, do some statistics on some values to be sure they have correct values all along our tests and things like that.\\
 
 \subsection{Inputs}
 
-Some of our test make use of external devices to produces inputs that are feeded to the \gls{rug} or to the hardware being tested. Those devices are, for example, an alimentation module that can charge the battery of our \gls{rug}, thermic chamber that can manipulate the current temperature to stress test our hardware in extreme conditions and things like that.\\
+Some of our test make use of external devices to produces inputs that are feeded to the \gls{rug} or to the hardware being tested. Those devices are, for example, a power module that can charge the battery of our \gls{rug}, thermic chamber that can manipulate the current temperature to stress test our hardware in extreme conditions and things like that.\\
 
-We also have more direct inputs like the ethernet connection, we want to be able to disconnect or re-connect the tested process or hardware.
+We also have more direct inputs like the Ethernet connection, we want to be able to disconnect or re-connect the tested process or hardware.
 
-\subsubsection{Alimentation}
+\subsubsection{Power Management}
 
 \begin{figure}
     \centering
     \includegraphics[scale=0.6]{wago_module}
-    \caption{Module used to control the alimentation of a \gls{rug}}
+    \caption{Module used to manage the power status of a \gls{rug}}
     \label{wago}
 \end{figure}
 
-To control the alimentation, we need to send a command to a Wago module like the one of the figure~\ref{wago}. Those modules are connected via an ethernet connection thus we need to open a TCP port to communicate with it and then send a command to select which alimentation we want to control and what we want to do (power on or power off).
+To control the power status, we need to send a command to a Wago module like the one of the figure~\ref{wago}. Those modules are connected via an Ethernet connection thus we need to open a TCP port to communicate with it and then send a command to select which power supply we want to control and what we want to do (power on or power off).
 
 \subsubsection{Connectivity}
 
-Controlling the connectivity is not something we did but this is easilly done by using some advanced switch. We simply need to communicate with it and send commands to deactivate the ethernet port to which the \gls{rug} is connected.
+Controlling the connectivity is not something we did but this is easily done by using some advanced switch. We simply need to communicate with it and send commands to deactivate the Ethernet port to which the \gls{rug} is connected.
 
 \subsection{The generic way}
 
-Some techniques we mentionned, like in sub-section ~\ref{subsec:log} and sub-section ~\ref{subsec:misc}, use some kind of white-box testing. As one could expect, those techniques can only be used for one given device. We cannot initiate a serial connection with every process or hardware we want and all of them don't have the same Unix environment to dialog with.\\
+Some techniques we mentioned, like in sub-section ~\ref{subsec:log} and sub-section ~\ref{subsec:misc}, use some kind of white-box testing. As one could expect, those techniques can only be used for one given device. We cannot initiate a serial connection with every process or hardware we want and all of them don't have the same Unix environment to dialog with.\\
 
-But even the ones that applies to black-box testing can only be sepcific to some restraint set of process or hardware. Here, our techniques are all specific for \gls{rug} hardware. So every time we need to test a new kind of process or hardware, we will need to write some code to retrieve outputs and provides inputs for it. That's what we kept in mind all along this project by designing what we called \gls{op}.\\
+But even the ones that applies to black-box testing can only be specific to some restraint set of process or hardware. Here, our techniques are all specific for \gls{rug} hardware. So every time we need to test a new kind of process or hardware, we will need to write some code to retrieve outputs and provides inputs for it. That's what we kept in mind all along this project by designing what we called \gls{op}.\\
 
 \subsubsection{Outputs}
 
 \gls{op} were designed to provides asynchronous capabilities to our tests. Polling \gls{io} is a process that takes a lot of times compared to the execution time of our test. With \gls{op}, we get the data when they are ready and we don't have to wait for them by freezing all the test. Two ways of retrieving data were implemented.\\
 
-The most trivial way is simply to send data periodically to all test that needs it. The test knows he will receive data but he does not knows when. The test must be designed accordingly. This is usefull to fetch data that are not fixed like a speed, the current time or the remaining fuel for example.\\
+The most trivial way is simply to send data periodically to all test that needs it. The test knows he will receive data but he does not knows when. The test must be designed accordingly. This is useful to fetch data that are not fixed like a speed, the current time or the remaining fuel for example.\\
 
-The second way is to ask for data from the test. The call is asynchronous so you simply notify the \gls{op} that you are ready to receive some data or that you want it to fetch some data rigth now. This allows us to ask for one-time data like a serial number or other kind of data that are not supposed to change depending on the time.\\
+The second way is to ask for data from the test. The call is asynchronous so you simply notify the \gls{op} that you are ready to receive some data or that you want it to fetch some data right now. This allows us to ask for one-time data like a serial number or other kind of data that are not supposed to change depending on the time.\\
 
-So the first method is more for data you want to be able to monitor and the secnd method is more for data you will only need once.\\
+So the first method is more for data you want to be able to monitor and the second method is more for data you will only need once.\\
 
 \subsubsection{Inputs}
 
-For inputs, we simply need some software to which we can send commands so we don't need so much abstraction as for the outputs. We are not in an asynchronous system. The way to go we adopted was simply to devellop some software that accepts command and send inputs to whatever we want.\\
+For inputs, we simply need some software to which we can send commands so we don't need so much abstraction as for the outputs. We are not in an asynchronous system. The way to go we adopted was simply to develop some software that accepts command and send inputs to whatever we want.\\
 
-One example was a software we used that can control a thermic chamber. With it, we were able to control the temperature in which our \gls{rug} was evolving. And of course, we can use it for other systems too, and we did it to test other pieces of hardware.
+One example was a software we used that can control a thermionic chamber. With it, we were able to control the temperature in which our \gls{rug} was evolving. And of course, we can use it for other systems too, and we did it to test other pieces of hardware.
 
-Another example, more specific, was a software used to control a device that could apply different electric loads to any device we connected with it. This was usefull for some hardware test that had nothing to do with the \gls{rug}.
+Another example, more specific, was a software used to control a device that could apply different electric loads to any device we connected with it. This was useful for some hardware test that had nothing to do with the \gls{rug}.
 
 
 %------------------------------------------------------------------------%
@@ -1182,7 +1182,7 @@ Another example, more specific, was a software used to control a device that cou
 \clearpage
 \section{Test cases}
 
-Here we will give explanation and details on some practical cases wa had to deal with.
+Here we will give explanation and details on some practical cases we had to deal with.
 
 \subsection{Timeout check}
 
@@ -1203,7 +1203,7 @@ This test verify that the system uses the correct date. With an incorrect date s
 
 This test uses the serial connection and make uses of Unix commands directly on the system thus this is not a black-box testing processes.\\
 
-The most complicated part here is to get the serial connection, a lot of troubles can arrise while trying to log-in the system. Once we have a valid serial connection, we can simply issue a "date" command and parse the result. The date is updated through GPS/GSM antenna communication and this proces can take up to an hour so if the date is not set rigth (if the date appears to be in 1970), we simply wait an hour and then, issue the test again.\\
+The most complicated part here is to get the serial connection, a lot of troubles can arise while trying to log-in the system. Once we have a valid serial connection, we can simply issue a "date" command and parse the result. The date is updated through GPS/GSM antenna communication and this process can take up to an hour so if the date is not set right (if the date appears to be in 1970), we simply wait an hour and then, issue the test again.\\
 
 1970 is the date you get when the timestamp is not set. This is because of how Unix and timestamp systems works.
 
@@ -1216,9 +1216,9 @@ The most complicated part here is to get the serial connection, a lot of trouble
 
 \subsection{Battery cycle}
 
-We made some test that where not related to the \gls{rug}. One of those was able to charge a battery and then discharge it. The goal of this was measure the electrical levels all along those steps to determine wether or not the battery is working.\\
+We made some test that where not related to the \gls{rug}. One of those was able to charge a battery and then discharge it. The goal of this was measure the electrical levels all along those steps to determine whether or not the battery is working.\\
 
-As shown in the figure~\ref{battcycle2}, we made several cycle of charge/discharge. This particular test was designed for a piece of hardware and not for a software. This is a sufficent proof to show that our system work as well for a software thant it does for hardware.
+As shown in the figure~\ref{battcycle2}, we made several cycle of charge/discharge. This particular test was designed for a piece of hardware and not for a software. This is a sufficient proof to show that our system work as well for a software than it does for hardware.
 
 \begin{figure}
     \centering
