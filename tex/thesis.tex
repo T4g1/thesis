@@ -22,10 +22,10 @@
 \newacronym{nfa}{NFA}{Non-Deterministic Finite Automaton}
 \newacronym{io}{I/O}{Inputs/Outputs}
 \newacronym{dtmc}{DTMC}{Discrete-Time Markov chain}
-\newacronym{mdp}{MDP}{Markov decision processe}
-\newacronym{pa}{PA}{Probabilistic Automata}
+\newacronym{mdp}{MDP}{Markov decision process}
+\newacronym{pa}{PA}{Probabilistic Automaton}
 \newacronym{ctmc}{CTMC}{continuous-time Markov Chain}
-\newacronym{pta}{PTA}{Probabilistic Timed Automata}
+\newacronym{pta}{PTA}{Probabilistic Timed Automaton}
 \newglossaryentry{railsteros}
 { name=RailsterOS,
   description={A set of sub-program running on the \gls{rug} defining the behavior of it}
@@ -64,15 +64,15 @@ This paper will describe a practical case of software testing and explain all th
 
 \section{Introduction}
 
-There are a lot of available softwares nowadays but have you ever wondered where they all come from ? All of them comes from some developpement process. Those processes can last for days, months or even years before producing the expected software and during this process, some errors can be made that makes the software faulty or broken. That's why, all along this process, we need to make sure that everything is working just fine. To do that, we introduce a step in the developpement process called "testing". Without it, no complicated software will be able to do its task without problems. Of course, this testing step can be done differently depending on the overall developpement process but nevertheless, every software need to goes through that step.\\
+There are a lot of available softwares nowadays but have you ever wondered where they all come from ? All of them comes from some development process. Those processes can last for days, months or even years before producing the expected software and during this process, some errors can be made that makes the software faulty or broken. That's why, all along this process, we need to make sure that everything is working just fine. To do that, we introduce a step in the development process called "testing". Without it, no complicated software will be able to do its task without problems. Of course, this testing step can be done differently depending on the overall development process but nevertheless, every software need to goes through that step.\\
 
-Not so surprisingly, this paper is all about this particular testing step. The goal of it will be to provide a way of automating this step. As we will explain later on, providing this automatic process is of major interest in term of time gained in the developpement process and fiability for the final software. Of course, detecting all problems during tests is a really complex tasks and the process developped here will only help to reduce the risk of shipping faulty softwares and to make sure that previously encountered/corrected problems are not re-introduce between different versions of it.\\
+Not so surprisingly, this paper is all about this particular testing step. The goal of it will be to provide a way of automating this step. As we will explain later on, providing this automatic process is of major interest in term of time gained in the development process and liability for the final software. Of course, detecting all problems during tests is a really complex tasks and the process developed here will only help to reduce the risk of shipping faulty softwares and to make sure that previously encountered/corrected problems are not re-introduce between different versions of it.\\
 
-To guide us during this work, we will focus on a concrete case study that was encountered at the Railnova company in Brussels. Of course, as the goal of this work is to stay generic, we will go from the concrete example's solution to more generic solutions that can easilly be extended for any other software.\\
+To guide us during this work, we will focus on a concrete case study that was encountered at the Railnova company in Brussels. Of course, as the goal of this work is to stay generic, we will go from the concrete example's solution to more generic solutions that can easily be extended for any other software.\\
 
-Despite the fact that this paper will try yo stay generic, we will not talk about hardware testing even if we can see that as a particular case of testing in a developpement process. Despite the fact that strong timing constraint doesn't allows us to performs this hardware analysis, we think that focussing on software developpement will help the reader to get a better understanding of the principles used and developped ideas.\\
+Despite the fact that this paper will try yo stay generic, we will not talk about hardware testing even if we can see that as a particular case of testing in a development process. Despite the fact that strong timing constraint doesn't allows us to performs this hardware analysis, we think that focusing on software development will help the reader to get a better understanding of the principles used and developed ideas.\\
 
-I tried to divided this work in many big parts that introduces themself one after the other. As this topic and all the techniques involved are closely related, there will often be references to area not already covered during the sequential reading of this paper.\\
+I tried to divided this work in many big parts that introduces them-self one after the other. As this topic and all the techniques involved are closely related, there will often be references to area not already covered during the sequential reading of this paper.\\
 
 The first part of this work will describe the existing techniques in software testing and discuss of what are some of the motivations of this work to introduce \gls{fsm} and how they work. Following this, we will discuss about the work that was done, why it is an important improvement and what are the decisions that lead us to this particular implementation. Then, we will explain how we designed the testing process and finally, we will describe how our particular case was handled by explaining how we integrated every inputs and outputs of our software into our testing process. We'll also give a more summarized/generic way of doing the same work for any kind of inputs and outputs.
 
@@ -88,20 +88,20 @@ The first part of this work will describe the existing techniques in software te
 \clearpage
 \part{Preliminaries}
 
-To begin with, we will present the very basics of software testing, what are the common practices and how we uses them nowadays. This will allows us to introduce the technical terms used all along this paper. Following this technical introduction, we will present the studied case that was the starting point of this work at the Railnova company to introduce \gls{fsm}. Finaly, we will describe what is a \gls{fsm} exactly and some of its variations.
+To begin with, we will present the very basics of software testing, what are the common practices and how we uses them nowadays. This will allows us to introduce the technical terms used all along this paper. Following this technical introduction, we will present the studied case that was the starting point of this work at the Railnova company to introduce \gls{fsm}. Finally, we will describe what is a \gls{fsm} exactly and some of its variations.
 
 \clearpage
 \section{Software development and software testing}
 
-Software development is a complex area and a lot of differents processes exists but at the very last, they all have some key principles in common. One of them being the testing part. For this work to be fully understood, we need to introduce a bit of software development and then, explain which are the different techniques used in software testing. This will provide us the required technical vocabulary to describe our own testing process.
+Software development is a complex area and a lot of different processes exists but at the very last, they all have some key principles in common. One of them being the testing part. For this work to be fully understood, we need to introduce a bit of software development and then, explain which are the different techniques used in software testing. This will provide us the required technical vocabulary to describe our own testing process.
 
-Software development can be defined in a lot of differents ways, every one of them being more or less equivalent but in this work, we will focus on the basis and simply say that software development is some kind of plan to produce a given software. This plan can be more or less complex and must involves at some point, some testing steps.\\
+Software development can be defined in a lot of different ways, every one of them being more or less equivalent but in this work, we will focus on the basis and simply say that software development is some kind of plan to produce a given software. This plan can be more or less complex and must involves at some point, some testing steps.\\
 
-Software are usually ordered by a client that can be ourself, some company or any set of users~\cite{SoftwareDevelopment:2016}. Clients have needs and our task as software developer will be to fullfill them by producing a software. The client's will first be translated into requirements specifications that, to put it simply, are formal description of them. We usually create those requirements specifications during meeting with client, this requires a lot of talk to be sure that the idea we get from them is what they want.\\
+Software are usually ordered by a client that can be ourself, some company or any set of users~\cite{SoftwareDevelopment:2016}. Clients have needs and our task as software developer will be to fulfill them by producing a software. The client's will first be translated into requirements specifications that, to put it simply, are formal description of them. We usually create those requirements specifications during meeting with client, this requires a lot of talk to be sure that the idea we get from them is what they want.\\
 
-Then the software can be built. Of course, if we got the wrong requirements specifications, our software will not be what the client asked and therefore, they will want us to start again from scratch. Lets assume that those requirements are good, then, once the software is built, we want to test it to ensure that it works and that it meets the given requirements. Once those test are succesfully passed, we can ship the software to our client.\\
+Then the software can be built. Of course, if we got the wrong requirements specifications, our software will not be what the client asked and therefore, they will want us to start again from scratch. Lets assume that those requirements are good, then, once the software is built, we want to test it to ensure that it works and that it meets the given requirements. Once those test are successfully passed, we can ship the software to our client.\\
 
-This whole process, starting from the client order to the shipping of the produced software is what we call the software development process. Of course, there is not one only way of doing it even for the most simple process like this one their can be divergence of workflow from one team to another. Lets introduce some of them~\cite{IIS2:IIS202348}.
+This whole process, starting from the client order to the shipping of the produced software is what we call the software development process. Of course, there is not one only way of doing it even for the most simple process like this one their can be divergence of work-flow from one team to another. Lets introduce some of them~\cite{IIS2:IIS202348}.
 
 \subsection{Waterfall}
 
@@ -118,13 +118,13 @@ The waterfall model is probably the most basic development process still used to
 
 \end{itemize}
 
-Of course, this process is very risky and organizations tends to avoid it when possible. Between the first and the last step of it, there can be a lot of weeks, months or years ! During this time, the project needs can evolve and then, the delivered product will only match outdated requierements. Which, of course, is not a good thing for the client.\\
+Of course, this process is very risky and organizations tends to avoid it when possible. Between the first and the last step of it, there can be a lot of weeks, months or years ! During this time, the project needs can evolve and then, the delivered product will only match outdated requirements Which, of course, is not a good thing for the client.\\
 
-If some problems occurs during the writting of the product requierements, lets say that the client forgot to talk about a key feature. Then, again, the product we will deliver will miss that feature. Producing the wrong product is really a big problem of this methodology.\\
+If some problems occurs during the writing of the product requirements, lets say that the client forgot to talk about a key feature. Then, again, the product we will deliver will miss that feature. Producing the wrong product is really a big problem of this methodology.\\
 
-Despites those well known problems, there is still a lot of qualities to this process. As the first steps are strongly related to documentation of the product, if a team member leaves during the process, we have less risk of loosing knowledge of what has been done or what is left to do. New team members will simply need to read the requierements, the produced models and the software architecture.\\
+Despites those well known problems, there is still a lot of qualities to this process. As the first steps are strongly related to documentation of the product, if a team member leaves during the process, we have less risk of loosing knowledge of what has been done or what is left to do. New team members will simply need to read the requirements, the produced models and the software architecture.\\
 
-This process is also one of the most easiest to understand, every step of the project is well documented and one can easily jump in any project using this methodology and be ready to participate in a realy small amount of time.\\
+This process is also one of the most easiest to understand, every step of the project is well documented and one can easily jump in any project using this methodology and be ready to participate in a very small amount of time.\\
 
 \begin{figure}
     \centering
@@ -135,27 +135,27 @@ This process is also one of the most easiest to understand, every step of the pr
 
 \subsection{Prototyping}
 
-Sometimes, you want to produce a product as soon as possible so you can conquer the market sooner. In that case, the waterfall approach is not gonna be very usefull. The prototyping process though, can help you towards this goal.\\
+Sometimes, you want to produce a product as soon as possible so you can conquer the market sooner. In that case, the waterfall approach is not gonna be very useful The prototyping process though, can help you towards this goal.\\
 
-The idea is to produce some prototype as soon as possible, test it and then, iterate over it again and again until the final product is fully functionnal. It is a trial-and-error process. This works especially well when the final product requierements are not fully known. By presenting a prototype to the client, he is able to give feedbacks and explain the following most wanted features. Like for the waterfall model, we have a plan for the whole process:\\
+The idea is to produce some prototype as soon as possible, test it and then, iterate over it again and again until the final product is fully functional It is a trial-and-error process. This works especially well when the final product requirements are not fully known. By presenting a prototype to the client, he is able to give feedbacks and explain the following most wanted features. Like for the waterfall model, we have a plan for the whole process:\\
 
 The whole product is divided into as many sub-product as needed. Each of those division will be prototyped on top of the last ones until we get the final product.\\
 
 \begin{itemize}
 
-\item System requierements are defined in as much details as possible.
+\item System requirements are defined in as much details as possible.
 \item A first design is created.
 \item The first prototype is created.
 \item Client reviews the prototype.
-\item Devellopers change the prototype accordingly.
+\item Developers change the prototype accordingly.
 \item We repeat those steps as many times as needed.
 \item The final product is constructed based on the last prototype.
 
 \end{itemize}
 
-Using this model, the probability to deliver a product that does not meet the client requierements is very small as he can give a feedback throughout the whole developement process. But there are some drawbacks to that.\\
+Using this model, the probability to deliver a product that does not meet the client requirements is very small as he can give a feedback throughout the whole development process. But there are some drawbacks to that.\\
 
-Focussing on small sub-problems/sub-features distracts the developers from conducting a good and in depth analysis. This is also due to the lack of fully specified requierements from the start. Adding more and more features on top of existing ones can quickly create a complicated product both difficult to maintain and improve.\\
+Focusing on small sub-problems/sub-features distracts the developers from conducting a good and in depth analysis. This is also due to the lack of fully specified requirements from the start. Adding more and more features on top of existing ones can quickly create a complicated product both difficult to maintain and improve.\\
 
 \begin{figure}
     \centering
@@ -185,7 +185,7 @@ Agile Software Development is based on twelve principles:
 
 \end{itemize}
 
-There exists many different frameworks that complies to those principles. One of the most comonly used is Scrum~\cite{ScrumAlliance:2017}. With this framework, we work using sprints. A sprint is the basic unit of development in Scrum. The team fixes the timeframe during which the sprint must be done and then, fixes the scope of work that needs to be done during a Sprint Planning event.\\
+There exists many different frameworks that complies to those principles. One of the most commonly used is Scrum~\cite{ScrumAlliance:2017}. With this framework, we work using sprints. A sprint is the basic unit of development in Scrum. The team fixes the time-frame during which the sprint must be done and then, fixes the scope of work that needs to be done during a Sprint Planning event.\\
 
 At the end of each day, the team holds a Daily Scrum to answer the following questions:
 
@@ -197,7 +197,7 @@ At the end of each day, the team holds a Daily Scrum to answer the following que
 
 \end{itemize}
 
-Finaly, at the end of the sprint period, the team holds a Sprint Retrospective to answer the following questions:
+Finally, at the end of the sprint period, the team holds a Sprint Retrospective to answer the following questions:
 
 \begin{itemize}
 
@@ -206,12 +206,12 @@ Finaly, at the end of the sprint period, the team holds a Sprint Retrospective t
 
 \end{itemize}
 
-This allows for a very dynamic development process in which no ones get stuck too long on innefective or impossible processes.
+This allows for a very dynamic development process in which no ones get stuck too long on ineffective or impossible processes.
 
 \begin{figure}
     \centering
     \includegraphics[scale=0.4]{scrum.png}
-    \caption{Schema of the Scrum Framewrok. One of the most effective development process. This is only an example, the sprint duration is not always 30 days.}
+    \caption{Schema of the Scrum Framework One of the most effective development process. This is only an example, the sprint duration is not always 30 days.}
     \label{Scrum}
 \end{figure}
 
@@ -219,7 +219,7 @@ This allows for a very dynamic development process in which no ones get stuck to
 
 Now that we have settled down our requirements specifications, we need to introduces the validation and verification topic. Validation and verification is what we use to make sure that our software is meeting the previously specified requirements. In short, that our software is exactly what we specified. Failing to this would produce a software that will maybe not meet the clients requirements and, therefore, be of little or no use to him.\\
 
-Both concepts are closely related but are completely independant. Software validation is a procedure used to ensure that the software meets the user's needs and that the specifications were correct while software verification is a procedure used to ensure that the software follows the specified requirements~\cite{VnV:2016}. Following is a more formal definition:
+Both concepts are closely related but are completely independent Software validation is a procedure used to ensure that the software meets the user's needs and that the specifications were correct while software verification is a procedure used to ensure that the software follows the specified requirements~\cite{VnV:2016}. Following is a more formal definition:
 
 \begin{itemize}
 
@@ -228,11 +228,11 @@ Both concepts are closely related but are completely independant. Software valid
 
 \end{itemize}
 
-Simply put, validation is answering to "Are we trying to build the right thing ?" whil verification is answering to "Have we made what we were trying to make ?". Of course, in our case, we are more interested in the verification part and we will leave the validation part out of this work. We will assume that the requirements are correct and therefore that if we follow them, the built software will be the one our client wants.
+Simply put, validation is answering to "Are we trying to build the right thing ?" while verification is answering to "Have we made what we were trying to make ?". Of course, in our case, we are more interested in the verification part and we will leave the validation part out of this work. We will assume that the requirements are correct and therefore that if we follow them, the built software will be the one our client wants.
 
 \subsection{Code coverage}
 
-Code coverage is a metrics used in software testing that basically tells you how much of your code has been tested. It can be computed on many differents criteria like how many subroutines have been called, how many line of code have been interpreted and so on.\\
+Code coverage is a metrics used in software testing that basically tells you how much of your code has been tested. It can be computed on many different criteria like how many subroutines have been called, how many line of code have been interpreted and so on.\\
 
 The idea behind this metric usage is that, if all of your code is tested, then there is probably no bugs left, or at least, there is a good probability that we will encounter less bug in a completely tested software than in an untested one. Getting a good code coverage is therefore a key point in testing as it improve the software quality by reducing the probability of faults left in it~\cite{TestingForContinuousDelivery:2016}.
 
@@ -244,9 +244,9 @@ With black-box testing, also known as functional testing, we consider the softwa
 
 Both of those approaches have their own advantages and drawbacks. In white-box testing, the tester is testing functionalities that are already developed and he can miss needed features that have been forgotten. He has a very good code coverage as he can produce test cases for every specific details by reading the code. White-box provides an internal perspective of the software.\\
 
-Black-box testing, on the other hand, provides another point-of-view and does not requires a deep knowledges of the code to operate. Test cases are designed following the requirements and not the code itself so if all the tests are succesful and that all the requirements are entierly covered by the designed test, we have a proof that our software meets the requirements.\\
+Black-box testing, on the other hand, provides another point-of-view and does not requires a deep knowledges of the code to operate. Test cases are designed following the requirements and not the code itself so if all the tests are successful and that all the requirements are entirely covered by the designed test, we have a proof that our software meets the requirements.\\
 
-White-box testing is more or less done by developpers themselves while black-box testing can be performed by anyone with poor programing skills. Code coverage can not be used while doing black-box testing for the obvious reason that you dont know what is done internally so you dont know what part of the software code is interpreted.
+White-box testing is more or less done by developers themselves while black-box testing can be performed by anyone with poor programing skills. Code coverage can not be used while doing black-box testing for the obvious reason that you don't know what is done internally so you don't know what part of the software code is interpreted.
 
 \subsubsection{Grey-box testing}
 
@@ -254,11 +254,11 @@ There is also a third option there which is called "Grey-Box testing". We are do
 
 \subsection{Static and Dynamic testing}
 
-Two other terms used in software testing are static and dynamic testing. Static testing is the process of reviewing something that is not running. For example, some compilers (like gcc) perform static testing by finding unafected variables, unused variables, dead code, syntax errors and so on. Dynamic testing, on the other hand, is performed while the program is running.
+Two other terms used in software testing are static and dynamic testing. Static testing is the process of reviewing something that is not running. For example, some compilers (like gcc) perform static testing by finding unaffected variables, unused variables, dead code, syntax errors and so on. Dynamic testing, on the other hand, is performed while the program is running.
 
 \subsection{Type of testing}
 
-There exists a lot of different types of software testing, explaining them all is way out of the boundaries of this work so we have choosen 6 of them that are closely related and can be spanned on a whole software devellopement process~\cite{Laurie.W:Black-box}.
+There exists a lot of different types of software testing, explaining them all is way out of the boundaries of this work so we have chosen 6 of them that are closely related and can be spanned on a whole software development process~\cite{Laurie.W:Black-box}.
 
 \subsubsection{Unit testing}
 
@@ -279,9 +279,9 @@ Integration testing is the phase in software testing in which individual softwar
 \subsubsection{Functional testing}
 
 Scope: Black-box testing\\
-Who: Independant tester\\
+Who: Independent tester\\
 
-Functional testing is about testing each functionality of the whole system as described in the requirments.
+Functional testing is about testing each functionality of the whole system as described in the requirements
 
 Functional testing tests a slice of functionality of the whole system. Functional testing does not imply that you are testing a function/method of your module or class. If the functionalities wanted are:
 \begin{enumerate}
@@ -295,12 +295,12 @@ Then you will have test cases that try to add clients, another one that try to s
 \subsubsection{System testing}
 
 Scope: Black-box testing\\
-Who: Independant tester\\
+Who: Independent tester\\
 
 System testing involves putting the new program in many different environments to ensure the program works in typical customer environments with various versions and types of operating systems and/or applications~\cite{Laurie.W:Black-box}. System testing is testing conducted on a complete, integrated system to evaluate the
 system compliance with its specified requirements~\cite{IEEEStd1990}.\\
 
-This is especialy relevant in computer science where every computer is built from different component and can have many different operating systems. To perform system testing, you will usualy run the program on different operating systems (Unix based systems or DOS based systems) and also on different hardware configuration. Of course, testing every possible combination is not possible so some exotic systems can still prove themselves unable to run the program after this steps. Of course, if your program is built to run on a specific pre-defined system, this testing will be really straigthforward.
+This is very relevant in computer science where every computer is built from different component and can have many different operating systems. To perform system testing, you will usually run the program on different operating systems (Unix based systems or DOS based systems) and also on different hardware configuration. Of course, testing every possible combination is not possible so some exotic systems can still prove themselves unable to run the program after this steps. Of course, if your program is built to run on a specific pre-defined system, this testing will be really straightforward
 
 \subsubsection{Acceptance testing}
 
@@ -309,16 +309,16 @@ Who: Client\\
 
 Acceptance testing is formal testing conducted to determine whether or not a system satisfies its acceptance criteria (the criteria the system must satisfy to be accepted by a customer) and to enable the customer to determine whether or not to accept the system. More formally, the system is tested to verify that it meets the given specifications or contract.\\
 
-Usually, the user will provide some test or use case for each desired functionality. You can add your own test to those but at least the client test must be statisfied before trying to deploy the product otherwise the client will probably not even try the product.
+Usually, the user will provide some test or use case for each desired functionality. You can add your own test to those but at least the client test must be satisfied before trying to deploy the product otherwise the client will probably not even try the product.
 
 \subsubsection{Regression testing}
 
 Scope: Black-box and white-box testing\\
 Who: Coder\\
 
-Regression testing is a type of software testing used to ensure that a software that was previously developed and tested still meets the previously defined requirments after a modification has been introduced into it such as a bug fixes or enhancements. The purpose is to make sure that the newly introduced modifications do not damage any previously-working functionality.\\
+Regression testing is a type of software testing used to ensure that a software that was previously developed and tested still meets the previously defined requirements after a modification has been introduced into it such as a bug fixes or enhancements. The purpose is to make sure that the newly introduced modifications do not damage any previously-working functionality.\\
 
-Practically speaking, we will only add new test when we are adding new functionalities and we will remove test only when the functionnality covered is no longer needed or maintained. Then, if all the tests are still running without error on our new software, we will assume that previously developed functionality still works.
+Practically speaking, we will only add new test when we are adding new functionalities and we will remove test only when the functionality covered is no longer needed or maintained. Then, if all the tests are still running without error on our new software, we will assume that previously developed functionality still works.
 
 \subsubsection{Beta testing}
 
@@ -345,7 +345,7 @@ Requirements-based testing is exactly what we are trying to do with black-box te
 \clearpage
 \section{Formal Verification and Model Checking}
 
-Our goal is to be able to verify that any kind of product, software or hardware, is working as expected. Formal verification can help us to achieve this goal. It is a process that allows us to check wether or not a given model satisfies given properties. You can, for example, create a model of a given software and verify that it does not contains bug. To be able to do that, both the model and the specification must be formaly described in a mathematical language. Let's introduce \gls{fsm} which is the generalization of every system's modeling.\\
+Our goal is to be able to verify that any kind of product, software or hardware, is working as expected. Formal verification can help us to achieve this goal. It is a process that allows us to check whether or not a given model satisfies given properties. You can, for example, create a model of a given software and verify that it does not contains bug. To be able to do that, both the model and the specification must be formally described in a mathematical language. Let's introduce \gls{fsm} which is the generalization of every system's modeling.\\
 
 
 %------------------------------------------------------------------------%
@@ -358,13 +358,13 @@ Our goal is to be able to verify that any kind of product, software or hardware,
 
 \subsection{Finite State Machine}
 
-A \gls{fsm} is a mathematical model of computation. It is a mathematical structure used to provide an abstract description of the behavior of a system. This mathematical structure is composed of a list of state. There is usualy a state for each possible 'state' of the system's memory and thus, we will only talk about finite state machine because the system we try to describe is made of finite memory and because of that, it can only have a finite set of state which is a function of it's internal memory.\\
+A \gls{fsm} is a mathematical model of computation. It is a mathematical structure used to provide an abstract description of the behavior of a system. This mathematical structure is composed of a list of state. There is usually a state for each possible 'state' of the system's memory and thus, we will only talk about finite state machine because the system we try to describe is made of finite memory and because of that, it can only have a finite set of state which is a function of it's internal memory.\\
 
 For example, if we try to represent a system with only 8 bits of memory, we can only have $2^8 = 256$ states.\footnote{A bit or binary digit can only take one of two possible values often represented as $0$ and $1$.}
 
 A \gls{fsm} can be in exactly one of a finite number of states at any given time. The FSM can change from one state to another in response to some external inputs. The function that maps state and inputs to states is called a transition. A FSM is defined by its list of states, its initial state, the input alphabet and a set of transitions~\cite{FSM:2017}.\\
 
-The input alphabet is the list of every symbol it can receive in any given state. For example, an input alphabet could be a list of keyboard's key if we consider a \gls{fsm} that simulates the behavior of a text editor.The key points here are that you need to have a finite set of state and a finite set of transitions.\\
+The input alphabet is the list of every symbol it can receive in any given state. For example, an input alphabet could be a list of keyboard's key if we consider a \gls{fsm} that simulates the behavior of a text editor. The key points here are that you need to have a finite set of state and a finite set of transitions.\\
 
 More formally speaking, a \gls{fsm} is a quintuple $(\Sigma, S, s_{0},\delta, F)$ where:
 
@@ -384,9 +384,9 @@ To this, we need to apply the following rules:
 \item $F$ is a subset of $S$ and can be empty
 \end{itemize}
 
-Because of those rules, a transition function can start and end in the same state, thus creating a loop on the state. $\delta$ is conventionaly allowed to be a partial function. This means that $\delta(s, e)$ does not needs to be defined for every possible combination of $s \in S$ and $e \in \Sigma$. This allows us to have a finite $\delta$ transition function even when the input alphabet $\Sigma$ is not finite or defined.\footnote{This is crucial for our practical case describe later on.}
+Because of those rules, a transition function can start and end in the same state, thus creating a loop on the state. $\delta$ is conventionally allowed to be a partial function. This means that $\delta(s, e)$ does not needs to be defined for every possible combination of $s \in S$ and $e \in \Sigma$. This allows us to have a finite $\delta$ transition function even when the input alphabet $\Sigma$ is not finite or defined.\footnote{This is crucial for our practical case describe later on.}
 
-About the input alphabet, we usualy define every input as a character or token read on the input tape of the \gls{fsm}. Where the input tape is a sequential list of every symbols feed into the system. This is a lot like a Turing Machine.
+About the input alphabet, we usually define every input as a character or token read on the input tape of the \gls{fsm}. Where the input tape is a sequential list of every symbols feed into the system. This is a lot like a Turing Machine.
 
 \subsubsection{Acceptors}
 
@@ -403,17 +403,17 @@ An acceptor takes a set of input from the input alphabet and run a \gls{fsm} on 
 
 A \gls{nfa} is a kind of \gls{fsm} in which transition does not requires the reading of an input symbols. We can take transitions from one state to another without looking at the input tape. The decision of taking such a transition is done in a non-deterministic way. And some transition can also lead to more than one state. So reading a given symbol $x$ in state $q1$ can lead to $q2$ or $q3$ for example (see figure~\ref{nfa}).~\cite{FA-DecisionProblems:1959}
 
-Formaly speaking, we represent a \gls{nfa} with a 5-tuple, $(Q, \Sigma, \Delta, q_0, F)$ where:
+Formally speaking, we represent a \gls{nfa} with a 5-tuple, $(Q, \Sigma, \Delta, q_0, F)$ where:
 
 \begin{itemize}
 \item $Q$ is the finite set of states
 \item $\Sigma$ is the input alphabet
-\item $\Delta$ is the transition-function $\Delta: Q \times \Sigma \rightarrow P(Q)$ where $P(Q)$ is the powerset of $Q$
+\item $\Delta$ is the transition-function $\Delta: Q \times \Sigma \rightarrow P(Q)$ where $P(Q)$ is the power-set of $Q$
 \item $q_0$ is the initial state with $q_0 \in Q$
 \item $F$ is the set of accepting states where $F \subseteq Q$
 \end{itemize}
 
-In a \gls{nfa}, the input alphabet $\Sigma$ usualy contains a special symbol for representing a transition that can be taken without reading the next input symbol on the tape. This symbol is $\epsilon$.\\
+In a \gls{nfa}, the input alphabet $\Sigma$ usually contains a special symbol for representing a transition that can be taken without reading the next input symbol on the tape. This symbol is $\epsilon$.\\
 
 \begin{figure}
     \centering
@@ -461,9 +461,9 @@ In an \gls{afa}, transition are more complex than those we encountered in tradit
     \label{afa}
 \end{figure}
 
-The introduction of those new transition type introduce a lot of complexity in the computation of the automaton. When we take an AND transition, we need to run a second automaton in parallel for each state the transition leads to and when we ecounter an OR transition, we behave like a non-deterministic automaton by taking one of the possibilities non-deterministicaly.\\
+The introduction of those new transition type introduce a lot of complexity in the computation of the automaton. When we take an AND transition, we need to run a second automaton in parallel for each state the transition leads to and when we encounter an OR transition, we behave like a non-deterministic automaton by taking one of the possibilities non-deterministically.\\
 
-Thus the computation of such an automaton is now a tree. And deciding wether or not an \gls{afa} accepts a word $w$ if there exists a run tree on $w$ such that every path ends in an accepting state.~\cite{AFA:2017}\\
+Thus the computation of such an automaton is now a tree. And deciding whether or not an \gls{afa} accepts a word $w$ if there exists a run tree on $w$ such that every path ends in an accepting state.~\cite{AFA:2017}\\
 
 \subsubsection{Timed Finite State Machine}
 
@@ -492,13 +492,13 @@ This particular type of Markov Model is the simplest one. Probabilities are not 
     \label{MarkovModel}
 \end{figure}
 
-\subsubsection{Probabilistic Timed Automata}
+\subsubsection{Probabilistic Timed Automaton}
 
 Those kind of \gls{fsm} can be seen as Timed \gls{fsm} in which we added probabilistic transition like the ones used in a Markov Model.
 
 \subsubsection{Others}
 
-We can imagine a lot of other type of \gls{fsm}. For example, we discussed the possibility to mix timed automaton and alternate automaton. Such an automaton would need its own formal mathematical description and anylizis to make sure that it can succesfully be used to solve given problems.\\
+We can imagine a lot of other type of \gls{fsm}. For example, we discussed the possibility to mix timed automaton and alternate automaton. Such an automaton would need its own formal mathematical description and analysis to make sure that it can successfully be used to solve given problems.\\
 
 The final choice we made is such a \gls{fsm} but we will describe it formally later on.
 
@@ -515,22 +515,22 @@ One of the first question one should ask is how is model checking and formal ver
     \label{UPPAAL}
 \end{figure}
 
-The first software we came accross while searching for such applications was UPPAL. UPPAAL is a rather complete tool to work on model checking and formal verification. With it, one can modelize a system, simulate and verify it. All the three steps in only one tool~\cite{Bengtsson1996}~\cite{Behrmann2004}~\cite{Larsen1997}.\\
+The first software we came across while searching for such applications was UPPAL. UPPAAL is a rather complete tool to work on model checking and formal verification. With it, one can modelize a system, simulate and verify it. All the three steps in only one tool~\cite{Bengtsson1996}~\cite{Behrmann2004}~\cite{Larsen1997}.\\
 
-UPPAAL was a great source of inspiration for some features of our own tool. We where specificaly interested with the simulation tools wich allows to navigate through the execution steps and visualizing what is going on with the model of our system. Also, UPPAAL uses \gls{fsm} which conforted us in our choice of such tool.\\
+UPPAAL was a great source of inspiration for some features of our own tool. We where specifically interested with the simulation tools which allows to navigate through the execution steps and visualizing what is going on with the model of our system. Also, UPPAAL uses \gls{fsm} which comforted us in our choice of such tool.\\
 
 \subsubsection{PRISM}
 
 \begin{figure}
     \centering
     \includegraphics[scale=0.6]{PRISM_model.png}
-    \caption{Example of model used by PRISM. This model was generated usign the lines of code in figure~\ref{PRISM_code}.}
+    \caption{Example of model used by PRISM. This model was generated using the lines of code in figure~\ref{PRISM_code}.}
     \label{PRISM_model}
 \end{figure}
 
-We where also interested by PRISM, which is a tool for modelization and verification of probabilistic systems. PRISM supports different kind of probabilistic models like \gls{dtmc}, \gls{mdp}, \gls{pa}, \gls{ctmc} and \gls{pta}.\footnote{Probabilistic Automata are Markov Chains that also supports deterministic transitions.}~\cite{Kwiatkowska2011}~\cite{Hinton2006}\\
+We where also interested by PRISM, which is a tool for modelization and verification of probabilistic systems. PRISM supports different kind of probabilistic models like \gls{dtmc}, \gls{mdp}, \gls{pa}, \gls{ctmc} and \gls{pta}.\footnote{Probabilistic Automaton are Markov Chains that also supports deterministic transitions.}~\cite{Kwiatkowska2011}~\cite{Hinton2006}\\
 
-PRISM uses a uniform modelling language for all the probabilistic models that it supports. This is a textual language, based on guarded command notation. See figure~\ref{PRISM_model}, this model was generated using the following lines of code:
+PRISM uses a uniform modeling language for all the probabilistic models that it supports. This is a textual language, based on guarded command notation. See figure~\ref{PRISM_model}, this model was generated using the following lines of code:
 
 \begin{figure}
     \label{PRISM_code}
@@ -570,14 +570,14 @@ Again, this tools uses \gls{fsm} to modelize different systems.
 \clearpage
 \part{Case study}
 
-Now that you now what software testing and \gls{fsm} are all about, lets introduce the case that is of interest to us, namely, Nursery ! I'll first introduce the Railnova enterprise and the system we will work with all along this paper. Then I will explain why this work is of critical importance for them and generaly speaking, for every software development process.
+Now that you now what software testing and \gls{fsm} are all about, lets introduce the case that is of interest to us, namely, Nursery ! I'll first introduce the Railnova enterprise and the system we will work with all along this paper. Then I will explain why this work is of critical importance for them and generally speaking, for every software development process.
 
 \clearpage
 \section{Railnova}
 
 This work is done in partnership with Railnova. Railnova is a technology company that provides telematics and software solutions to the railway industry. Their headquarter is located in Brussels and they count approximatively 30 employees. Some of them coming from the ULB/VUB.\\
 
-The main goal of this work is to develop a better testing suite for their embedded software called \gls{railsteros}. Of course, the developed solution will not be limited to a particullar software and our scope is a lot wider than that. Our solution will be considered successful if it meets the following requierements:
+The main goal of this work is to develop a better testing suite for their embedded software called \gls{railsteros}. Of course, the developed solution will not be limited to a particular software and our scope is a lot wider than that. Our solution will be considered successful if it meets the following requirements:
 
 \begin{itemize}
 \item The system can be used by non-developers
@@ -587,13 +587,13 @@ The main goal of this work is to develop a better testing suite for their embedd
 
 \subsection{Existing system}
 
-\gls{railsteros} is a software developed at Railnova which purpose is to collect and stream data from a train to a server. This data is then processed to give various insigths about the train status. Thus allowing Railnova's client to manage their fleet with ease.\\
+\gls{railsteros} is a software developed at Railnova which purpose is to collect and stream data from a train to a server. This data is then processed to give various insights about the train status. Thus allowing Railnova's client to manage their fleet with ease.\\
 
 The \gls{railsteros} is executed on a dedicated hardware also built by Railnova which is called \gls{rug}. Those \gls{rug} are mainly installed in trains in Germany, France, Belgium, Netherlands and Spain at the time this work was written. More specifically, the \gls{rug} is installed in the engine of trains.\\
 
 This dedicated hardware provides a lot of data from the train. We can access informations like remaining fuel (if it is not an electrical engine), the total running time since last power on of the engine, where is the engine located, current speed if the engine is moving and all the data that the client wants to access remotely.\\
 
-Every engine is more or less unique. They can use a wide range of different component and thus have different parameters like their maximal speed when loaded or not, the maximal weigth they can carry or even the number of wheels the engine uses. Because of that \gls{railsteros} need to accept a wide range of different configuration so we don't stream fuel remaining if we are on an electrical engine for example. We can also have two kinds of motors that give information about their speed without using the same type of cable or protocol. To achieve this flexibility, we allow \gls{railsteros} to start only a subset of its internal software using some configuration files. All this software's modules, which we call \gls{daemons}, are small applications used to interface with a given protocol. For example, we have one deamon that is dedicated to GPS location's informations. The set of deamon we use, which is defined in the configuration files, defines what type of engine we can handle and what operations we can do.\\
+Every engine is more or less unique. They can use a wide range of different component and thus have different parameters like their maximal speed when loaded or not, the maximal weight they can carry or even the number of wheels the engine uses. Because of that \gls{railsteros} need to accept a wide range of different configuration so we don't stream fuel remaining if we are on an electrical engine for example. We can also have two kinds of motors that give information about their speed without using the same type of cable or protocol. To achieve this flexibility, we allow \gls{railsteros} to start only a subset of its internal software using some configuration files. All this software's modules, which we call \gls{daemons}, are small applications used to interface with a given protocol. For example, we have one daemon that is dedicated to GPS location's informations. The set of daemon we use, which is defined in the configuration files, defines what type of engine we can handle and what operations we can do.\\
 
 To retrieve all those informations, we need to use different communication protocols and wires because engines built by different companies will have different behaviors and communication protocols. All of them, we will call interfaces. Each of those interface needs proper test that relies on the used protocol, we want to be able to describe our needs by saying things like "I want this particular data when I receive this kind of message on this interface". As there is a lot of them, this will take time to implement proper testing for all of them so we will only cover a subset of them in this paper but we will provide a generic way of implementing test for them all.
 
@@ -601,9 +601,9 @@ To retrieve all those informations, we need to use different communication proto
 
 As stated before, \gls{railsteros} is running on \gls{rug}. Those hardware are built by Railnova. Actually, the majority of them are in their first version (RUG1) but the RUG2 is on its way. It is important to keep that in mind to understand why we tried to keep this work as generic as possible. Indeed, in a year, maybe less, the majority of the product used will be RUG2 so if the system can only work for a dedicated and specific hardware, we will need to start over all this work for the RUG2.\\
 
-\gls{railsteros} is being develloped incrementally since the start of the company. It means that the software is kind of messy with all the new features coming in and the old ones being deprecated or deleted. Actualy, there is more than 10 different versions of the software in production and those are not the only exisiting versions.\\
+\gls{railsteros} is being developed incrementally since the start of the company. It means that the software is kind of messy with all the new features coming in and the old ones being deprecated or deleted. Actually, there is more than 10 different versions of the software in production and those are not the only existing versions.\\
 
-It is frequent to encounter new bug after the release of a new version that were supposed to be fixed since earlier versions simply because the new changes re-introduced the problem. This is mainly because Railnova is a young company, a start-up, and the work priority are realy end-user scheduled. If a system stop working, a quick fix is developed and pushed to production as fast as possible to avoid loosing too much money but the cost on the long run for this operation can be greater than what we saved by fixing the problem quickly.\\
+It is frequent to encounter new bug after the release of a new version that were supposed to be fixed since earlier versions simply because the new changes re-introduced the problem. This is mainly because Railnova is a young company, a start-up, and the work priority are very end-user scheduled. If a system stop working, a quick fix is developed and pushed to production as fast as possible to avoid loosing too much money but the cost on the long run for this operation can be greater than what we saved by fixing the problem quickly.\\
 
 Say that the problem is fixed by a quick and dirty patch. Then, one year later maybe, a major problem arise because all the fixes deployed are preventing us from adding wanted features. Then, the whole system is to be re-developed from the start. That was what hapenned when they tried to put \gls{railsteros} on the RUG2. RUG1 was developed the quick and dirty way to be on the market as soon as possible. So a lot of concepton errors were made. The software had been modified to a point where it needed all those conception errors from the RUG1 to operate correctly.\\
 
