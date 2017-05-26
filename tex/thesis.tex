@@ -605,22 +605,22 @@ As stated before, \gls{railsteros} is running on \gls{rug}. Those hardware are b
 
 It is frequent to encounter new bug after the release of a new version that were supposed to be fixed since earlier versions simply because the new changes re-introduced the problem. This is mainly because Railnova is a young company, a start-up, and the work priority are very end-user scheduled. If a system stop working, a quick fix is developed and pushed to production as fast as possible to avoid loosing too much money but the cost on the long run for this operation can be greater than what we saved by fixing the problem quickly.\\
 
-Say that the problem is fixed by a quick and dirty patch. Then, one year later maybe, a major problem arise because all the fixes deployed are preventing us from adding wanted features. Then, the whole system is to be re-developed from the start. That was what hapenned when they tried to put \gls{railsteros} on the RUG2. RUG1 was developed the quick and dirty way to be on the market as soon as possible. So a lot of concepton errors were made. The software had been modified to a point where it needed all those conception errors from the RUG1 to operate correctly.\\
+Say that the problem is fixed by a quick and dirty patch. Then, one year later maybe, a major problem arise because all the fixes deployed are preventing us from adding wanted features. Then, the whole system is to be re-developed from the start. That was what happened when they tried to put \gls{railsteros} on the RUG2. RUG1 was developed the quick and dirty way to be on the market as soon as possible. So a lot of conception errors were made. The software had been modified to a point where it needed all those conception errors from the RUG1 to operate correctly.\\
 
 \subsection{Short story}
 
 Some of the \gls{rug} were experiencing troubleshoot during then end of fall 2016. 8\% of the fleet had to be replaced by the team for unknown reasons. After a bit of testing, some members of the team thought that it could come from an unexpected electrical over-consumption of the \gls{rug} while connecting to a GPS antenna. To validate this hypothesis, some testing had to be done. It was the end of summer so the outside temperature was going down so the team thought that maybe it had something to do with that.
 
 The test procedure was defined as follow:
-In a thermic chamber set to a temperature of -10 celsius degrees, to simulate the outside temperature as best as we can, we put a \gls{rug} and we connect with a computer next to it to the serial communication port of the system. Once we are connected, we issue some command to mannualy choose which GPS protocol to use out of the four of them supported and for each of them, we manually set the emiting power of the GPRS chip in order to reproduce the problem seen on the practical field.\\
+In a thermionic chamber set to a temperature of -10 Celsius degrees, to simulate the outside temperature as best as we can, we put a \gls{rug} and we connect with a computer next to it to the serial communication port of the system. Once we are connected, we issue some command to manually choose which GPS protocol to use out of the four of them supported and for each of them, we manually set the emitting power of the GPRS chip in order to reproduce the problem seen on the practical field.\\
 
-Those test were made, approximately 30 for different temperatures of the thermic chamber, different band and different emiting power. Those took one person an entire day of work ! That's because the thermic chamber needs an hour to set a fixed temperature, the system needs 5 minutes to reboot when we set the band to use and we wait 10 minutes for each test to be sure the problem did not appear (or did). After each test, if we want to do another one, we need to wait for the system to cool down as each time we boot it up, it produces heat.\\
+Those test were made, approximately 30 for different temperatures of the thermionic chamber, different band and different emitting power. Those took one person an entire day of work ! That's because the thermionic chamber needs an hour to set a fixed temperature, the system needs 5 minutes to reboot when we set the band to use and we wait 10 minutes for each test to be sure the problem did not appear (or did). After each test, if we want to do another one, we need to wait for the system to cool down as each time we boot it up, it produces heat.\\
 
-And those tests are just to prove the initial hypothesis. Once this was proved, we wanted to know for sure, what emiting power we could use for each \gls{rug} (not only for one) depending on the band used and the external temperature. This would need hundreds of tests if not a thousand on a lot more than just one \gls{rug} to be able to make enough data and say for sure which levels are safe, which levels are risky and which levels are forbidden to avoid problems in the real world.\\
+And those tests are just to prove the initial hypothesis. Once this was proved, we wanted to know for sure, what emitting power we could use for each \gls{rug} (not only for one) depending on the band used and the external temperature. This would need hundreds of tests if not a thousand on a lot more than just one \gls{rug} to be able to make enough data and say for sure which levels are safe, which levels are risky and which levels are forbidden to avoid problems in the real world.\\
 
-And that's without mentionning that the thermic chamber makes a lot of noise to work, wasting an entire room as people can not work long in such a noisy environment.\\
+And that's without mentioning that the thermionic chamber makes a lot of noise to work, wasting an entire room as people can not work long in such a noisy environment.\\
 
-This is where the Nursery project comes in handy. The goal of it is to provide an environnement fully automatized to realize all those testing when we want, like during the night so the room stays silent during the day for men to work in, without needing one or more persons to take weeks or years of works.
+This is where the Nursery project comes in handy. The goal of it is to provide an environment fully automatized to realize all those testing when we want, like during the night so the room stays silent during the day for men to work in, without needing one or more persons to take weeks or years of works.
 
 \section{The economics of software testing}
 
@@ -632,7 +632,7 @@ But if the shipped product contains faults, it will probably begins to produce i
 
 All of this comes with a cost, for example, we can imagine that we are working on a assembly line controller. If our controller (product) does not work correctly, the assembly line can be damaged because of incorrect usage or the materials being manipulated can be damaged too resulting in repair cost for the assembly line and incorrect/damaged product assembled that cannot be sold afterwards.\\
 
-In the \gls{rug} ecosystem, if our product, \gls{railsteros} isn't working well, the \gls{rug} its running on will not send the intended data to the client. For him, it is like the engine itself is misfunctionning or not functionning at all if we are unable to send any data ! He will then need to send a team to the engine to find the problems and a lot of work will be delayed because the engine is not running and, of course, every step in this process is very costly for the client and for the company itself because when a product in production is faulty, we also need to get back the devices that are malfunctionning and, perhaps, every other device running the same software of having the same hardware. And finally, we need to replace them and invest time in correcting them or, at least, solving the issue for the other product versions.\\
+In the \gls{rug} ecosystem, if our product, \gls{railsteros} isn't working well, the \gls{rug} its running on will not send the intended data to the client. For him, it is like the engine itself is malfunctioning or not functioning at all if we are unable to send any data ! He will then need to send a team to the engine to find the problems and a lot of work will be delayed because the engine is not running and, of course, every step in this process is very costly for the client and for the company itself because when a product in production is faulty, we also need to get back the devices that are malfunctioning and, perhaps, every other device running the same software of having the same hardware. And finally, we need to replace them and invest time in correcting them or, at least, solving the issue for the other product versions.\\
 
 \begin{figure}
     \centering
@@ -641,15 +641,15 @@ In the \gls{rug} ecosystem, if our product, \gls{railsteros} isn't working well,
     \label{STBC-costfixs}
 \end{figure}
 
-It is commonly believed that the earliest a fault is found, the cheaper it is to correct it~\cite{EconomicsSTBC:2017}~\cite{EconomicsWiki:2017}. The case we mentionned is the latest possible time to detect a fault so, according to the previous statement, it is also the costier ! Those reasons are why we want to create some process that can be used to drastically reduces the amount of unexpected faults in the final product. That's the main motivation behind the project that is the subject of this paper called Nursery.\\
+It is commonly believed that the earliest a fault is found, the cheaper it is to correct it~\cite{EconomicsSTBC:2017}~\cite{EconomicsWiki:2017}. The case we mentioned is the latest possible time to detect a fault so, according to the previous statement, it is also the most expensive ! Those reasons are why we want to create some process that can be used to drastically reduces the amount of unexpected faults in the final product. That's the main motivation behind the project that is the subject of this paper called Nursery.\\
 
 \subsection{The Railnova Way}
 
 At Railnova, development in general is lead by the Agile framework. Because of that, softwares and hardwares developed tend to welcome changes and new features are added every week as well as small bug fixes or minor modifications there and there.\\
 
-This tend to make it difficult to keep track of what is working and waht is not during the lifecycle of any project. This is where Nursery becomes usefull. By providing a tool to check wether or not features are broken after modifications have been applied would be a great time saver. Testing everything manually is a tedious work and waiting for things to break in production envrionment is a realy bad idea like we saw previously.\\
+This tend to make it difficult to keep track of what is working and what is not during the life-cycle of any project. This is where Nursery becomes useful By providing a tool to check whether or not features are broken after modifications have been applied would be a great time saver. Testing everything manually is a tedious work and waiting for things to break in production environment is a very bad idea like we saw previously.\\
 
-Usualy, when one of the \gls{rug} fails in production, the product is called back to the Railnova HQ for \gls{fqm}. \gls{fqm} consists of several phases. During the first one also called "fingerprinting", we try to identify the root cause of the failure. Then, we re-direct the product either to "Debug HW" for hardware debuging if the root cause is hardware linked or to "Debug SW" if the root cause is software linked. After those steps, the problem should be solved. The product is sent to "Fixing" to apply other pending modifications that did not necessited an immediate return of the product. Finaly, the product is sent to "Flash \& Validate" to re-initialize it completely and flag it as "ready to ship".\\
+Usually, when one of the \gls{rug} fails in production, the product is called back to the Railnova HQ for \gls{fqm}. \gls{fqm} consists of several phases. During the first one also called "fingerprinting", we try to identify the root cause of the failure. Then, we re-direct the product either to "Debug HW" for hardware debugging if the root cause is hardware linked or to "Debug SW" if the root cause is software linked. After those steps, the problem should be solved. The product is sent to "Fixing" to apply other pending modifications that did not necessitate an immediate return of the product. Finally, the product is sent to "Flash \& Validate" to re-initialize it completely and flag it as "ready to ship".\\
 
 
 %------------------------------------------------------------------------%
@@ -663,35 +663,35 @@ Usualy, when one of the \gls{rug} fails in production, the product is called bac
 \clearpage
 \part{Contribution}
 
-All the problems described above provides us a lot of informations. We know what can go wrong, we know what we need and we know that a proper validation of all the developed product is a key for success of any given product on the long run. So having a global view of what software testing is and what is the concrete problem we are dealing with, we will try to design a testing process that can be applied to it and possibly ot any other given problem that needs black-box testing. One of our main goal is also to design a tool that will be usefull and easy to use but we want it to be powerfull enough to be able to handle every test case we can think of.\\
+All the problems described above provides us a lot of informations. We know what can go wrong, we know what we need and we know that a proper validation of all the developed product is a key for success of any given product on the long run. So having a global view of what software testing is and what is the concrete problem we are dealing with, we will try to design a testing process that can be applied to it and possibly to any other given problem that needs black-box testing. One of our main goal is also to design a tool that will be useful and easy to use but we want it to be powerful enough to be able to handle every test case we can think of.\\
 
 \clearpage
 \section{Requirements analysis}
 
-So one of the problem that we are focussing on is what do we need to build a reliable process that can reduce drastically the odds of shipping incorrect or faulty products to our clients ?\\
+So one of the problem that we are focusing on is what do we need to build a reliable process that can reduce drastically the odds of shipping incorrect or faulty products to our clients ?\\
 
-To reply to this question, we need to analyze what we need or what are our requierments. We can begin by saying that we need to handle a set of inputs and a set of outputs. We also need rules to parse the set of outputs and validate them or not.\\
+To reply to this question, we need to analyze what we need or what are our requirements. We can begin by saying that we need to handle a set of inputs and a set of outputs. We also need rules to parse the set of outputs and validate them or not.\\
 
 What we mean by saying "validating the outputs" is simply determining if those are the expected outputs or the correct outputs. If not, we encountered some invalid outputs meaning that our product is faulty and cannot be shipped.\\
 
-For the \gls{rug}, we have a really huge amount of different inputs sources and all of them can produce a wide range of various outputs. So, for this work to be done in time, we choose to only cover a given subset of those inputs/outputs. But, we cover them, we'll try to give some general ways of handling them so this work can easilly be extended to all kind of inputs/outputs regardless of the project being considered.
+For the \gls{rug}, we have a really huge amount of different inputs sources and all of them can produce a wide range of various outputs. So, for this work to be done in time, we choose to only cover a given subset of those inputs/outputs. But, we cover them, we'll try to give some general ways of handling them so this work can easily be extended to all kind of inputs/outputs regardless of the project being considered.
 
 
 \section{Testing environment}
 
 The testing environment should emulate perfectly any given train/engine. Each train have a set of interfaces that are plugged into the tested system. What we mean by "interface" is one particular input type, those will be described later on. The system that will emulate the train (or the testing environment) will be given a set of "scenario"\\
 
-Those scenario will describe what can happen to the system and how it will react to it. A strong constraint in the case that concerns us is that, those scenario will be writted by people with poor or no knowledge of advanced programming so we need to provide a simple yet powerful language to write those stories.\\
+Those scenario will describe what can happen to the system and how it will react to it. A strong constraint in the case that concerns us is that, those scenario will be written by people with poor or no knowledge of advanced programming so we need to provide a simple yet powerful language to write those stories.\\
 
 We will assume that our testing environment have a way of sending every kind of inputs to the software being tested and retrieved every kind of outputs from it. Of course, in some case this is very difficult to achieve. Lets consider a practical example that is happening for the \gls{rug} case.\\
 
-The \gls{railsteros} communicates with a GPS/GSM chipset that is connected to antenna that are not under our control. This is an issue because under those circunstances, if the antenna can behave differently in production than during our tests sessions so some faults can goes undiscovered until that.\\
+The \gls{railsteros} communicates with a GPS/GSM chipset that is connected to antenna that are not under our control. This is an issue because under those circumstances, if the antenna can behave differently in production than during our tests sessions so some faults can goes undiscovered until that.\\
 
-Some solutions exists for this kind of problems like having our own antenna or using development boards for this chipset. We could also try to write some kind of simulator that will interface with the GPS/GSM chipset but we would need to reverse engineer the whole GSM/GPS networks or at least one particular anenna which would be really time and ressource consuming. Not to mention that it will also probably be way costier than fixing hypotetical faults when they arise in the production envrionment. So the complex interfaces needed for those kind of technical component and specificaly, their implementations are not a simple matter and are way beyond the scope of this paper so we will not talk more about them. \\
+Some solutions exists for this kind of problems like having our own antenna or using development boards for this chipset. We could also try to write some kind of simulator that will interface with the GPS/GSM chipset but we would need to reverse engineer the whole GSM/GPS networks or at least one particular antenna which would be really time and resources consuming. Not to mention that it will also probably be way more expensive than fixing hypothetical faults when they arise in the production environment. So the complex interfaces needed for those kind of technical component and specifically, their implementations are not a simple matter and are way beyond the scope of this paper so we will not talk more about them. \\
 
 In this paper and for case like this one, we will simply consider that it is not a part of the system that we can test. So every component that are part of the whole system being tested are provided with some interface that allows us to communicate with them, sends and retrieves data.\\
 
-With that in mind, we want to be able to describe what happens on the input side of the studied system and then, what are the expected results or outputs produced. For example, when you put some money in a vending machine to buy a soda, the system is the vending machine, you don't know how it works (or at least, most people dont), you feed it some inputs (some money) and you expect a given output (a soda) (figure~\ref{vm-io}). This is exactly what you want to describe in your tests.\\
+With that in mind, we want to be able to describe what happens on the input side of the studied system and then, what are the expected results or outputs produced. For example, when you put some money in a vending machine to buy a soda, the system is the vending machine, you don't know how it works (or at least, most people don't), you feed it some inputs (some money) and you expect a given output (a soda) (figure~\ref{vm-io}). This is exactly what you want to describe in your tests.\\
 
 \begin{figure}
     \centering
@@ -700,7 +700,7 @@ With that in mind, we want to be able to describe what happens on the input side
     \label{vm-io}
 \end{figure}
 
-A naïve idea to do so could be to write a file mapping every possible inputs to every possible outputs and claim that our process works only when no unpredicted input/output pair occurs during some run of it (figure~\ref{io_map1}). But then, what if we want to produce a different output depending on how many times we seen some given output ? With this first idea, it would not be possible to handle this as we dont keep track the current state of the process. We don't have a way of counting how many given inputs have been encountered since the start of the process.\\
+A naive idea to do so could be to write a file mapping every possible inputs to every possible outputs and claim that our process works only when no unpredicted input/output pair occurs during some run of it (figure~\ref{io_map1}). But then, what if we want to produce a different output depending on how many times we seen some given output ? With this first idea, it would not be possible to handle this as we don't keep track the current state of the process. We don't have a way of counting how many given inputs have been encountered since the start of the process.\\
 
 \begin{figure}
     \centering
@@ -726,21 +726,21 @@ A naïve idea to do so could be to write a file mapping every possible inputs to
     \draw[->,thick,shorten <=2pt,shorten >=2] (a4) -- (b3);
     \end{tikzpicture}
 
-    \caption{Not explicit schematisation of a valid mapping of inputs to outputs, all possible cases are not taken into account. On the left, the input we send into the system and on the rigth, the outputs we can receive. Arrows shows what are the expected outputs for a particular input}
+    \caption{Not explicit schematisation of a valid mapping of inputs to outputs, all possible cases are not taken into account. On the left, the input we send into the system and on the right, the outputs we can receive. Arrows shows what are the expected outputs for a particular input}
     \label{io_map1}
 \end{figure}
 
-This first idea gave us an important lesson, we need to keep track of the state of the process or at least of what hapenned before the current time. This does correspond to what we call \gls{fsm} and this is why we introduced them earlier.\\
+This first idea gave us an important lesson, we need to keep track of the state of the process or at least of what happened before the current time. This does correspond to what we call \gls{fsm} and this is why we introduced them earlier.\\
 
 \section{Choices}
 
 When asked what is the type of \gls{fsm} that fits our needs the best, we want to give the best possible answer. To do that, we need to rank the different possibilities that we have introduced based on the following criteria. First, we want to make sure that a particular \gls{fsm} type is possible to apply in our case. If it is an abstract \gls{fsm} that uses infinite memory or another paradigms that is impossible to implement on modern computer, we know that we can discard it.\\
 
-Then, how easy it is to describe a system's behavior with such \gls{fsm} ? If it takes to much times or if we find it too difficult for non-technical peoples to describe a system's behavior using that particulare \gls{fsm} type, we know that it will probably be deprecated over time and wont be used as it should be.\\
+Then, how easy it is to describe a system's behavior with such \gls{fsm} ? If it takes to much times or if we find it too difficult for non-technical peoples to describe a system's behavior using that particular \gls{fsm} type, we know that it will probably be deprecated over time and wont be used as it should be.\\
 
-Lastly, if the choosen \gls{fsm} introduces restriction on what can be described, those restriction must not prevent us from doing every testing needed. And if it introduces new possibilities that allows us to describe more system's behaviors, the complexity that it introduces into the system should be worth it.\\
+Lastly, if the chosen \gls{fsm} introduces restriction on what can be described, those restriction must not prevent us from doing every testing needed. And if it introduces new possibilities that allows us to describe more system's behaviors, the complexity that it introduces into the system should be worth it.\\
 
-Those three criteria are the ones that where choosen as the most relevant for the choice of the \gls{fsm} that will be used.
+Those three criteria are the ones that where chosen as the most relevant for the choice of the \gls{fsm} that will be used.
 
 \begin{itemize}
 \item Is it possible to implement ?
@@ -748,23 +748,23 @@ Those three criteria are the ones that where choosen as the most relevant for th
 \item Does this introduces restrictions ?
 \end{itemize}
 
-Lets review the possible choices we have and justify the one we picked. But first, let's explain what are the main differences between our practical case and theory. In theorical \gls{fsm}, the number of state is upper bound by the system's internal memory. If we want to test every possible state it would gives us $2^x$ states to analyze (where $x$ is the system's internal memory expressed in bit). In modern computers, this memory can be around two to height gigabits maybe and this is raising every passing years. So having to describe what should happen in $2^2*10^9$ different states is not really a possible choice.\\
+Lets review the possible choices we have and justify the one we picked. But first, let's explain what are the main differences between our practical case and theory. In theoretical \gls{fsm}, the number of state is upper bound by the system's internal memory. If we want to test every possible state it would gives us $2^x$ states to analyze (where $x$ is the system's internal memory expressed in bit). In modern computers, this memory can be around two to height gigabits maybe and this is raising every passing years. So having to describe what should happen in $2^2*10^9$ different states is not really a possible choice.\\
 
-To address this problem, we need to abstract the state definition. We'll aggregate formal states into a more complex structure that we will still call a state but for the user, it will just be something like "initialisation state", "error state", "processing data state" and so on. A state will simply be a set of computation that needs to be applied. Three optional function, one for the computation needed when we reach the state, one for when we leave the state and the last one for the computation we need to do every time a new symbol is read.\\
+To address this problem, we need to abstract the state definition. We'll aggregate formal states into a more complex structure that we will still call a state but for the user, it will just be something like "initialization state", "error state", "processing data state" and so on. A state will simply be a set of computation that needs to be applied. Three optional function, one for the computation needed when we reach the state, one for when we leave the state and the last one for the computation we need to do every time a new symbol is read.\\
 
 The input alphabet $\Sigma$ formally defined earlier is also problematic, how can you describe every input received by a modern computer ? That requires very low-level knowledge and a lot of work. We want the user to be able to describe every states and transition without minding the $\Sigma$ input alphabet. To achieve this, lets define $\Sigma$ as a set of abstract inputs instead of character's set or token's set.\\
 
 Now to the choice of \gls{fsm} model, why don't we simply pick the most simple case of \gls{fsm} ? The reasons are very simple, take this case: You want to be able to detect a failure that happen if you receive a given data more than 10 seconds after some given data. How can you do this ? Or even simpler, you want to detect a failure if you didn't receive any data for 30 seconds.\\
 
-All of those case requires you to create a new input type that will be the time. Say you receive this input each time a second pass. Already, it is a lot like timed state machine but lets say we want to use a pure \gls{fsm}. Now, we need to add state for each seconds passed, so if we want to wait 30 seconds, we need 30 states with 30 transitions for each seconds and 30 transitions for the event of "a data has been received" that will go back to initial state. And all of this needs to be written by someone. You can easilly see why this is unpracticable. So clearly, in this case, \gls{fsm} are too limited if we want to handle this in a simple and practicable way.\\
+All of those case requires you to create a new input type that will be the time. Say you receive this input each time a second pass. Already, it is a lot like timed state machine but lets say we want to use a pure \gls{fsm}. Now, we need to add state for each seconds passed, so if we want to wait 30 seconds, we need 30 states with 30 transitions for each seconds and 30 transitions for the event of "a data has been received" that will go back to initial state. And all of this needs to be written by someone. You can easilly see why this is impracticable. So clearly, in this case, \gls{fsm} are too limited if we want to handle this in a simple and practicable way.\\
 
-Now with the \gls{afa}, the complexity of implementation required by this paradigm is quite important, we need to run multiple automaton, construct execution trees and analyze them. Compared to a simple \gls{fsm} implementation, this is quite a lot of work. So is it worth it ? To answer this question, we need to find practical case where such a paradigm would become indispensable and such case should be realy difficult to implement into a classic \gls{fsm} to justify choosing \gls{afa} as our main choice for the implementation of Nursery. Based on the concrete needs we add when we analyzed this possibility, we choose not to consider it as a good solution because none of the case we add prepared needed such complexity and using this would have made it difficult to design test by inexperienced users.\\
+Now with the \gls{afa}, the complexity of implementation required by this paradigm is quite important, we need to run multiple automaton, construct execution trees and analyze them. Compared to a simple \gls{fsm} implementation, this is quite a lot of work. So is it worth it ? To answer this question, we need to find practical case where such a paradigm would become indispensable and such case should be really difficult to implement into a classic \gls{fsm} to justify choosing \gls{afa} as our main choice for the implementation of Nursery. Based on the concrete needs we add when we analyzed this possibility, we choose not to consider it as a good solution because none of the case we add prepared needed such complexity and using this would have made it difficult to design test by inexperienced users.\\
 
-This left us with timed automaton. This is the choice we made. Those \gls{fsm} are really well adapted for our use case. Being able to manipulate time directly in our transitions and state gives us a lot of ease to write the code and its also very powerfull too ! With it, we are able, for example, to send a lot of data with a variable interval between them and then receive data accordingly. You can also decide to create a clock for timeout that will be reseted each time you receive a given data. There are really a lot of use case and some more will be described later on.\\
+This left us with timed automaton. This is the choice we made. Those \gls{fsm} are really well adapted for our use case. Being able to manipulate time directly in our transitions and state gives us a lot of ease to write the code and its also very powerful too ! With it, we are able, for example, to send a lot of data with a variable interval between them and then receive data accordingly. You can also decide to create a clock for timeout that will be reseted each time you receive a given data. There are really a lot of use case and some more will be described later on.\\
 
-This choice of tool is also motivated by the fact that writting and understanding automaton is a very easy process. Designing a \gls{ui} to create automata and generating valid scenario out of it is a relatively easy process so this could be a way to meet the strong requirement that our solution shall be easy to use for not seasonned programmers.\\
+This choice of tool is also motivated by the fact that writing and understanding automaton is a very easy process. Designing a \gls{ui} to create automata and generating valid scenario out of it is a relatively easy process so this could be a way to meet the strong requirement that our solution shall be easy to use for not seasoned programmers.\\
 
-As an example, take the pseudo-code showing how test are designed using this tool in listing~\ref{lst:python-pseudo-tsm}. We create 4 states, one, "init", is purely optional, it's purpose is for initializing external tools or some variables if we need them. Then a state that will simply do nothing, waiting for some data to arrive. A success and a failure state. This test works by looping in wait-state every time a data is received. The test success when enough time has elpased without any timeout and it fails at the first timeout encountered.\\
+As an example, take the pseudo-code showing how test are designed using this tool in listing~\ref{lst:python-pseudo-tsm}. We create 4 states, one, "init", is purely optional, it's purpose is for initializing external tools or some variables if we need them. Then a state that will simply do nothing, waiting for some data to arrive. A success and a failure state. This test works by looping in wait-state every time a data is received. The test success when enough time has elapsed without any timeout and it fails at the first timeout encountered.\\
 
 As we modified a lot the \gls{fsm} principles, we'll say that our \gls{fsm} succeed or fails when the test passed or failed. We will not say that our test accepts nor recognizes as we think this is not applicable for our case.\\
 
@@ -794,9 +794,9 @@ class MyTest:
     \label{timed_automata_e1}
 \end{figure}
 
-Theres a lot of modifications we did to the basic concept of \gls{fsm}. First of all, our input alphabet is never quantified. We don't know if it's finite or not. Theorically, we accept analogic inputs so it can be infinite but as we are working with computer, we know it will not be inifinite. The most important thing is that we don't need to quantify it to design our test, the choices we made keeps us from being forced to enumerate one and every possible input. Like we said, it will define itself based on what transition are defined in $\delta$ and a special symbol for a time step, let's say $t$.\\
+Theres a lot of modifications we did to the basic concept of \gls{fsm}. First of all, our input alphabet is never quantified. We don't know if it's finite or not. Theoretically, we accept analogical inputs so it can be infinite but as we are working with computer, we know it will not be infinite. The most important thing is that we don't need to quantify it to design our test, the choices we made keeps us from being forced to enumerate one and every possible input. Like we said, it will define itself based on what transition are defined in $\delta$ and a special symbol for a time step, let's say $t$.\\
 
-Also concerning the states, they are not simple maping of the system's internal memory state. They are more complex abstraction of an arbitrary user defined state. And finaly, our $\delta$ transition function is allowed to be partialy defined, every undefined transition will have no consequences on the \gls{fsm} computation.
+Also concerning the states, they are not simple mapping of the system's internal memory state. They are more complex abstraction of an arbitrary user defined state. And finally, our $\delta$ transition function is allowed to be partially defined, every undefined transition will have no consequences on the \gls{fsm} computation.
 
 
 %------------------------------------------------------------------------%
@@ -815,23 +815,23 @@ This part is a in depth description of how the implemented system works, how it 
 \clearpage
 \section{Nursery}
 
-Because of the platform imposed for this project, which is Raspberry Pi, we had the choice between C or Python for the implementation. We choose Python as it is easier to deploy, easier to write and easier to debug. Of course, the produced software is a bit slower than if it where written in C but this is not a limitating factor in our case.
+Because of the platform imposed for this project, which is Raspberry Pi, we had the choice between C or Python for the implementation. We choose Python as it is easier to deploy, easier to write and easier to debug. Of course, the produced software is a bit slower than if it where written in C but this is not a limiting factor in our case.
 
 \subsection{Architecture}
 
 Nursery works on top of two main features, logging and reporting. Logging allows us to keep track of Nursery outputs. For every test, a file is created to log every one of them. Each line of output have an additional property which is the level of urgency of the output. The possible levels are the following:
 
 \begin{itemize}
-\item DEBUG. Used to output values that are not vital to understand what is going on but are of absolute necessity for debuging purposes.
+\item DEBUG. Used to output values that are not vital to understand what is going on but are of absolute necessity for debugging purposes.
 \item INFO. The default output level. Simple information messages.
 \item WARNING. Used for warnings. When an expected error occurs which is not broking the system.
 \item ERROR. Error messages. For the messages that should not happen.
 \item CRITICAL. When the system is broken, this kind of message should be used.
 \end{itemize}
 
-The goal of this logging feature is to produce files that contains every single informations needed to identify the reasons of test failure and contains all the tests parameters. A lot of time was put into this feature to allow for usufell context related informations for every outputed line which, we find, is a key component for Nursery.\\
+The goal of this logging feature is to produce files that contains every single informations needed to identify the reasons of test failure and contains all the tests parameters. A lot of time was put into this feature to allow for useful context related informations for every line of output which, we find, is a key component for Nursery.\\
 
-On top of this logging facility, we added a reporting feature. This one is intended to update bug trackers, product tracking facilities or anything else needing informations about the status of a particular hardware or software. Typically, this is used to update a product tracking server, Redmine, used at Railnova to keep an history of what happenned in fingerprinting. When a test is done, the results is added on Redmine by saying: "Test <name> success/failure on RUG <serial number>", of course, other informations are added such as the test version, test criteria and why the test failed. This can also be used to keep track of the status of a production line. At every stage of the production line, we can update the status of the product being build with this reporting tool.\\
+On top of this logging facility, we added a reporting feature. This one is intended to update bug trackers, product tracking facilities or anything else needing informations about the status of a particular hardware or software. Typically, this is used to update a product tracking server, Redmine, used at Railnova to keep an history of what happened in fingerprinting. When a test is done, the results is added on Redmine by saying: "Test <name> success/failure on RUG <serial number>", of course, other informations are added such as the test version, test criteria and why the test failed. This can also be used to keep track of the status of a production line. At every stage of the production line, we can update the status of the product being build with this reporting tool.\\
 
 Each type of reporting is described by a Python file. Adding one is a very easy process that any developer can achieve. To match the correct reporting to the test being performed, we specify a product type. Those are pre-defined in a configuration file that will be described later on. Each product type maps to a particular reporting type. For example, if we say that we want to perform a test on a product of type "RailsterOS", on the software then, we can have a reporting that will send reports by mails or send them on a bug tracker.\\
 
@@ -851,11 +851,11 @@ Each type of reporting is described by a Python file. Adding one is a very easy 
 
 \subsection{Configuration}
 
-The whole systems is based on one configuration file. This file contains all available test for Nursery. It also contains all output providers, all batch of tests and the list of all product that can be tested matched with their corresponding reporting. An output provider is a script that everyone can writte used to provide data to the test. We used it, for example, to gather data in an online database. Those data are then send to each test as we receive them. A batch of test is just a list of test that needs to be perforemed in the given order.\\
+The whole systems is based on one configuration file. This file contains all available test for Nursery. It also contains all output providers, all batch of tests and the list of all product that can be tested matched with their corresponding reporting. An output provider is a script that everyone can write used to provide data to the test. We used it, for example, to gather data in an online database. Those data are then send to each test as we receive them. A batch of test is just a list of test that needs to be performed in the given order.\\
 
-Like we say earlier, we also have a concept of product type. Each possible product type is mapped to a given reporting file using a code similar to the one shown in the listing~\ref{lst:l_product_type}. The list of "tests batches" are listed using the code of listing~\ref{lst:l_batch} and finaly, each test is defined using a code similar to the listing~\ref{lst:l_test_op}.\\
+Like we say earlier, we also have a concept of product type. Each possible product type is mapped to a given reporting file using a code similar to the one shown in the listing~\ref{lst:l_product_type}. The list of "tests batches" are listed using the code of listing~\ref{lst:l_batch} and finally, each test is defined using a code similar to the listing~\ref{lst:l_test_op}.\\
 
-Several parameters are needed to add a test. \textbf{name} and \textbf{description} are simply used to display documentation about them. \textbf{l\_product} is a list of product to wich the test applied. This is purely used to warn the user if he tries to perform a test meant for RailsterOS on a battery pack for example. The duration specify the maximum duration of the test in second. After that, the test fails automatically. Finaly, the \textbf{l\_scenario} parameter is the most important one. It specifies all the \gls{fsm} that are run in parallel to obtain the desired behavior. Most of the test used only one \gls{fsm} because it proved difficult to conceive test thinking about multiple \gls{fsm} at once. A typical case where it is usefull to run multiple \gls{fsm} at once is for timeout check. One of them checks continuously for timeout between data gathered by the output provider and the other one performs the test without having to manage this problem.\\
+Several parameters are needed to add a test. \textbf{name} and \textbf{description} are simply used to display documentation about them. \textbf{l\_product} is a list of product to which the test applied. This is purely used to warn the user if he tries to perform a test meant for RailsterOS on a battery pack for example. The duration specify the maximum duration of the test in second. After that, the test fails automatically. Finally, the \textbf{l\_scenario} parameter is the most important one. It specifies all the \gls{fsm} that are run in parallel to obtain the desired behavior. Most of the test used only one \gls{fsm} because it proved difficult to conceive test thinking about multiple \gls{fsm} at once. A typical case where it is useful to run multiple \gls{fsm} at once is for timeout check. One of them checks continuously for timeout between data gathered by the output provider and the other one performs the test without having to manage this problem.\\
 
 \begin{figure}
     \label{masterlist_op}
@@ -974,7 +974,7 @@ To run Nursery, the user can use a command line tool taking several inputs. Thos
 
 \begin{itemize}
 \item product: Type of hardware tested
-\item serial: RUG serial number to fetch informations with ouptut providers. Needed only for \gls{rug} testing.
+\item serial: RUG serial number to fetch informations with output providers. Needed only for \gls{rug} testing.
 \item password: Password, if any, for serial connection.
 \item log: Level of informations displayed in the log files, can be "critical", "warning", "info", "error" or "debug"
 \item quiet: Used to remove console outputs
@@ -982,7 +982,7 @@ To run Nursery, the user can use a command line tool taking several inputs. Thos
 \item test: Name of the test to be performed
 \item logpath: Specify where to put the resulting log file
 \item checkmaster: used to verify the configuration file. Checking if no errors where introduced
-\item report: Indicate wether or not we want to generate a report. This allows us to disable the reporting feature
+\item report: Indicate whether or not we want to generate a report. This allows us to disable the reporting feature
 \item fqm: Shortcut to run a batch named "fingerprint" and generating reports for those tests
 \end{itemize}
 
@@ -995,7 +995,7 @@ To run Nursery, the user can use a command line tool taking several inputs. Thos
     \label{wa_status}
 \end{figure}
 
-A web-administration tool was also developed. Allowing users to manage testing easily. All features covered by the command-line tool are available through the web-administration tool. We also added three others feature, the first one is the ability to browse all available tests and their documentation (figure~\ref{wa_tests_doc}) and the second one is the ability to see how a test was processed by displaying a automatically generated graph of the test and highlighting nodes of the graph depending on the current step selected in the trace file displayed next to the graph (figure~\ref{wa_trace}). Finaly, the abality to manage log files is a feature that is not covered by the command line tool (figure~\ref{wa_logs}). All those features makes the web-administration tool a lot easier to use than the command line tool.\\
+A web-administration tool was also developed. Allowing users to manage testing easily. All features covered by the command-line tool are available through the web-administration tool. We also added three others feature, the first one is the ability to browse all available tests and their documentation (figure~\ref{wa_tests_doc}) and the second one is the ability to see how a test was processed by displaying a automatically generated graph of the test and highlighting nodes of the graph depending on the current step selected in the trace file displayed next to the graph (figure~\ref{wa_trace}). Finally, the ability to manage log files is a feature that is not covered by the command line tool (figure~\ref{wa_logs}). All those features makes the web-administration tool a lot easier to use than the command line tool.\\
 
 \begin{figure}
     \centering
@@ -1007,7 +1007,7 @@ A web-administration tool was also developed. Allowing users to manage testing e
 \begin{figure}
     \centering
     \includegraphics[scale=0.2]{wa_tests_doc.png}
-    \caption{This page shwos all the available documenation about each tests.}
+    \caption{This page shows all the available documentation about each tests.}
     \label{wa_tests_doc}
 \end{figure}
 
@@ -1029,9 +1029,9 @@ A web-administration tool was also developed. Allowing users to manage testing e
 \clearpage
 \part{Conclusion}
 
-Putting the complexity as a limitation gave us a software that can run on any moder system. The simulation is hosted on RaspBerry Pi which are low end system. This allowed us to build a lot of Nursery system for a realy cheap price, RaspBerry Pi costing around fifteen euros. We made around sixteen Nursery system separated into two areas. Height of them dedicated for RailsterOS verification and height of them used mainly for fingerprinting. So, using the work done in this paper, we are now able to fingerprint the faulty RUG way faster. We need only one guy to analyze up to height of them in paralel using the Nursery systems we just talked about. The same thing hold true for RailsterOS testing. We can now leave newly develloped version of it running on Nursery for days and get a report of all the errors that hapenned afterwards instead of waiting for errors to happen into the production environment. The total count of line of code in Python is about 7000 and 17 tests where developed with more to come.\\
+Putting the complexity as a limitation gave us a software that can run on any moder system. The simulation is hosted on RaspBerry Pi which are low end system. This allowed us to build a lot of Nursery system for a really cheap price, RaspBerry Pi costing around fifteen euros. We made around sixteen Nursery system separated into two areas. Height of them dedicated for RailsterOS verification and height of them used mainly for fingerprinting. So, using the work done in this paper, we are now able to fingerprint the faulty RUG way faster. We need only one guy to analyze up to height of them in parallel using the Nursery systems we just talked about. The same thing hold true for RailsterOS testing. We can now leave newly developed version of it running on Nursery for days and get a report of all the errors that happened afterwards instead of waiting for errors to happen into the production environment. The total count of line of code in Python is about 7000 and 17 tests where developed with more to come.\\
 
-My personal analyzis lead me to think that the success of Nursery is based on the following key point:
+My personal analysis lead me to think that the success of Nursery is based on the following key point:
 \begin{itemize}
 \item Will it be used by other users ?
 \item Will it save time or make life easier for some people ?
@@ -1040,7 +1040,7 @@ My personal analyzis lead me to think that the success of Nursery is based on th
 
 Clearly, detecting fault earlier allows us to save money and time. No need to call back some hardware and less fault in production means less loss of money. We do not longer need to invest days of analyze for fingerprinting, all it takes is to plug the faulty RUG into Nursery and click a button. This could easily take up to 3 hours per RUG where now, we can do it in just one day of work for height RUG using more intensive testing cases ! Lastly, some guys of the hardware team and from the supply chain were introduced with Nursery. We showed them how to write test for Nursery and they loved the way things were made and how simple it was. Their test were done in approximately one hour. This lead us to think that, with proper formations and documentation, other users could gladly uses Nursery.\\
 
-I think that Nursery is a key assets that will become more and more used inside of Railnova. We even talked about using it for production lines in the future. But a lot of work is yet to be done on the accessibility aspect of it. Proper documentation needs to be written, some ideas are expected to ease a bit more the writting of tests like adding a generic state allowing us to create a transition from "any state" to one particular state without needing to repeat this transition to every other states and theres probably a lot more thing we didn't think about.
+I think that Nursery is a key assets that will become more and more used inside of Railnova. We even talked about using it for production lines in the future. But a lot of work is yet to be done on the accessibility aspect of it. Proper documentation needs to be written, some ideas are expected to ease a bit more the writing of tests like adding a generic state allowing us to create a transition from "any state" to one particular state without needing to repeat this transition to every other states and theres probably a lot more thing we didn't think about.
 
 %------------------------------------------------------------------------%
 %                                                                        %
