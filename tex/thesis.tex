@@ -6,8 +6,26 @@
 \usepackage{tikz}
 \usepackage{listings}
 \usepackage{pdfpages}
+\usepackage{amsthm}
+\usepackage{amsmath}
+\usepackage{amssymb}
 
-\lstset{language=Python}
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}[section]
+
+\theoremstyle{definition}
+\newtheorem{example}{Example}[section]
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\A}{\mathcal{A}}
+
+\lstset{
+    language=Python,
+    showspaces=false,
+    showstringspaces=false,
+    showtabs=false
+}
 
 \usetikzlibrary{calc,trees,positioning,arrows,fit,shapes,calc}
 
@@ -373,29 +391,48 @@ A \gls{fsm} is a mathematical model of computation. It is a mathematical structu
 
 The input alphabet is the list of every symbol it can receive in any given state. For example, an input alphabet could be a list of keyboard's key if we consider a \gls{fsm} that simulates the behavior of a text editor. The key points here are that you need to have a finite set of state and a finite set of transitions.\\
 
-More formally speaking, an \gls{fsm} is a quintuple $(\Sigma, S, s_{0},\delta, F)$ where:
+\theoremstyle{definition}
+\begin{definition}{Finite alphabet.} A finite alphabet $\Sigma$ is a finite set of symbols.
+\end{definition}
 
+\theoremstyle{definition}
+\begin{definition}{State-transition function.} A state-transition function $\delta$ is a mapping $\delta:S\times \Sigma \rightarrow S$ that maps each state $s$ with a symbol $a$ from an input alphabet $\Sigma$ and another state $s'$.
+\footnote{This hold only for deterministic \gls{fsm}, we'll see later how to express $\delta$ for non-deterministic \gls{fsm} and what non-deterministic/deterministic \gls{fsm} means.}
+\end{definition}
+
+\theoremstyle{definition}
+\begin{definition}{Finite State Machine.} A \gls{fsm} is a quintuple $(\Sigma, S, s_{0},\delta, F)$, where:
 \begin{itemize}
-\item $\Sigma$ is the input alphabet.
+\item $\Sigma$ is the finite input alphabet.
 \item $S$ is the set of state.
-\item $s_{0}$ is the initial state.
-\item $\delta$ is the state-transition function $\delta:S\times \Sigma \rightarrow S$.\footnote{This hold only for deterministic \gls{fsm}, we'll see later how to express $\delta$ for non-deterministic \gls{fsm} and what non-deterministic/deterministic \gls{fsm} means.}
-\item $F$ is the set of final states.
+\item $s_{0} \in S$ is the initial state.
+\item $\delta$ is the state-transition function.
+\item $F \subseteq S$ is the set of final states.
 \end{itemize}
-
-To this, we need to apply the following rules:
-
-\begin{itemize}
-\item $\Sigma$ is a finite set
-\item $s_{0}$ is included in $S$
-\item $F$ is a subset of $S$ and can be empty
-\end{itemize}
+\end{definition}
 
 Because of those rules, a transition function can start and end in the same state, thus creating a loop on the state. $\delta$ is conventionally allowed to be a partial function. This means that $\delta(s, e)$ does not needs to be defined for every possible combination of $s \in S$ and $e \in \Sigma$. This allows us to have a finite $\delta$ transition function even when the input alphabet $\Sigma$ is not finite or defined.\footnote{This is crucial for our practical case describe later on.}
 
 About the input alphabet, we usually define every input as a character or token read on the input tape of the \gls{fsm}. Where the input tape is a sequential list of every symbols feed into the system. This is a lot like a Turing Machine.
 
+\theoremstyle{definition}
+\begin{definition}{Finite word.} A finite word $\sigma = \sigma_1 \sigma_2 ... \sigma_n$ is a finite sequence of symbols from $\Sigma$: $\forall i: \sigma_i \in \Sigma$
+\end{definition}
 
+\theoremstyle{definition}
+\begin{definition}{Transition table.} A transition table $\A$ is a tuple $(\Sigma, S, s_{0}, \Delta)$, where:
+\begin{itemize}
+\item $\Sigma$ is the input alphabet.
+\item $S$ is the set of state.
+\item $s_{0} \in S$ is the initial state.
+\item $\Delta \subseteq S \times S \times \Sigma$ is the set of state-transitions function.
+\end{itemize}
+\end{definition}
+
+\theoremstyle{definition}
+\begin{definition}{Run.} A run $r$ of the transition table $\A = (\Sigma, S, s_{0}, \Delta)$ over a finite word $\sigma = \sigma_1 \sigma_2 ... \sigma_n$ over the alphabet $\Sigma$ is
+$$r: s_0 \xrightarrow[]{\sigma_1} s_1 \xrightarrow[]{\sigma_2} s_2 \xrightarrow[]{\sigma_3} ... \xrightarrow[]{\sigma_n} s_{n+1}$$ where $\forall i \ge 1: (s_{i-1}, s_i, \sigma_i) \in \Delta$
+\end{definition}
 
 \subsubsection{Description of Finite State Machine using graphs}
 
@@ -480,41 +517,70 @@ We define a word over a given alphabet as a sequence of symbols from that alphab
 
 \subsection{Timed Automata}
 
-To define a timed automata, we will extend some definitions of \gls{fsm}.
+To define a timed automata, we need some more definitions. A timed automata works with timed sequences, timed words and timed languages.\\
 
-\subsubsection{Timed languages}
+For a given input alphabet $\Sigma$, a timed language is defined as a set of timed words over $\Sigma$. A timed word over $\Sigma$ is a pair $(\sigma, \tau)$ where $\sigma$ is a word over $\Sigma$ and $\tau$ is a timed sequence. Lastly, a timed sequence is a sequence of real time values increasing monotonically.~\cite{ALUR1994183}
 
-For a given input alphabet \Sigma, a timed language is defined as a set of timed words over \Sigma. A timed word over \Sigma is a pair $(\sigma, \tau)$ where \sigma is a word over \Sigma and \tau is a timed sequence. Lastly, a timed sequence is a sequence of real time values increasing monotonically.~\cite{ALUR1994183}
+\theoremstyle{definition}
+\begin{definition}{Timed sequence.}
+A timed sequence is an inifinite list of values increasing monotonically $\tau = \tau_1 \tau_2 ...$ where $\tau \in \R$ and $\tau_i > 0$ and $\forall i \in \R: \tau_i < \tau_{i+1}$.
+\end{definition}
 
+\theoremstyle{definition}
+\begin{definition}{Timed word.}
+A timed word over an alphabet $\Sigma$ is a pair $(\sigma, \tau)$ where $\sigma = \sigma_1 \sigma2 ...$ is an infinite word over $\Sigma$ and $\tau$ is a timed sequence.
+\end{definition}
 
+\theoremstyle{definition}
+\begin{definition}{Timed language.}
+A timed language over an alphabet $\Sigma$ is set of timed words over $\Sigma$.
+\end{definition}
 
+We also need a transition table that can read timed words. We want the transition to consider the input symbol from the input alphabet and the time associated to it when it makes a transition choice. To do so, we associate a set of clocks to our transition table and for each transition, we associate a clock constraint to it and require that the transition may be taken only if the current values of the clocks satisfy this constraint. A clock can be set to zero simultaenously with any transition.
 
+\theoremstyle{definition}
+\begin{definition}{Clock constraint.} A clock constraint is defined inductively by
+$$\delta := x \le c \mid c \le x \mid \neg \delta \mid \delta_1 \land \delta_2$$ with $x \in X$ and $c \in \Q$. $X$ being a set of cloks.
+\end{definition}
 
+\theoremstyle{definition}
+\begin{definition}{Clock interpretation.} A clock interpretation $v$ is a mapping $X \to \R$, with $X$ being a set of clocks.
+\end{definition}
 
+A clock interpretation $v$ over $X$ satisfies a clock constraint $\delta$ over $X$ iff $\delta$ evaluates to true using the values given by $v$.
 
-
-
-
-
-
-
-
-
-
-
-
-
-Those are finite automaton with real-valued clocks added to it.~\cite{TimedAutomaton:2016} This allows us to do things like this:
-
+\theoremstyle{definition}
+\begin{definition}{Timed transition table.} A timed transition table $\A$ is a quintuple $(\Sigma, S, s_{0},C, E)$, where:
 \begin{itemize}
-\item After 10 seconds, send this on inputs
-\item After 5 seconds, read this on outputs, then wait 5 seconds and send this on inputs
-\item Receive a data every 30 seconds or go to failure state.
+\item $\Sigma$ is the input alphabet.
+\item $S$ is the set of state.
+\item $s_{0} \in S$ is the initial state.
+\item $C$ is a finite set of clocks
+\item $E \subseteq S \times S \times \Sigma \times 2^{C} \times \Phi(C)$ gives the set of transitions. A transition from the state $s$ to $s'$ on input symbol $a$ is represented by a qintuple $(s, s', a, \lambda, \delta)$ where $\lambda$ is the set of clock to be set to zero and $\delta$ is the clock constraint over $C$.
 \end{itemize}
+\end{definition}
 
-The key point to describe timed automaton is that we now have clocks that can be used for transition. There are different kinds of timed automaton, the difference being the amount of used clocks and their scopes.\\
+\theoremstyle{definition}
+\begin{example}{Timed automaton.} An example of timed automaton where $C = \{x\}$ is given in figure~\ref{timed_automata_e1}.
+\end{example}
 
-The most basic case is the one in which you can only use one clock with a global scope (all the automaton has access to it). You can reset the clock when you take a transition or in a given state. That's what we use in the figure~\ref{timed_automata_e1}.\\
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 \subsubsection{Markov model}
 
@@ -568,6 +634,12 @@ UPPAAL was a great source of inspiration for some features of our own tool. We w
 We where also interested by PRISM, which is a tool for modelization and verification of probabilistic systems. PRISM supports different kind of probabilistic models like \gls{dtmc}, \gls{mdp}, \gls{pa}, \gls{ctmc} and \gls{pta}.\footnote{Probabilistic Automaton are Markov Chains that also supports deterministic transitions.}~\cite{Kwiatkowska2011}~\cite{Hinton2006}\\
 
 PRISM uses a uniform modeling language for all the probabilistic models that it supports. This is a textual language, based on guarded command notation. See figure~\ref{PRISM_model}, this model was generated using the following lines of code:
+
+\lstset{
+  showspaces=false,
+  showstringspaces=false,
+  showtabs=false
+}
 
 \begin{figure}
 \label{PRISM_code}
