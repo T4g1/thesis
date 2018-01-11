@@ -430,9 +430,26 @@ About the input alphabet, we usually define every input as a character or token 
 \end{definition}
 
 \theoremstyle{definition}
-\begin{definition}{Run.} A run $r$ of the transition table $\A = (\Sigma, S, s_{0}, \Delta)$ over a finite word $\sigma = \sigma_1 \sigma_2 ... \sigma_n$ over the alphabet $\Sigma$ is
+\begin{definition}{Run.} A run $r$ of the transition table $\A = (\Sigma, S, s_{0}, \Delta)$ over a finite word $\sigma = \sigma_1 \sigma_2 ... \sigma_n$ over the alphabet $\Sigma$ is the sequence of state
 $$r: s_0 \xrightarrow[]{\sigma_1} s_1 \xrightarrow[]{\sigma_2} s_2 \xrightarrow[]{\sigma_3} ... \xrightarrow[]{\sigma_n} s_{n+1}$$ where $\forall i \ge 1: (s_{i-1}, s_i, \sigma_i) \in \Delta$
 \end{definition}
+
+Let us extend the definition of \gls{fsm} with another usefull notion:
+\theoremstyle{definition}
+\begin{definition}{(Extended) Finite State Machine.} A \gls{fsm} is a tuple $(\Sigma, S, s_{0},\delta, W, L)$, where:
+\begin{itemize}
+\item $\Sigma$ is the finite input alphabet.
+\item $S$ is the set of state.
+\item $s_{0} \in S$ is the initial state.
+\item $\delta$ is the state-transition function.
+\item $W \subseteq S$ is the set of final accepting states.
+\item $L \subseteq S / W$ is the set of final failure states.
+\end{itemize}
+\end{definition}
+
+// TODO: REWORK Explain why W, L does not modify too much basic timed automaton (can be empty and its normal automaton)
+
+With that in mind, we define a run to be an \textit{accepting run} and \textit{failed run}: Every run is a said to fail if it is not an accepting run. To determine what is an accepting run, assume at least one state $s_i$ from $r$ is in $W$: Take the one with the smallest $i$. If $i$ equals $0$, the run is accepting, if not: if $\forall j < i: s_j \notin L$ then its an accepting run.
 
 \subsubsection{Description of Finite State Machine using graphs}
 
@@ -440,7 +457,7 @@ Having a more human friendly way of presenting \gls{fsm} is possible using graph
 
 Now we add an arrow for every transition defined in $\delta$ with the starting point being the current node and the endpoint is the node corresponding to the goal of the transition. Finally, we add an arrow starting from nowhere and pointing to the node representing the initial state.\\
 
-If we have accepting states in our \gls{fsm}, we represent the node for those state with a double circle. This gives us a graph we can display like in the figure~\ref{battcycle}. For comprehension sake, we have also labeled each node with a brief state name and every transition with an unique name based on the starting node.
+Every state $s$ in $W$ or $L$ is displayed with a double circle. We label those in $W$ with "\textit{success}" and those in $L$ with "\textit{failure}". This gives us a graph we can display like in the figure~\ref{battcycle}. For comprehension sake, we have also labeled each node with a brief state name and every transition with an unique name based on the starting node.
 
 \begin{figure}
     \centering
@@ -515,6 +532,24 @@ The computation of such an automaton is a tree. And deciding whether or not an \
 
 We define a word over a given alphabet as a sequence of symbols from that alphabet. As you already know, a \gls{fsm} takes an input alphabet as a parameter and every sequence of symbols from that alphabet are words. We also define a language as a set of words. A \gls{fsm} can accept or reject words, we will call the set of accepted words a regular language over the input alphabet of the \gls{fsm}.
 
+More formally, we define the language recognized by our extendred finite state machine:
+\theoremstyle{definition}
+\begin{definition}{Language.} The language $L \subseteq \Sigma*$ recognized by an automaton is the set of all words whose run over the automaton are accepting.
+\end{definition}
+
+%\subsection{Markov model}
+%
+%Markov Model is a stochastic model used to model randomly changing systems~\cite{1165342}~\cite{MarkovModel:2017}. The difference between a classic \gls{fsm} and a Markov Model is simply that %the Markov Model take transitions randomly based on given probabilities.\\
+%
+%This particular type of Markov Model is the simplest one. Probabilities are not influenced by previous state of the system. We will not introduce the other types of Markov Model here as we %don't need them later on.
+%
+%\begin{figure}
+    %\centering
+    %\includegraphics[scale=0.3]{MarkovModel.png}
+    %\caption{Example of a Markov Model. It shows the probabilities for the weather to be sunny %or rainy and then, the probabilities for the person to go take a walk, clean or go shopping.}
+    %\label{MarkovModel}
+%\end{figure}
+
 \subsection{Timed Automata}
 
 To define a timed automata, we need some more definitions. A timed automata works with timed sequences, timed words and timed languages.\\
@@ -560,50 +595,36 @@ A clock interpretation $v$ over $X$ satisfies a clock constraint $\delta$ over $
 \end{itemize}
 \end{definition}
 
+We now have all the needed tools to define properly the type of timed automaton we'll need for this paper:
+
+\theoremstyle{definition}
+\begin{definition}{Timed automaton.} A timed automaton (TA) is a tuple $(\A, W, L)$ where $\A$ is a timed transition table, $W \subseteq S(\A)$ (with $S(\A)$ being the set of state of $\A$) is the set of \textit{success} states (W stands for winning as S was already taken) and $F \subseteq S(\A)$ is the set of \textit{failure} states.
+\end{definition}
+
+\theoremstyle{definition}
+\begin{definition}{Run.} We define a run $r$ of a timed automaton TA $(\A, W, L)$, where $\A$ is $(\Sigma, S, s_{0},C, E)$, over a timed word $(\sigma, \tau)$ as the sequence
+$$(\overline{s}, \overline{v}): (s_0, v_0) \xrightarrow[\tau_1]{\sigma_1} (s_1, v_1) \xrightarrow[\tau_2]{\sigma_2} (s_2, v_2) \xrightarrow[\tau_3]{\sigma_3} ...$$
+with $s_i \in S$ and $v_i$ is a mapping $C \to \R$ $\forall i \ge 0$.
+\begin{itemize}
+\item $s_o$ is the initial state of $\A$.
+\item $\forall x \in C: v_0(x) = 0$
+\item $\forall i \ge 1: \exists e \in E$ of the form $(s_{i-1}, s_i, \sigma_i, \lambda_i, \delta_i)$ so that $(v_{i-1} + \tau_i - \tau_{i-1})$ satisfies $\delta_i$ and $v_i$ equals $[\lambda_i \mapsto 0](v_{i-1} + \tau_i - \tau_{i-1})$.~\cite{ALUR1994183}
+\end{itemize}
+\end{definition}
+
+Intuitively, a run is the sequence of states and clock interpretations characterizing the \textit{run}/processing of a given timed word to a given timed automata.
+
 \theoremstyle{definition}
 \begin{example}{Timed automaton.} An example of timed automaton where $C = \{x\}$ is given in figure~\ref{timed_automata_e1}.
 \end{example}
 
+We can now speak of successful and failing runs. Given a timed automaton TA $(\A, W, L)$ and a run $r$, lets assume $r$ contains one or more $(s_i, v_i)$ where $s_i \in W$. Take such $(s_i, v_i)$ with the smallest possible value of $i$. The run is said to be successful iff $i = 0$ or $\forall j < i: s_j \notin L$. We define all the other runs as failing runs.
 
+Using this new definition of run, we can define the language accepted by a timed automaton TA as the set of timed words whose run over TA are accepting:
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-\subsubsection{Markov model}
-
-Markov Model is a stochastic model used to model randomly changing systems~\cite{1165342}~\cite{MarkovModel:2017}. The difference between a classic \gls{fsm} and a Markov Model is simply that the Markov Model take transitions randomly based on given probabilities.\\
-
-This particular type of Markov Model is the simplest one. Probabilities are not influenced by previous state of the system. We will not introduce the other types of Markov Model here as we don't need them later on.
-
-\begin{figure}
-    \centering
-    \includegraphics[scale=0.3]{MarkovModel.png}
-    \caption{Example of a Markov Model. It shows the probabilities for the weather to be sunny or rainy and then, the probabilities for the person to go take a walk, clean or go shopping.}
-    \label{MarkovModel}
-\end{figure}
-
-\subsubsection{Probabilistic Timed Automaton}
-
-Those kind of \gls{fsm} can be seen as Timed \gls{fsm} in which we added probabilistic transition like the ones used in a Markov Model.
-
-\subsubsection{Others}
-
-We can imagine a lot of other type of \gls{fsm}. For example, we discussed the possibility to mix timed automaton and alternate automaton. Such an automaton would need its own formal mathematical description and analysis to make sure that it can successfully be used to solve given problems.\\
-
-The final choice we made is such an \gls{fsm} but we will describe it formally later on.
+\theoremstyle{definition}
+\begin{definition}{Timed language.} Given a timed automaton TA $(\A, W, L)$, where $\A$ is $(\Sigma, S, s_{0},C, E)$, the language $L \subseteq \Sigma*$ recognized by TA is the set of timed words which produces accepting runs.
+\end{definition}
 
 \subsection{Applications}
 
@@ -964,9 +985,47 @@ class MyTest:
     \label{timed_automata_e1}
 \end{figure}
 
+\section Formal definition
+
 Theres a lot of modifications we did to the basic concept of \gls{fsm}. First of all, our input alphabet is never quantified. We don't know if it's finite or not. Theoretically, we accept analogical inputs so it can be infinite but as we are working with computer, we know it will not be infinite. The most important thing is that we don't need to quantify it to design our test, the choices we made keeps us from being forced to enumerate one and every possible input. Like we said, it will define itself based on what transition are defined in $\delta$ and a special symbol for a time step, let's say $t$.\\
 
 Also concerning the states, they are not simple mapping of the system's internal memory state. They are more complex abstraction of an arbitrary user defined state. And finally, our $\delta$ transition function is allowed to be partially defined, every undefined transition will have no consequences on the \gls{fsm} computation.
+
+
+
+\subsection{Determinism}
+
+Explain: Transition not on symbols but on complex conditions
+First, evaluate complex conditions (mapping to TRUE/FALSE)
+Maps each transition to a transition number $\R$ unique/growing.
+Find first transition number mapped to TRUE -> transition taken
+Explain why it's deterministic
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 %------------------------------------------------------------------------%
