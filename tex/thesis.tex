@@ -294,6 +294,32 @@ Unit testing is a software testing method by which individual units of source co
 
 In a more practical point-of-view, it's about isolating each function/method/class/... from the code and test their behavior for a wide range of input values. A lot of faults can stay undetected after this step. One of the reason of this being that people who write unit-test have a deep knowledge of the underlying code. This knowledge influence them when writing unit-test so it becomes really hard to set realistic test cases. Also, if those who write the unit-test are the same ones that wrote the code that is being tested, the test code is likely to be as faulty as the code being tested itself !
 
+\begin{figure}
+\label{unit_testing_sample}
+\begin{lstlisting}[frame=single,caption=Brief example of what unit testing is (C pseudocode),label={lst:unit_testing_sample}]
+/**
+ * @brief Reads a file content
+ * @param name Name of the file
+ * @param buffer Buffer for the file content
+ * @return 0 and buffer is filled with the file content.
+ *         -1 if file does not exists
+ *         -2 if file can't be read
+ */
+int readFile(const char* name, const char* buffer);
+
+// Tests fake file name
+assert(readFile("doesnotexist.txt", buffer) == -1);
+
+// Tests file can't be read
+assert(readFile("busyFile.txt", buffer) == -1);
+
+// Tests file read success
+writeFile("file.txt", "some text");
+assert(readFile("file.txt", buffer) == 0);
+assert(buffer == "some text");
+\end{lstlisting}
+\end{figure}
+
 \subsubsection{Integration testing}
 
 Scope: Black-box and white-box testing\\
@@ -322,10 +348,11 @@ Then you will have test cases that try to add clients, another one that try to s
 Scope: Black-box testing\\
 Who: Independent tester\\
 
-System testing involves putting the new program in many different environments to ensure the program works in typical customer environments with various versions and types of operating systems and/or applications~\cite{Laurie.W:Black-box}. System testing is testing conducted on a complete, integrated system to evaluate the
-system compliance with its specified requirements~\cite{IEEEStd1990}.\\
+System testing involves putting the new program in many different environments to ensure the program works in typical customer environments with various versions and types of operating systems and/or applications~\cite{Laurie.W:Black-box}. System testing is testing conducted on a complete, integrated system to evaluate the system compliance with its specified requirements~\cite{IEEEStd1990}.\\
 
-This is very relevant in computer science where every computer is built from different component and can have many different operating systems. To perform system testing, you will usually run the program on different operating systems (Unix based systems or DOS based systems) and also on different hardware configuration. Of course, testing every possible combination is not possible so some exotic systems can still prove themselves unable to run the program after this steps. Of course, if your program is built to run on a specific pre-defined system, this testing will be really straightforward
+This is very relevant in computer science where every computer is built from different component and can have many different operating systems. To perform system testing, you will usually run the program on different operating systems (Unix based systems or DOS based systems) and also on different hardware configuration. Of course, testing every possible combination is not possible so some exotic systems can still prove themselves unable to run the program after this steps. Of course, if your program is built to run on a specific pre-defined system, this testing will be really straightforward.
+
+A basic example of system testing would be two computer, one running a Unix based operating system and the other running Windows for example (any version will do). In this case, the system test would be to run the program in both environment (Unix based OS and Windows) and check that, given the same inputs, both of them produces the same results or at least, similar enough ones. In other words, verify that they both works as expected.
 
 \subsubsection{Acceptance testing}
 
@@ -447,9 +474,9 @@ Let us extend the definition of \gls{fsm} with another usefull notion:
 \end{itemize}
 \end{definition}
 
-// TODO: REWORK Explain why W, L does not modify too much basic timed automaton (can be empty and its normal automaton)
+This extension of finite state machine doesn't introduce any more complexity. Take the original definition where a finite state machine FSM is a tuple $(\Sigma, S, s_{0},\delta, F)$. In this definition, the set of final state $F$ is equivalent to $W \cup L$ from our extended definition.
 
-With that in mind, we define a run to be an \textit{accepting run} and \textit{failed run}: Every run is a said to fail if it is not an accepting run. To determine what is an accepting run, assume at least one state $s_i$ from $r$ is in $W$: Take the one with the smallest $i$. If $i$ equals $0$, the run is accepting, if not: if $\forall j < i: s_j \notin L$ then its an accepting run.
+With this new defintion in mind, we define a run to be an \textit{accepting run} and \textit{failed run}: Every run is a said to fail if it is not an accepting run. To determine what is an accepting run, assume at least one state $s_i$ from $r$ is in $W$: Take the one with the smallest $i$. If $i$ equals $0$, the run is accepting, if not: if $\forall j < i: s_j \notin L$ then its an accepting run.
 
 \subsubsection{Description of Finite State Machine using graphs}
 
@@ -797,53 +824,125 @@ All the problems described above provides us a lot of informations. We know what
 \clearpage
 \section{Requirements analysis}
 
-First of all, lets take back our software development concepts introduce during the first chapter of this paper. We have described seven type of testing and now that we know what we are working on, lets try to summarize what type of testing we really need.\\
-
-\subsection{Unit and integration testing}
-
-Those kind of testing are great to test the code but that does not give us much informations in terms of requirements.\\ // TODO WHY IT IS NOT GOOD
-
-\subsection{System testing}
-
-We do want to make sure that our interfaces can run on different hardware. In our case, we want to be able to validate our software for at least RUG1 and RUG2.\\
-
-\subsection{Functional testing}
-
-Testing that the software fullfils the requirements is, of course, our main preocupation. So this type of testing is of main importance.\\
-
-\subsection{Regression testing}
-
-Being able to certify that a new feature or a bugfix does not break the whole system is a key point too. We dont want to re-introduce old bugs or break what is already working well.\\
-
-\subsection{Acceptance testing}
-
-Automatizing client testing is not really in the scope of this paper. Besides, we assumed earlier that the requirements are good and well validated.\\
-
-
-\section{Requirements}
-
-This gives us the following requirements:
+First of all, lets take back our software development concepts introduce during the first chapter of this paper. We have described seven type of testing and now that we know what we are working on, lets try to summarize what type of testing we really need:\\
 
 \begin{itemize}
-\item System testing
-\item Regression testing
-\item Functional testing
-\item // TODO Requirements-based
+\item Unit and integration testing: Those kind of testing are great to test the code but that does not give us much informations in terms of requirements. Knowing that every functions works separately is not enough to tell that the requierements are met as the program behavior results from the interaction of all those function one with another.
+\item System testing: We do want to make sure that our interfaces can run on different hardware. In our case, we want to be able to validate our software for at least RUG1 and RUG2.
+\item Functional testing: Testing that the software fullfils the requirements is, of course, our main preocupation. So this type of testing is of main importance.
+\item Regression testing: Being able to certify that a new feature or a bugfix does not break the whole system is a key point too. We dont want to re-introduce old bugs or break what is already working well.
+\item Acceptance testing: Automatizing client testing is not really in the scope of this paper. Besides, we assumed earlier that the requirements are good and well validated.
 \end{itemize}
 
+Summed up, those are the 3 main requierements we absolutely want in our solution:
+
+\begin{itemize}
+\item Functional testing
+\item System testing
+\item Regression testing
+\end{itemize}
+
+We now want to know what we need to satisfy those requierements. But first, let us introduce some concept that will be used to formalize our following ideas:
+
+\theoremstyle{definition}
+\begin{definition}{Our software/Our program.} We will talk a lot about "our software" or "our program". All those notation refers to the software being tested.
+\end{definition}
+
+In our case, our software refers to railster-os which is the Unix based operating system we want to test.
+
+\theoremstyle{definition}
+\begin{definition}{Requierements.} Requierements $R$ is a set of requierement defined by our client(s). Keep in mind that we can be our own client.
+\end{definition}
+
+\theoremstyle{definition}
+\begin{definition}{Testing.} A test $t$ is used to map a particular requierement $r \in R$ to a satisfaction value:
+$$
+T: r \to \{True, False\}
+$$
+When mapped to $True$, we say that the requierement is fullfilled and the requierement is not fullfilled when mapped to $False$.
+\end{definition}
+
+This definition is still incomplete, we need to know how the mapping is done and that is the question we are going to answer in this chapter.
+
+\section{Functional testing}
+
+Given a set of requierements, we want to make sure every one of them is fullfilled, using the definition we stated earlier, this is pretty simple to formalize:
+
+\theoremstyle{definition}
+\begin{definition}{Functional testing.} Functional testing is used to ensure that the following condition holds:
+$$\forall r \in R: t(r) = True$$
+\end{definition}
+
+\section{System testing}
+
+Now, you know what system testing is about. We want to verify if our program can run on more than one system. At Railnova, the practical case we had at hand was about two different hardware, RUG1 and RUG2, both of them handles inputs and outputs differently and we wanted to make sure that our custom Unix based OS would run as expected on both of them.\\
+
+Of course, the newest version, RUG2 had more features than the RUG1 and this lead us to our first observation: As different systems don't have the same capabilities and given that all capabilities should be tested, see functional testing if you don't recall why, the set of test we should run on a given system is system dependant.\\
+
+Again, let's take a practical example: The RUG2 can handle more communication protocol than the RUG1 and can process more informations in the same amount of time. So our custom OS should be able to handle those new informations when run on the RUG2 but this is not requiered when run on the RUG1. To fullfil this need, we now know that our solution will have to provide a way of defining the subset of all existing requierement to be tested on a particular systems.\\
+
+\theoremstyle{definition}
+\begin{definition}{Systems.} $Systems$ is the set of all possible environment on which we want our program to run.
+\end{definition}
+
+\theoremstyle{definition}
+\begin{definition}{System.} A system $System \in Systems$ a particular environment on which we want our program to behave as expected
+\end{definition}
+
+\theoremstyle{definition}
+\begin{definition}{System requierements.} The subset of requierement that are required for a given $System$ is $R(System)$
+\end{definition}
+
+\theoremstyle{definition}
+\begin{definition}{Testing.} We can now extend our definition of test by including the system on which the test is done:
+$$T: r, system \to \{True, False\}$$
+\end{definition}
+
+\theoremstyle{definition}
+\begin{definition}{System testing} So now, system testing is simply making sure that, given any $System \in Systems$, the following condition holds:
+$$
+\forall r \in R(System): t(r, system) = True
+$$
+\end{definition}
+
+\section{Regression testing}
+
+In regression testing, we want to make sure that he previous testing are, in the worst case, as efficient as before. If we only maanged to fulfill a subset of the needed requierements, we want that this subset of requierement is still fullfilled in the newest revision of our software.
+
+\theoremstyle{definition}
+\begin{definition}{Revision.} We are going to iterate on the tested software to improve it gradually. A revision $V$ of the software $s$ is a mapping of the software to $\real$:
+$$
+V: s \to \R
+$$
+with the following conditions:
+\begin{itemize}
+\item $s$ is the latest software revision
+\item $s_0$ is the first software revision and $V(s_0) = 0$
+\item $\forall x \in \R: V(s_x) > V(s_{x-1})$
+\end{itemize}
+\end{definition}
+
+Using that, lets extend our test definition to include the software revision:
+\theoremstyle{definition}
+\begin{definition}{Testing.} Given a requirement $r$, a system $s$ and a software $s_x$:
+$$T: r, system,V(s_x) \to \{True, False\}$$
+\end{definition}
+
+Having defined those notations, we now have:
+
+\theoremstyle{definition}
+\begin{definition}{Regression testing} Verify that, given any $System \in Systems$ and a given software revision $x$, the following condition holds:
+$$
+\forall r \in R(System): t(r, system, V(s_x)) = t(r, system, V(s_{x-1}))
+$$
+\end{definition}
+
+Basically, what worked before must still work now.
 
 
 
 
-
-
-
-
-
-
-
-
-
+// TODO INPUTS OUTPUTS
 
 
 
