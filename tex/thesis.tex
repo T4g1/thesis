@@ -16,6 +16,9 @@
 \theoremstyle{definition}
 \newtheorem{example}{Example}[section]
 
+\theoremstyle{remark}
+\newtheorem{remark}{Remark}[section]
+
 \newcommand{\R}{\mathbb{R}}
 \newcommand{\Q}{\mathbb{Q}}
 \newcommand{\A}{\mathcal{A}}
@@ -526,14 +529,14 @@ $$r: s_0 \xrightarrow[]{\sigma_1} s_1 \xrightarrow[]{\sigma_2} s_2 \xrightarrow[
 
 Let us extend the definition of \gls{fsm} with another usefull notion:
 \theoremstyle{definition}
-\begin{definition}{(Extended) Finite State Machine.} A \gls{fsm} is a tuple $(\Sigma, S, s_{0},\delta, W, L)$, where:
+\begin{definition}{(Extended) Finite State Machine.} A \gls{fsm} is a tuple $(\Sigma, S, s_{0},\delta, W, F)$, where:
 \begin{itemize}
 \item $\Sigma$ is the finite input alphabet.
 \item $S$ is the set of state.
 \item $s_{0} \in S$ is the initial state.
 \item $\delta$ is the state-transition function.
 \item $W \subseteq S$ is the set of final accepting states.
-\item $L \subseteq S / W$ is the set of final failure states.
+\item $F \subseteq S / W$ is the set of final failure states.
 \end{itemize}
 \end{definition}
 
@@ -715,11 +718,11 @@ A clock interpretation $v$ over $X$ satisfies a clock constraint $\delta$ over $
 We now have all the needed tools to define properly the type of timed automaton we'll need for this paper:
 
 \theoremstyle{definition}
-\begin{definition}{Timed automaton.} A timed automaton (TA) is a tuple $(\A, W, L)$ where $\A$ is a timed transition table, $W \subseteq S(\A)$ (with $S(\A)$ being the set of state of $\A$) is the set of \textit{success} states (W stands for winning as S was already taken) and $F \subseteq S(\A)$ is the set of \textit{failure} states.
+\begin{definition}{Timed automaton.} A timed automaton (TA) is a tuple $(\A, W, F)$ where $\A$ is a timed transition table, $W \subseteq S(\A)$ (with $S(\A)$ being the set of state of $\A$) is the set of \textit{success} states (W stands for winning as S was already taken) and $F \subseteq S(\A)$ is the set of \textit{failure} states.
 \end{definition}
 
 \theoremstyle{definition}
-\begin{definition}{Run.} We define a run $r$ of a timed automaton TA $(\A, W, L)$, where $\A$ is $(\Sigma, S, s_{0},C, E)$, over a timed word $(\sigma, \tau)$ as the sequence
+\begin{definition}{Run.} We define a run $r$ of a timed automaton TA $(\A, W, F)$, where $\A$ is $(\Sigma, S, s_{0},C, E)$, over a timed word $(\sigma, \tau)$ as the sequence
 $$(\overline{s}, \overline{v}): (s_0, v_0) \xrightarrow[\tau_1]{\sigma_1} (s_1, v_1) \xrightarrow[\tau_2]{\sigma_2} (s_2, v_2) \xrightarrow[\tau_3]{\sigma_3} ...$$
 with $s_i \in S$ and $v_i$ is a mapping $C \to \R$ $\forall i \ge 0$.
 \begin{itemize}
@@ -735,12 +738,12 @@ Intuitively, a run is the sequence of states and clock interpretations character
 \begin{example}{Timed automaton.} An example of timed automaton where $C = \{x\}$ is given in figure~\ref{timed_automata_e1}.
 \end{example}
 
-We can now speak of successful and failing runs. Given a timed automaton TA $(\A, W, L)$ and a run $r$, lets assume $r$ contains one or more $(s_i, v_i)$ where $s_i \in W$. Take such $(s_i, v_i)$ with the smallest possible value of $i$. The run is said to be successful iff $i = 0$ or $\forall j < i: s_j \notin L$. We define all the other runs as failing runs.
+We can now speak of successful and failing runs. Given a timed automaton TA $(\A, W, F)$ and a run $r$, lets assume $r$ contains one or more $(s_i, v_i)$ where $s_i \in W$. Take such $(s_i, v_i)$ with the smallest possible value of $i$. The run is said to be successful iff $i = 0$ or $\forall j < i: s_j \notin L$. We define all the other runs as failing runs.
 
 Using this new definition of run, we can define the language accepted by a timed automaton TA as the set of timed words whose run over TA are accepting:
 
 \theoremstyle{definition}
-\begin{definition}{Timed language.} Given a timed automaton TA $(\A, W, L)$, where $\A$ is $(\Sigma, S, s_{0},C, E)$, the language $L \subseteq \Sigma*$ recognized by TA is the set of timed words which produces accepting runs.
+\begin{definition}{Timed language.} Given a timed automaton TA $(\A, W, F)$, where $\A$ is $(\Sigma, S, s_{0},C, E)$, the language $L \subseteq \Sigma*$ recognized by TA is the set of timed words which produces accepting runs.
 \end{definition}
 
 
@@ -1014,7 +1017,7 @@ This definition is still incomplete, we need to know how the mapping is done and
 
 %-----------------------------------------------------------------------------
 
-\section{Functional testing}
+\subsection{Functional testing}
 
 %-----------------------------------------------------------------------------
 
@@ -1028,7 +1031,7 @@ $$\forall r \in R: t(r) = True$$
 
 %-----------------------------------------------------------------------------
 
-\section{System testing}
+\subsection{System testing}
 
 %-----------------------------------------------------------------------------
 
@@ -1065,7 +1068,7 @@ $$
 
 %-----------------------------------------------------------------------------
 
-\section{Regression testing}
+\subsection{Regression testing}
 
 %-----------------------------------------------------------------------------
 
@@ -1100,6 +1103,28 @@ $$
 \end{definition}
 
 Basically, what worked before must still work now.
+
+\theoremstyle{remark}
+\begin{remark} Satisfying the functional testing is sufficent. We don't need to explicitly check the previous version's requierements for divergences as all requierements are mandatory because of functional testing.
+\end{remark}
+
+
+%-----------------------------------------------------------------------------
+
+\section{Requierements satisfaction}
+
+%-----------------------------------------------------------------------------
+
+We now have a good idea of what we want to do, checking various requierements of a given software to make sure they are all satisfied on every different system used. But how to know when a requirement is fullfilled or not ? In the chapter dedicated to them, we introduced the notion of failure and accepting states. If we manage to map all the interactions of our system with an input alphabet, we can easilly imagine that a run of a given \gls{fsm} extended with the concept of failure and accepting state can produce a the desired mapping for a given requierement. The underlying idea would be to create a \gls{fsm} for every  requierement, run them using the defined input alphabet of the software's interactions and check that the resulting mapping is only made of \textit{True} values. If it is the case, we have successfully created a program that satisfies all the given requierements !
+
+
+%-----------------------------------------------------------------------------
+
+\section{?????}
+
+%-----------------------------------------------------------------------------
+
+
 
 
 
