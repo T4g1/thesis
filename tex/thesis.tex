@@ -828,7 +828,7 @@ Again, this tools uses \gls{fsm} to modelize different systems.
 
 %-----------------------------------------------------------------------------
 
-TODO
+You should now have a good understanding of \gls{fsm} and some of the various modifications we can add to them. We still have to introduce the background of this work before beginning to mix software development and \gls{fsm} but you should already have a small idea of what possibilities such combination have to offers.
 
 
 %------------------------------------------------------------------------%
@@ -942,13 +942,16 @@ This tend to make it difficult to keep track of what is working and what is not 
 Usually, when one of the \gls{rug} fails in production, the product is called back to the Railnova HQ for \gls{fqm}. \gls{fqm} consists of several phases. During the first one also called "fingerprinting", we try to identify the root cause of the failure. Then, we re-direct the product either to "Debug HW" for hardware debugging if the root cause is hardware linked or to "Debug SW" if the root cause is software linked. After those steps, the problem should be solved. The product is sent to "Fixing" to apply other pending modifications that did not necessitate an immediate return of the product. Finally, the product is sent to "Flash \& Validate" to re-initialize it completely and flag it as "ready to ship".\\
 
 
+%\clearpage
+
+
 %-----------------------------------------------------------------------------
 
-\section{Conclusion}
+%\section{Conclusion}
 
 %-----------------------------------------------------------------------------
 
-TODO
+%TODO
 
 
 %------------------------------------------------------------------------%
@@ -1117,14 +1120,18 @@ Basically, what worked before must still work now.
 
 We now have a good idea of what we want to do, checking various requierements of a given software to make sure they are all satisfied on every different system used. But how to know when a requirement is fullfilled or not ? In the chapter dedicated to them, we introduced the notion of failure and accepting states. If we manage to map all the interactions of our system with an input alphabet, we can easilly imagine that a run of a given \gls{fsm} extended with the concept of failure and accepting state can produce a the desired mapping for a given requierement. The underlying idea would be to create a \gls{fsm} for every  requierement, run them using the defined input alphabet of the software's interactions and check that the resulting mapping is only made of \textit{True} values. If it is the case, we have successfully created a program that satisfies all the given requierements !
 
+All we have to do is to find the best \gls{fsm} type that suits our needs and to formalize the software interactions in a way that allows us to capture and manage them
+
 
 %-----------------------------------------------------------------------------
 
-\section{?????}
+\section{Interfaces}
 
 %-----------------------------------------------------------------------------
 
+In our practical case, we need to know how the tested program is performing in order to test it's requierements. To do that, we need to analyse the output it produces. In this context, outputs can be data, reports, logs, screenshots and many other things as long as they are produced by the analysed program. At Railnova, the \gls{rug} communicate with data servers, it produces particular messages that are saved in Railnova databases. It also can be accessed using a serial communication. Using this serial communication, we can fetch a lot of informations from the \gls{rug} operating system. We want our solution to interface with such data stream. Based on this quick analysis, we can think of separate program whose purpose is to continuously check for new data and fetch them into our solution as \gls{fsm}'s inputs. Let's call those program "Output Providers".\\
 
+Output providers
 
 
 
