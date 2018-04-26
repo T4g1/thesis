@@ -9,6 +9,7 @@
 \usepackage{amsthm}
 \usepackage{amsmath}
 \usepackage{amssymb}
+\usepackage{float}
 
 \theoremstyle{definition}
 \newtheorem{definition}{Definition}[section]
@@ -24,6 +25,11 @@
 \newcommand{\A}{\mathcal{A}}
 
 \lstset{
+    basicstyle=\ttfamily,
+    columns=fullflexible,
+    frame=single,
+    breaklines=true,
+    postbreak=\mbox{\textcolor{red}{$\hookrightarrow$}\space},
     language=Python,
     showspaces=false,
     showstringspaces=false,
@@ -48,6 +54,8 @@
 \newacronym{pa}{PA}{Probabilistic Automaton}
 \newacronym{ctmc}{CTMC}{continuous-time Markov Chain}
 \newacronym{pta}{PTA}{Probabilistic Timed Automaton}
+\newacronym{dsl}{DSL}{Domain-specific language}
+
 \newglossaryentry{railsteros}
 { name=RailsterOS,
   description={A set of sub-program running on the \gls{rug} defining the behavior of it}
@@ -88,7 +96,7 @@ This paper will describe a practical case of software testing and explain all th
 
 \section{Introduction}
 
-There are a lot of available softwares nowadays but have you ever wondered where they all come from ? All of them come from some development process. Those processes can last for days, months or even years before producing the expected software and during this process, some errors can be made that makes the software faulty or broken. That's why, all along this process, we need to make sure that everything is working just fine. To do that, we introduce a step in the development process called "testing". Without it, no complicated software will be able to do its task without problems. Of course, this testing step can be done differently depending on the overall development process but nevertheless, every software need to goes through that step.\\
+Nowadays, softwares are everywhere. In banks, cars, vending machines, airplanes, televisions, ... You are using software in your everyday life even without knowing it and when you do, you expect them to meet some expectation, you don't expect your plane to crash because of a software failure or a vending machine stealing your money. That's why some guidelines and processes exists to build those softwares. Those processes can last for days, months or even years before producing the expected software and during this process, some errors can be made that makes the software faulty or broken. That's why, all along this process, we need to make sure that everything is working just fine. To do that, we introduce a step in the development process called "testing". Without it, no complicated software will be able to do its task without problems. Of course, this testing step can be done differently depending on the overall development process but nevertheless, every software need to goes through that step.\\
 
 Not so surprisingly, this paper is all about this particular testing step. The goal of it will be to provide a way of automating this step. As we will explain later on, providing this automatic process is of major interest in term of time gained in the development process and reliability for the final software. Of course, detecting all problems during tests is a really complex task and the process developed throughout this paper will only help to reduce the risk of shipping faulty softwares and to make sure that previously encountered/corrected problems are not re-introduced between different versions of it.\\
 
@@ -336,7 +344,7 @@ In a more practical point-of-view, it's about isolating each function/method/cla
 
 \begin{figure}
 \label{unit_testing_sample}
-\begin{lstlisting}[frame=single,caption=Brief example of what unit testing is (C pseudocode),label={lst:unit_testing_sample}]
+\begin{lstlisting}[caption=Brief example of what unit testing is (C pseudocode),label={lst:unit_testing_sample}]
 /**
  * @brief Reads a file content
  * @param name Name of the file
@@ -466,7 +474,7 @@ All the tools we have talked about in this chapter are of critical importance fo
 %------------------------------------------------------------------------%
 
 \clearpage
-\part{Formal Verification and Model Checking}
+\part{Formal Verification and Model Checking}\label{ModelChecking}
 
 Our goal is to be able to verify that any kind of product, software or hardware, is working as expected. Formal verification can help us to achieve this goal. It is a process that allows us to check whether or not a given model satisfies given properties. You can, for example, create a model of a given software and verify that it does not contains bug. To be able to do that, both the model and the specification must be formally described in a mathematical language. The model is a simplification of the real system which can have some properties. The requierements we want to check must be expressed as properties which can then be checked against the model using \gls{fsm} that we will now introduce.\\
 
@@ -481,6 +489,13 @@ Our goal is to be able to verify that any kind of product, software or hardware,
 %-----------------------------------------------------------------------------
 
 A \gls{fsm} is a mathematical model of computation. It is a mathematical structure used to provide an abstract description of the behavior of a system. This mathematical structure is composed of a list of state. A \gls{fsm} can be in exactly one of a finite number of states at any given time. The FSM can change from one state to another in response to some external inputs. The function that maps state and inputs to states is called a transition. A FSM is defined by its list of states, its initial state, the input alphabet and a set of transitions~\cite{FSM:2017}.\\
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.4]{graph/BatteryCycle.png}
+    \caption{Example of a \gls{fsm} shown as a graph.}
+    \label{battcycle}
+\end{figure}
 
 The input alphabet is the list of every symbol it can receive in any given state. For example, an input alphabet could be a list of keyboard's key if we consider a \gls{fsm} that simulates the behavior of a text editor. The key points here are that you need to have a finite set of state and a finite set of transitions.\\
 
@@ -553,13 +568,6 @@ Having a more human friendly way of presenting \gls{fsm} is possible using graph
 Now we add an arrow for every transition defined in $\delta$ with the starting point being the current node and the endpoint is the node corresponding to the goal of the transition. Finally, we add an arrow starting from nowhere and pointing to the node representing the initial state.\\
 
 Every state $s$ in $W$ or $L$ is displayed with a double circle. We label those in $W$ with "\textit{success}" and those in $L$ with "\textit{failure}". This gives us a graph we can display like in the figure~\ref{battcycle}. For comprehension sake, we have also labeled each node with a brief state name and every transition with an unique name based on the starting node.
-
-\begin{figure}
-    \centering
-    \includegraphics[scale=0.4]{graph/BatteryCycle.png}
-    \caption{Example of a \gls{fsm} shown as a graph.}
-    \label{battcycle}
-\end{figure}
 
 
 %-----------------------------------------------------------------------------
@@ -793,7 +801,7 @@ PRISM uses a uniform modeling language for all the probabilistic models that it 
 
 \begin{figure}
 \label{PRISM_code}
-\begin{lstlisting}[frame=single,caption="Dice model in PRISM",label={lst:PRISM_code}]
+\begin{lstlisting}[caption="Dice model in PRISM",label={lst:PRISM_code}]
 dtmc
 
 module die
@@ -828,7 +836,7 @@ Again, this tools uses \gls{fsm} to modelize different systems.
 
 %-----------------------------------------------------------------------------
 
-You should now have a good understanding of \gls{fsm} and some of the various modifications we can add to them. We still have to introduce the background of this work before beginning to mix software development and \gls{fsm} but you should already have a small idea of what possibilities such combination have to offers.
+You should now have a good understanding of \gls{fsm} and some of the various modifications we can add to them. We still have to introduce the background of this work before beginning to mix software development and \gls{fsm} but you should already have a small idea of what possibilities such combination have to offers. We will later explain how we used the \gls{fsm} introduced here as a \gls{dsl} that we uses to describes the testing we want to conduct.
 
 
 %------------------------------------------------------------------------%
@@ -965,7 +973,7 @@ Usually, when one of the \gls{rug} fails in production, the product is called ba
 \clearpage
 \part{Contribution}
 
-All the problems described above provides us a lot of informations. We know what can go wrong, we know what we need and we know that a proper validation of all the developed product is a key for success of any given product on the long run. So having a global view of what software testing is and what is the concrete problem we are dealing with, we will try to design a testing process that can be applied to it and possibly to any other given problem that needs black-box testing. One of our main goal is also to design a tool that will be useful and easy to use but we want it to be powerful enough to be able to handle every test case we can think of.\\
+All the problems described above provides us a lot of informations. We know what can go wrong, we know what we need and we know that a proper validation of all the developed product is a key for success of any given product on the long run. So having a global view of what software testing is and what is the concrete problem we are dealing with, we will try to design a testing process that can be applied to it and possibly to any other given problem that needs black-box testing. One of our main goal is also to design a tool that will be useful and easy to use but we want it to be powerful enough to be able to handle every test case we might think of.\\
 
 
 \clearpage
@@ -1040,7 +1048,7 @@ $$\forall r \in R: t(r) = True$$
 
 Now, you know what system testing is about. We want to verify if our program can run on more than one system. At Railnova, the practical case we had at hand was about two different hardware, RUG1 and RUG2, both of them handles inputs and outputs differently and we wanted to make sure that our custom Unix based OS would run as expected on both of them.\\
 
-Of course, the newest version, RUG2 had more features than the RUG1 and this lead us to our first observation: As different systems don't have the same capabilities and given that all capabilities should be tested, see functional testing if you don't recall why, the set of test we should run on a given system is system dependant.\\
+Of course, the newest version, RUG2 had more features than the RUG1 and this lead us to our first observation: Different systems can have the same capabilities but they generaly don't and given that all capabilities should be tested, see functional testing if you don't recall why, the set of test we should run on a given system is system dependant. Different systems can have all their test in common if they have the same capbilities, none or some test in common if they don't\\
 
 Again, let's take a practical example: The RUG2 can handle more communication protocol than the RUG1 and can process more informations in the same amount of time. So our custom OS should be able to handle those new informations when run on the RUG2 but this is not requiered when run on the RUG1. To fullfil this need, we now know that our solution will have to provide a way of defining the subset of all existing requierement to be tested on a particular systems.\\
 
@@ -1051,6 +1059,8 @@ Again, let's take a practical example: The RUG2 can handle more communication pr
 \theoremstyle{definition}
 \begin{definition}{System.} A system $System \in Systems$ a particular environment on which we want our program to behave as expected
 \end{definition}
+
+A concrete example of two different systems is a smartphone and a computer. Both are used for different purposes but have some common features (display, user interface, processing power, ...).
 
 \theoremstyle{definition}
 \begin{definition}{System requierements.} The subset of requierement that are required for a given $System$ is $R(System)$
@@ -1068,6 +1078,8 @@ $$
 $$
 \end{definition}
 
+Or simply put, for every requierement of our system, we want to have a test that can evaluate to \textit{true} if the requierement is met and \textit{false} otherwise and we want all those test to evaluate to \textit{true}.
+
 
 %-----------------------------------------------------------------------------
 
@@ -1075,7 +1087,7 @@ $$
 
 %-----------------------------------------------------------------------------
 
-In regression testing, we want to make sure that he previous testing are, in the worst case, as efficient as before. If we only maanged to fulfill a subset of the needed requierements, we want that this subset of requierement is still fullfilled in the newest revision of our software.
+In regression testing, we want to make sure that the previous testing are, in the worst case, as efficient as before. If we only managed to fulfill a subset of the needed requierements, we want this subset of requierement still fullfilled in the newest revision of our software.
 
 \theoremstyle{definition}
 \begin{definition}{Revision.} We are going to iterate on the tested software to improve it gradually. A revision $V$ of the software $s$ is a mapping of the software to $\real$:
@@ -1118,7 +1130,7 @@ Basically, what worked before must still work now.
 
 %-----------------------------------------------------------------------------
 
-We now have a good idea of what we want to do, checking various requierements of a given software to make sure they are all satisfied on every different system used. But how to know when a requirement is fullfilled or not ? In the chapter dedicated to them, we introduced the notion of failure and accepting states. If we manage to map all the interactions of our system with an input alphabet, we can easilly imagine that a run of a given \gls{fsm} extended with the concept of failure and accepting state can produce a the desired mapping for a given requierement. The underlying idea would be to create a \gls{fsm} for every  requierement, run them using the defined input alphabet of the software's interactions and check that the resulting mapping is only made of \textit{True} values. If it is the case, we have successfully created a program that satisfies all the given requierements !
+We now have a good idea of what we want to do, checking various requierements of a given software to make sure they are all satisfied on every different system used. But how to know when a requirement is fullfilled or not ? In the chapter dedicated to them, we introduced the notion of failure and accepting states. If we manage to map all the interactions of our system with an input alphabet, we can easilly imagine that a run of a given \gls{fsm} extended with the concept of failure and accepting state can produce a the desired mapping for a given requierement. The underlying idea would be to create a \gls{fsm} for every requierement, run them using the defined input alphabet of the software's interactions and check that the resulting mapping is only made of \textit{True} values. If it is the case, we have successfully created a program that satisfies all the given requierements !
 
 All we have to do is to find the best \gls{fsm} type that suits our needs and to formalize the software interactions in a way that allows us to capture and manage them
 
@@ -1129,97 +1141,114 @@ All we have to do is to find the best \gls{fsm} type that suits our needs and to
 
 %-----------------------------------------------------------------------------
 
-In our practical case, we need to know how the tested program is performing in order to test it's requierements. To do that, we need to analyse the output it produces. In this context, outputs can be data, reports, logs, screenshots and many other things as long as they are produced by the analysed program. At Railnova, the \gls{rug} communicate with data servers, it produces particular messages that are saved in Railnova databases. It also can be accessed using a serial communication. Using this serial communication, we can fetch a lot of informations from the \gls{rug} operating system. We want our solution to interface with such data stream. Based on this quick analysis, we can think of separate program whose purpose is to continuously check for new data and fetch them into our solution as \gls{fsm}'s inputs. Let's call those program "Output Providers".\\
+In our practical case, we need to know how the tested program is performing in order to test it's requierements. To do that, we need to analyse the output it produces. In this context, outputs can be data, reports, logs, screenshots and many other things as long as they are produced by the analysed program. At Railnova, the \gls{rug} communicate with data servers, it produces particular messages that are saved in Railnova databases. It also can be accessed using a serial communication. Using this serial communication, we can fetch a lot of informations from the \gls{rug} operating system. We want our solution to interface with such data stream. Based on this quick analysis, we can think of separate program whose purpose is to continuously check for new data and fetch them into our solution as \gls{fsm}'s inputs. Let's call those program "Output Providers". So the idea is to setup a set a output providers that will provide informations about how the program is performing. We can imagine a lot of other use cases for those output providers, for example, we can have an output providers that look at a screen whose output is coming from our program and push the screen status into our solution.\\
 
-Output providers
-
-
-
-
-// TODO INPUTS OUTPUTS
-
-One of the problem we are focusing on is what do we need to build a reliable process that can reduce drastically the odds of shipping incorrect or faulty products to our clients ?\\
-
-To reply to this question, we need to analyze what we need or what are our requirements. We can begin by saying that we need to handle a set of inputs and a set of outputs. We also need rules to parse the set of outputs and validate them or not.\\
-
-What we mean by saying "validating the outputs" is simply determining if those are the expected outputs or the correct outputs. If not, we encountered some invalid outputs meaning that our product is faulty and cannot be shipped.\\
-
-For the \gls{rug}, we have a really huge amount of different inputs sources and all of them can produce a wide range of various outputs. So, for this work to be done in time, we choose to only cover a given subset of those inputs/outputs. But, we cover them, we'll try to give some general ways of handling them so this work can easily be extended to all kind of inputs/outputs regardless of the project being considered.
+So, is interfacing outputs from our system enough to build a viable solution ? We figure out that it is not. Let's say you want to check that the software produces different output based on the room temperature. If you don't have the room temperature, you will not be able to check data's correctness. That's why we also need to fetch inputs of the tested program. Unfortunately, this was not considered early enoguh in the development process of our solution so the name "Output Provider" was also used for those in the final solution.
 
 
 %-----------------------------------------------------------------------------
 
-\section{Testing environment}
+\subsection{Output(/Inputs) providers}
 
 %-----------------------------------------------------------------------------
 
-The testing environment should emulate perfectly any given train/engine. Each train have a set of interfaces that are plugged into the tested system. What we mean by "interface" is one particular input type, those will be described later on. The system that will emulate the train (or the testing environment) will be given a set of "scenario"\\
+The goal for those is to fetch or produce data that describes the state of the program or the various variables that can affect its processing/behavior. We decided to allow the user to create any ouptut providers needed. Those provider will then provide key-value dictionnary with up to date data in them. Each provider being identified, it is then easy in any test to use the data produced by knowing which ouptut provider produces it and which key is used to identify the data. Lets use some more formal definitions for this:
 
-Those scenario will describe what can happen to the system and how it will react to it. A strong constraint in the case that concerns us is that, those scenario will be written by people with poor or no knowledge of advanced programming so we need to provide a simple yet powerful language to write those stories.\\
+\theoremstyle{definition}
+\begin{definition}{Dictionary.} A Dictionary $D$, in this context, is a mapping of key $k \in K$, where $K$ is the set $K(D)$ of all the keys produced by $D$, and discrete values $v \in V$ where $V$ is the set of values $V(D, k)$ that can be assigned to a given key $k$ in this Dictionary:
+$$D: k \to v$$
+\end{definition}
 
-We will assume that our testing environment have a way of sending every kind of inputs to the software being tested and retrieved every kind of outputs from it. Of course, in some case this is very difficult to achieve. Lets consider a practical example that is happening for the \gls{rug} case.\\
+\theoremstyle{definition}
+\begin{definition}{Output/Input providers.} An Output/Input Provider $P$ is a user defined plugin that produces exactly one type of Dictionary $D$. From now on, we will call them \gls{op}.
+\end{definition}
 
-The \gls{railsteros} communicates with a GPS/GSM chipset that is connected to antenna that are not under our control. This is an issue because under those circumstances, if the antenna can behave differently in production than during our tests sessions so some faults can goes undiscovered until that.\\
+So with those definitions, we can have several Output/Input Providers producing the same type of data (Dictionary). A practical example for this would be a temperature sensor, one could read the sensor value on a screen or directly on the electrical wire. In this case, we would have one \gls{op} that would fetch the sensor value from the screen and produce a dictionary with only one key $K = { "sensor" }$ and another \gls{op} would do the same but reading the value from the wire.\\
 
-Some solutions exists for this kind of problems like having our own antenna or using development boards for this chipset. We could also try to write some kind of simulator that will interface with the GPS/GSM chipset but we would need to reverse engineer the whole GSM/GPS networks or at least one particular antenna which would be really time and resources consuming. Not to mention that it will also probably be way more expensive than fixing hypothetical faults when they arise in the production environment. So the complex interfaces needed for those kind of technical component and specifically, their implementations are not a simple matter and are way beyond the scope of this paper so we will not talk more about them. \\
+But now, what if we want another sensor, let's say an oil sensor, the set of value that this sensor can be mapped to will probably not be the same and how does one differentiate between one or the other ? We could use the \gls{op} as an identification for the Dictionary but instead of that, we decided to add a custom data to all our Dictionary to identify them one from the other:
 
-In this paper and for case like this one, we will simply consider that it is not a part of the system that we can test. So every component that are part of the whole system being tested are provided with some interface that allows us to communicate with them, sends and retrieves data.\\
+\theoremstyle{definition}
+\begin{definition}{Dictionary (extended).} A Dictionary $D$, in this context, is an identification $i \in \mathbb{R}$ and a mapping of key $k \in K$, where $K$ is the set $K(i)$ of all the keys produced by a given Dictionary identified as $i$, and discrete values $v \in V$ where $V$ is the set of values $V(i, k)$ that can be assigned to a given key $k$ from a given Dictionary identified as $i$:
+$$D: k \to v$$
+\end{definition}
 
-With that in mind, we want to be able to describe what happens on the input side of the studied system and then, what are the expected results or outputs produced. For example, when you put some money in a vending machine to buy a soda, the system is the vending machine, you don't know how it works (or at least, most people don't), you feed it some inputs (some money) and you expect a given output (a soda) (figure~\ref{vm-io}). This is exactly what you want to describe in your tests.\\
-
-\begin{figure}
-    \centering
-    \includegraphics[scale=0.8]{vending-io.png}
-    \caption{The vending machine I/O mapping}
-    \label{vm-io}
-\end{figure}
-
-A naive idea to do so could be to write a file mapping every possible inputs to every possible outputs and claim that our process works only when no unpredicted input/output pair occurs during some run of it (figure~\ref{io_map1}). But then, what if we want to produce a different output depending on how many times we seen some given output ? With this first idea, it would not be possible to handle this as we don't keep track the current state of the process. We don't have a way of counting how many given inputs have been encountered since the start of the process.\\
-
-\begin{figure}
-    \centering
-    \begin{tikzpicture}[ele/.style={fill=black,circle,minimum width=.8pt,inner sep=1pt},every fit/.style={ellipse,draw,inner sep=-2pt}]
-    \node[ele,label=left:$a$] (a1) at (0,5) {};
-    \node[ele,label=left:$b$] (a2) at (0,4) {};
-    \node[ele,label=left:$c$] (a3) at (0,3) {};
-    \node[ele,label=left:$d$] (a4) at (0,2) {};
-    \node[ele,label=left:$e$] (a5) at (0,1) {};
-
-    \node[ele,,label=right:$1$] (b1) at (4,5) {};
-    \node[ele,,label=right:$2$] (b2) at (4,4) {};
-    \node[ele,,label=right:$3$] (b3) at (4,3) {};
-    \node[ele,,label=right:$4$] (b4) at (4,2) {};
-    \node[ele,,label=right:$5$] (b5) at (4,1) {};
-
-    \node[draw,fit= (a1) (a2) (a3) (a4) (a5), minimum width=2cm, label=above:$Inputs$] {} ;
-    \node[draw,fit= (b1) (b2) (b3) (b4) (b5), minimum width=2cm, label=above:$Outputs$] {} ;
-    \draw[->,thick,shorten <=2pt,shorten >=2pt] (a1) -- (b4);
-    \draw[->,thick,shorten <=2pt,shorten >=2pt] (a1) -- (b2);
-    \draw[->,thick,shorten <=2pt,shorten >=2] (a2) -- (b2);
-    \draw[->,thick,shorten <=2pt,shorten >=2] (a3) -- (b1);
-    \draw[->,thick,shorten <=2pt,shorten >=2] (a4) -- (b3);
-    \end{tikzpicture}
-
-    \caption{Not explicit schematisation of a valid mapping of inputs to outputs, all possible cases are not taken into account. On the left, the input we send into the system and on the right, the outputs we can receive. Arrows shows what are the expected outputs for a particular input}
-    \label{io_map1}
-\end{figure}
-
-This first idea gave us an important lesson, we need to keep track of the state of the process or at least of what happened before the current time. This does correspond to what we call \gls{fsm} and this is why we introduced them earlier.
+This now implies that all Dictionary that shares the same identification should produces the same set of key with the same set of boundaries for their values. A stronger assertion is that each identification of Dictionary denotes a particular context of data. In the previous example, we would now have a new \gls{op} that produces the same set of key only with a different identification for its Dictionary.
 
 
 %-----------------------------------------------------------------------------
 
-\section{Choices}
+%\section{Testing environment}
 
 %-----------------------------------------------------------------------------
 
-When asked what is the type of \gls{fsm} that fits our needs the best, we want to give the best possible answer. To do that, we need to rank the different possibilities that we have introduced based on the following criteria. First, we want to make sure that a particular \gls{fsm} type is possible to apply in our case. If it is an abstract \gls{fsm} that uses infinite memory or another paradigms that is impossible to implement on modern computer, we know that we can discard it.\\
+% The testing environment should emulate perfectly any given train/engine. Each train have a set of interfaces that are plugged into the tested system. What we mean by "interface" is one particular input type, those will be described later on. The system that will emulate the train (or the testing environment) will be given a set of "scenario"\\
 
-Then, how easy it is to describe a system's behavior with such \gls{fsm} ? If it takes to much times or if we find it too difficult for non-technical peoples to describe a system's behavior using that particular \gls{fsm} type, we know that it will probably be deprecated over time and wont be used as it should be.\\
+% Those scenario will describe what can happen to the system and how it will react to it. A strong constraint in the case that concerns us is that, those scenario will be written by people with poor or no knowledge of advanced programming so we need to provide a simple yet powerful language to write those stories.\\
 
-Lastly, if the chosen \gls{fsm} introduces restriction on what can be described, those restriction must not prevent us from doing every testing needed. And if it introduces new possibilities that allows us to describe more system's behaviors, the complexity that it introduces into the system should be worth it.\\
+% We will assume that our testing environment have a way of sending every kind of inputs to the software being tested and retrieved every kind of outputs from it. Of course, in some case this is very difficult to achieve. Lets consider a practical example that is happening for the \gls{rug} case.\\
 
-Those three criteria are the ones that where chosen as the most relevant for the choice of the \gls{fsm} that will be used.
+% The \gls{railsteros} communicates with a GPS/GSM chipset that is connected to antenna that are not under our control. This is an issue because under those circumstances, if the antenna can behave differently in production than during our tests sessions so some faults can goes undiscovered until that.\\
+
+% Some solutions exists for this kind of problems like having our own antenna or using development boards for this chipset. We could also try to write some kind of simulator that will interface with the GPS/GSM chipset but we would need to reverse engineer the whole GSM/GPS networks or at least one particular antenna which would be really time and resources consuming. Not to mention that it will also probably be way more expensive than fixing hypothetical faults when they arise in the production environment. So the complex interfaces needed for those kind of technical component and specifically, their implementations are not a simple matter and are way beyond the scope of this paper so we will not talk more about them. \\
+
+% In this paper and for case like this one, we will simply consider that it is not a part of the system that we can test. So every component that are part of the whole system being tested are provided with some interface that allows us to communicate with them, sends and retrieves data.\\
+
+% With that in mind, we want to be able to describe what happens on the input side of the studied system and then, what are the expected results or outputs produced. For example, when you put some money in a vending machine to buy a soda, the system is the vending machine, you don't know how it works (or at least, most people don't), you feed it some inputs (some money) and you expect a given output (a soda) (figure~\ref{vm-io}). This is exactly what you want to describe in your tests.\\
+
+% \begin{figure}
+%     \centering
+%     \includegraphics[scale=0.8]{vending-io.png}
+%     \caption{The vending machine I/O mapping}
+%     \label{vm-io}
+% \end{figure}
+
+% A naive idea to do so could be to write a file mapping every possible inputs to every possible outputs and claim that our process works only when no unpredicted input/output pair occurs during some run of it (figure~\ref{io_map1}). But then, what if we want to produce a different output depending on how many times we seen some given output ? With this first idea, it would not be possible to handle this as we don't keep track the current state of the process. We don't have a way of counting how many given inputs have been encountered since the start of the process.\\
+
+% \begin{figure}
+%     \centering
+%     \begin{tikzpicture}[ele/.style={fill=black,circle,minimum width=.8pt,inner sep=1pt},every fit/.style={ellipse,draw,inner sep=-2pt}]
+%     \node[ele,label=left:$a$] (a1) at (0,5) {};
+%     \node[ele,label=left:$b$] (a2) at (0,4) {};
+%     \node[ele,label=left:$c$] (a3) at (0,3) {};
+%     \node[ele,label=left:$d$] (a4) at (0,2) {};
+%     \node[ele,label=left:$e$] (a5) at (0,1) {};
+
+%     \node[ele,,label=right:$1$] (b1) at (4,5) {};
+%     \node[ele,,label=right:$2$] (b2) at (4,4) {};
+%     \node[ele,,label=right:$3$] (b3) at (4,3) {};
+%     \node[ele,,label=right:$4$] (b4) at (4,2) {};
+%     \node[ele,,label=right:$5$] (b5) at (4,1) {};
+
+%     \node[draw,fit= (a1) (a2) (a3) (a4) (a5), minimum width=2cm, label=above:$Inputs$] {} ;
+%     \node[draw,fit= (b1) (b2) (b3) (b4) (b5), minimum width=2cm, label=above:$Outputs$] {} ;
+%     \draw[->,thick,shorten <=2pt,shorten >=2pt] (a1) -- (b4);
+%     \draw[->,thick,shorten <=2pt,shorten >=2pt] (a1) -- (b2);
+%     \draw[->,thick,shorten <=2pt,shorten >=2] (a2) -- (b2);
+%     \draw[->,thick,shorten <=2pt,shorten >=2] (a3) -- (b1);
+%     \draw[->,thick,shorten <=2pt,shorten >=2] (a4) -- (b3);
+%     \end{tikzpicture}
+
+%     \caption{Not explicit schematisation of a valid mapping of inputs to outputs, all possible cases are not taken into account. On the left, the input we send into the system and on the right, the outputs we can receive. Arrows shows what are the expected outputs for a particular input}
+%     \label{io_map1}
+% \end{figure}
+
+% This first idea gave us an important lesson, we need to keep track of the state of the process or at least of what happened before the current time. This does correspond to what we call \gls{fsm} and this is why we introduced them earlier.
+
+
+%-----------------------------------------------------------------------------
+
+\section{Testing}
+
+%-----------------------------------------------------------------------------
+
+We still need a way for the user to describe the test that will be used to check the requierements. To do so, we decided to create a \gls{dsl}. The goal is to be able to describe acurrately an \gls{fsm} in Python. So first, we need to choose the \gls{fsm} that best suits our needs based on what we learn in the chapter \textit{Formal Verification and Model Checking}~\ref{ModelChecking}. To do that, we need to rank the different possibilities that we have introduced based on the following criteria:
+\begin{itemize}
+\item We want to make sure that a particular \gls{fsm} type is possible to apply in our case. If it is an abstract \gls{fsm} that uses infinite memory or another paradigms that is impossible to implement on modern computer, we know that we can discard it.
+\item How easy it is to describe a system's behavior with such \gls{fsm} ? If it takes to much times or if we find it too difficult for non-technical peoples to describe a system's behavior using that particular \gls{fsm} type, we know that it will probably be deprecated over time and wont be used as it should be.
+\item If the chosen \gls{fsm} introduces restriction on what can be described, those restriction must not prevent us from doing every testing needed. And if it introduces new possibilities that allows us to describe more system's behaviors, the complexity that it introduces into the system should be worth it.
+\end{itemize}
+
+Those three criteria are the ones that where chosen as the most relevant for the choice of the \gls{fsm} that will be used. We can summarize with the following questions:
 
 \begin{itemize}
 \item Is it possible to implement ?
@@ -1241,6 +1270,32 @@ Now with the \gls{afa}, the complexity of implementation required by this paradi
 
 This left us with timed automaton. This is the choice we made. Those \gls{fsm} are really well adapted for our use case. Being able to manipulate time directly in our transitions and state gives us a lot of ease to write the code and its also very powerful too ! With it, we are able, for example, to send a lot of data with a variable interval between them and then receive data accordingly. You can also decide to create a clock for timeout that will be reseted each time you receive a given data. There are really a lot of use case and some more will be described later on.\\
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\part{TODO}
+
+ALL BELOW IS TODO
+
 This choice of tool is also motivated by the fact that writing and understanding automaton is a very easy process. Designing a \gls{ui} to create automata and generating valid scenario out of it is a relatively easy process so this could be a way to meet the strong requirement that our solution shall be easy to use for not seasoned programmers.\\
 
 As an example, take the pseudo-code showing how test are designed using this tool in listing~\ref{lst:python-pseudo-tsm}. We create 4 states, one, "init", is purely optional, it's purpose is for initializing external tools or some variables if we need them. Then a state that will simply do nothing, waiting for some data to arrive. A success and a failure state. This test works by looping in wait-state every time a data is received. The test success when enough time has elapsed without any timeout and it fails at the first timeout encountered.\\
@@ -1249,7 +1304,7 @@ As we modified a lot the \gls{fsm} principles, we'll say that our \gls{fsm} succ
 
 \begin{figure}
     \label{python-pseudo-tsm}
-    \begin{lstlisting}[frame=single,caption="Pseudo test case example",label={lst:python-pseudo-tsm}]
+    \begin{lstlisting}[caption="Pseudo test case example",label={lst:python-pseudo-tsm}]
 class MyTest:
     add_state("init", enter=init_all)
     add_state("wait")
@@ -1274,6 +1329,11 @@ class MyTest:
 \end{figure}
 
 
+\subsection{Domain-specific language}
+%-----------------------------------------------------------------------------
+
+TODO
+
 %-----------------------------------------------------------------------------
 
 \section{Formal definition}
@@ -1293,6 +1353,20 @@ First, evaluate complex conditions (mapping to TRUE/FALSE)
 Maps each transition to a transition number $\R$ unique/growing.
 Find first transition number mapped to TRUE -> transition taken
 Explain why it's deterministic
+
+
+\clearpage
+
+
+%-----------------------------------------------------------------------------
+
+\section{Conclusion}
+
+%-----------------------------------------------------------------------------
+
+We introduced the concept of portability when we talked about system testing and versioning when we talked about regression testing and with the third testing, functional testing, we stated that we want the software to run accordingly to our requierement on any system and for every revision of it.
+
+// TODO CONTINUE
 
 %------------------------------------------------------------------------%
 %                                                                        %
@@ -1363,7 +1437,7 @@ Several parameters are needed to add a test. \textbf{name} and \textbf{descripti
 
 \begin{figure}
     \label{masterlist_op}
-    \begin{lstlisting}[frame=single,caption="Output provider configuration",label={lst:masterlist_op}]
+    \begin{lstlisting}[caption="Output provider configuration",label={lst:masterlist_op}]
 masterlist_op = [
     { "type": "WANESY", "name": "WanesyProvider" },
     { "type": "SERIAL_WANESY", "name": "SerialWanesyProvider" },
@@ -1373,7 +1447,7 @@ masterlist_op = [
 
 \begin{figure}
     \label{l_test_op}
-    \begin{lstlisting}[frame=single,caption="Tests configuration",label={lst:l_test_op}]
+    \begin{lstlisting}[caption="Tests configuration",label={lst:l_test_op}]
 l_test = [
     # Efficiency Vs Current
     {
@@ -1417,7 +1491,7 @@ l_test = [
 
 \begin{figure}
     \label{l_batch}
-    \begin{lstlisting}[frame=single,caption="Batch of tests configuration",label={lst:l_batch}]
+    \begin{lstlisting}[caption="Batch of tests configuration",label={lst:l_batch}]
 l_batch = [
     {
         "name": "fingerprint",
@@ -1438,7 +1512,7 @@ l_batch = [
 
 \begin{figure}
     \label{l_product_type}
-    \begin{lstlisting}[frame=single,caption="Products configuration",label={lst:l_product_type}]
+    \begin{lstlisting}[caption="Products configuration",label={lst:l_product_type}]
 l_product_type = [
     {
         "type": "none",
