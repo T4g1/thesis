@@ -55,6 +55,7 @@
 \newacronym{ctmc}{CTMC}{continuous-time Markov Chain}
 \newacronym{pta}{PTA}{Probabilistic Timed Automaton}
 \newacronym{dsl}{DSL}{Domain-specific language}
+\newacronym{gpl}{GPL}{General-purpose language}
 
 \newglossaryentry{railsteros}
 { name=RailsterOS,
@@ -1015,7 +1016,7 @@ In our case, our software refers to railster-os which is the Unix based operatin
 \begin{definition}{Requierements.} Requierements $R$ is a set of requierement defined by our client(s). Keep in mind that we can be our own client.
 \end{definition}
 
-\theoremstyle{definition}
+\theoremstyle{definition}\label{def:Testing}
 \begin{definition}{Testing.} A test $t$ is used to map a particular requierement $r \in R$ to a satisfaction value:
 $$
 T: r \to \{True, False\}
@@ -1148,7 +1149,7 @@ So, is interfacing outputs from our system enough to build a viable solution ? W
 
 %-----------------------------------------------------------------------------
 
-\subsection{Output(/Inputs) providers}
+\subsection{Output(/Inputs) providers}\label{sec:providers}
 
 %-----------------------------------------------------------------------------
 
@@ -1237,18 +1238,35 @@ This now implies that all Dictionary that shares the same identification should 
 
 %-----------------------------------------------------------------------------
 
-\section{Testing}
+\section{Framework}
 
 %-----------------------------------------------------------------------------
 
-We still need a way for the user to describe the test that will be used to check the requierements. To do so, we decided to create a \gls{dsl}. The goal is to be able to describe acurrately an \gls{fsm} in Python. So first, we need to choose the \gls{fsm} that best suits our needs based on what we learn in the chapter \textit{Formal Verification and Model Checking}~\ref{ModelChecking}. To do that, we need to rank the different possibilities that we have introduced based on the following criteria:
+We still need a way for the user to describe how the testing will be done. We decided to describes that using a \gls{fsm} for each requierement testing and to call such \gls{fsm} a scenario, we will refine this definition later after having explained which \gls{fsm} we will use:
+
+\theoremstyle{definition}
+\begin{definition}{Scenario.} A scenario is a \gls{fsm} whose goal is to perform a test.
+\end{definition}
+
+In theoretical \gls{fsm}, the number of state is upper bound by the system's internal memory. If we want to test every possible state it would gives us $2^x$ states to analyze (where $x$ is the system's internal memory expressed in bit). Let's say that this memory can be around two to height gigabits and this is raising every passing years. So we would have to describe what should happen in $2^2*10^9$ different states. We don't say that this is not possible but if we can do the same using less than 25 states for example, it should be easier for any human being.\\
+
+So to address this problem, we need to abstract the state definition. We'll aggregate formal states into a more complex structure that we will still call a state but for the user, it will just be something like "initialization state", "error state", "processing data state" and so on. A state will simply be a set of computation that needs to be applied.
+We want to be able to react when leaving or entering a state, we are now programming so we will probably need to free ressources or allocate them for example. It would also be nice to be able to repeat some operation when we receive some input symbol. Of course, this behavior could be achieved using more states and transition but lets try to keep it simple, fewer states and transitions means less complexity, code and more readability. So we introduce three optional functions, one for the computation needed when we reach the state, one for when we leave the state and the last one for the computation we need to do every time a new symbol is read.\\
+
+Speaking of input symbols, we talked about data providers in section \ref{sec:providers}. We want to use them to get input symbols. So let's define our input alphabet as a set of dictionary:
+
+\theoremstyle{definition}
+\begin{definition}{Input alphabet.} The input alphabet we will be working with is a set $\Sigma$ of dictionary $D$.
+\end{definition}
+
+To choose the type of \gls{fsm} that best suits our needs, we need some kind of ranking system based on what we learn in the chapter \textit{Formal Verification and Model Checking}~\ref{ModelChecking}. We decided to use the following criteria:
 \begin{itemize}
 \item We want to make sure that a particular \gls{fsm} type is possible to apply in our case. If it is an abstract \gls{fsm} that uses infinite memory or another paradigms that is impossible to implement on modern computer, we know that we can discard it.
 \item How easy it is to describe a system's behavior with such \gls{fsm} ? If it takes to much times or if we find it too difficult for non-technical peoples to describe a system's behavior using that particular \gls{fsm} type, we know that it will probably be deprecated over time and wont be used as it should be.
 \item If the chosen \gls{fsm} introduces restriction on what can be described, those restriction must not prevent us from doing every testing needed. And if it introduces new possibilities that allows us to describe more system's behaviors, the complexity that it introduces into the system should be worth it.
 \end{itemize}
 
-Those three criteria are the ones that where chosen as the most relevant for the choice of the \gls{fsm} that will be used. We can summarize with the following questions:
+We can summarize with the following questions:
 
 \begin{itemize}
 \item Is it possible to implement ?
@@ -1256,51 +1274,29 @@ Those three criteria are the ones that where chosen as the most relevant for the
 \item Does this introduces restrictions ?
 \end{itemize}
 
-Lets review the possible choices we have and justify the one we picked. But first, let's explain what are the main differences between our practical case and theory. In theoretical \gls{fsm}, the number of state is upper bound by the system's internal memory. If we want to test every possible state it would gives us $2^x$ states to analyze (where $x$ is the system's internal memory expressed in bit). In modern computers, this memory can be around two to height gigabits maybe and this is raising every passing years. So having to describe what should happen in $2^2*10^9$ different states is not really a possible choice.\\
-
-To address this problem, we need to abstract the state definition. We'll aggregate formal states into a more complex structure that we will still call a state but for the user, it will just be something like "initialization state", "error state", "processing data state" and so on. A state will simply be a set of computation that needs to be applied. Three optional function, one for the computation needed when we reach the state, one for when we leave the state and the last one for the computation we need to do every time a new symbol is read.\\
-
-The input alphabet $\Sigma$ formally defined earlier is also problematic, how can you describe every input received by a modern computer ? That requires very low-level knowledge and a lot of work. We want the user to be able to describe every states and transition without minding the $\Sigma$ input alphabet. To achieve this, lets define $\Sigma$ as a set of abstract inputs instead of character's set or token's set.\\
-
 Now to the choice of \gls{fsm} model, why don't we simply pick the most simple case of \gls{fsm} ? The reasons are very simple, take this case: You want to be able to detect a failure that happen if you receive a given data more than 10 seconds after some given data. How can you do this ? Or even simpler, you want to detect a failure if you didn't receive any data for 30 seconds.\\
 
-All of those case requires you to create a new input type that will be the time. Say you receive this input each time a second pass. Already, it is a lot like timed state machine but lets say we want to use a pure \gls{fsm}. Now, we need to add state for each seconds passed, so if we want to wait 30 seconds, we need 30 states with 30 transitions for each seconds and 30 transitions for the event of "a data has been received" that will go back to initial state. And all of this needs to be written by someone. You can easily see why this is impracticable. So clearly, in this case, \gls{fsm} are too limited if we want to handle this in a simple and practicable way.\\
+All of those case requires you to create a new input type that will be the time. Say you receive this input each time a second pass. Already, it is a lot like timed state machine but lets say we want to use a pure \gls{fsm}. Now, we need to add state for each seconds passed, so if we want to wait 30 seconds, we need 30 states with 30 transitions for each seconds and 30 transitions for the event of "a data has been received" that will go back to initial state. And all of this needs to be written by someone. You can easily see why this is impracticable. So clearly, in this case, \gls{fsm} are too limited if we want to handle this in a simple and practicable way, that is, by limiting the number of states the user will need to use.\\
 
-Now with the \gls{afa}, the complexity of implementation required by this paradigm is quite important, we need to run multiple automaton, construct execution trees and analyze them. Compared to a simple \gls{fsm} implementation, this is quite a lot of work. So is it worth it ? To answer this question, we need to find practical case where such a paradigm would become indispensable and such case should be really difficult to implement into a classic \gls{fsm} to justify choosing \gls{afa} as our main choice for the implementation of Nursery. Based on the concrete needs we add when we analyzed this possibility, we choose not to consider it as a good solution because none of the case we add prepared needed such complexity and using this would have made it difficult to design test by inexperienced users.\\
+Now with the \gls{afa}, the complexity of implementation required by this paradigm is quite important, we need to run multiple automaton, construct execution trees and analyze them. Compared to a simple \gls{fsm} implementation, this is quite a lot of work. So is it worth it ? To answer this question, we need to find practical case where such a paradigm would become indispensable and such case should be really difficult to implement into a classic \gls{fsm} to justify choosing \gls{afa} as our main choice for the implementation of Nursery. Based on the concrete needs we had when we analyzed this possibility, we choose not to consider it as a good solution because none of the case we had prepared needed such complexity and using this would have made it difficult to design test by inexperienced users. This also follows from the fact that we wanted to avoid dealing with concurrency.\\
 
-This left us with timed automaton. This is the choice we made. Those \gls{fsm} are really well adapted for our use case. Being able to manipulate time directly in our transitions and state gives us a lot of ease to write the code and its also very powerful too ! With it, we are able, for example, to send a lot of data with a variable interval between them and then receive data accordingly. You can also decide to create a clock for timeout that will be reseted each time you receive a given data. There are really a lot of use case and some more will be described later on.\\
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-\part{TODO}
-
-ALL BELOW IS TODO
+There is a wide variety a \gls{fsm}, there isn't any limit on how many \gls{fsm} type you can think of but when we started implementing our solution, the best \gls{fsm} that our 3 ranking questions left us with was timed automaton. Those \gls{fsm} are really well adapted for our use case. Being able to manipulate time directly in our transitions and state gives us a lot of ease to write the code and its also very powerful too! With it, we are able, for example, to send a lot of data with a variable interval between them and then receive data accordingly. You can also decide to create a clock for timeout that will be reseted each time you receive a given data. There are really a lot of use case and some more will be described later on.\\
 
 This choice of tool is also motivated by the fact that writing and understanding automaton is a very easy process. Designing a \gls{ui} to create automata and generating valid scenario out of it is a relatively easy process so this could be a way to meet the strong requirement that our solution shall be easy to use for not seasoned programmers.\\
 
-As an example, take the pseudo-code showing how test are designed using this tool in listing~\ref{lst:python-pseudo-tsm}. We create 4 states, one, "init", is purely optional, it's purpose is for initializing external tools or some variables if we need them. Then a state that will simply do nothing, waiting for some data to arrive. A success and a failure state. This test works by looping in wait-state every time a data is received. The test success when enough time has elapsed without any timeout and it fails at the first timeout encountered.\\
+Let's now refine a bit our definitions of a scenario:
+\theoremstyle{definition}
+\begin{definition}{Scenario.} A scenario is a timed automaton whose goal is to perform a test.
+\end{definition}
 
-As we modified a lot the \gls{fsm} principles, we'll say that our \gls{fsm} succeed or fails when the test passed or failed. We will not say that our test accepts nor recognizes as we think this is not applicable for our case.\\
+We also want to improve the input alphabet we will be working on, if we include the clocks in it, we will be able to perform operation every given time interval:
+\theoremstyle{definition}
+\begin{definition}{Input alphabet.} The input alphabet we will be working with is a set $\Sigma$ of dictionary $D$ along with a set of clocks $C$.
+\end{definition}
+
+
+
+Using this \gls{dsl} we comes up with a code like the one in listing~\ref{lst:python-pseudo-tsm}. We create 4 states, one, "init", is purely optional, it's purpose is for initializing external tools or some variables if we need them. Then a state that will simply do nothing, waiting for some data to arrive. A success and a failure state. This test works by looping in wait-state every time a data is received. The test success when enough time has elapsed without any timeout and it fails at the first timeout encountered.\\
 
 \begin{figure}
     \label{python-pseudo-tsm}
@@ -1329,22 +1325,6 @@ class MyTest:
 \end{figure}
 
 
-\subsection{Domain-specific language}
-%-----------------------------------------------------------------------------
-
-TODO
-
-%-----------------------------------------------------------------------------
-
-\section{Formal definition}
-
-%-----------------------------------------------------------------------------
-
-Theres a lot of modifications we did to the basic concept of \gls{fsm}. First of all, our input alphabet is never quantified. We don't know if it's finite or not. Theoretically, we accept analogical inputs so it can be infinite but as we are working with computer, we know it will not be infinite. The most important thing is that we don't need to quantify it to design our test, the choices we made keeps us from being forced to enumerate one and every possible input. Like we said, it will define itself based on what transition are defined in $\delta$ and a special symbol for a time step, let's say $t$.\\
-
-Also concerning the states, they are not simple mapping of the system's internal memory state. They are more complex abstraction of an arbitrary user defined state. And finally, our $\delta$ transition function is allowed to be partially defined, every undefined transition will have no consequences on the \gls{fsm} computation.
-
-
 \subsection{Determinism}
 %-----------------------------------------------------------------------------
 
@@ -1364,9 +1344,8 @@ Explain why it's deterministic
 
 %-----------------------------------------------------------------------------
 
-We introduced the concept of portability when we talked about system testing and versioning when we talked about regression testing and with the third testing, functional testing, we stated that we want the software to run accordingly to our requierement on any system and for every revision of it.
+We introduced the concept of portability when we talked about system testing and versioning when we talked about regression testing and with the third testing, functional testing, we stated that we want the software to run accordingly to our requierement on any system and for every revision of it and we also explained why we wanted to use time automaton. All of those aspect and tools will be used in the following chapter to explain how the final system works.
 
-// TODO CONTINUE
 
 %------------------------------------------------------------------------%
 %                                                                        %
@@ -1383,13 +1362,147 @@ This part is a in depth description of how the implemented system works, how it 
 
 \clearpage
 
+
+
+%-----------------------------------------------------------------------------
+
+\section{Domain-specific language}
+
+%-----------------------------------------------------------------------------
+
+We start by explaining how we created the \gls{dsl} used to describes our scenario in Python. All the code produced will be Python code but we took the liberty to talk about \gls{dsl} to describes the functions and methods presented in this section even if it is still Python which is a \gls{gpl}. We want to allow the user to do the following operations:
+
+\begin{itemize}
+\item Create a scenario
+\item Add states to scenario
+\item Add transition to states
+\item Set success and failure states
+\item Set initial state
+\item Set enter/leave processing for every states
+\item Set update processing for every states
+\end{itemize}
+
+As we uses Timed automaton, we also need to uses clocks:
+
+\begin{itemize}
+\item Add/Remove/Set/Reset clocks
+\item Get given clocks time
+\item Trigger transition using clocks
+\end{itemize}
+
+Regarding the data sources, we want our transition to be able to react on such data and to explicitly specify which kind of data our scenario will be working with. We should now distinguish between two kind of data, either the data is a discrete value, like e-mails, you want to be notified when you receive one or the data is continuous like the room temperature. We want to be able to get both of those data types:
+
+\begin{itemize}
+\item Set data sources to be used
+\item Receive discrete data as they appears from data source
+\item Ask for continuous data reading from data source
+\end{itemize}
+
+
+\subsection{Create a scenario}
+%-----------------------------------------------------------------------------
+
+Creating a scenario is done by creating a subclass of \textbf{AbstractScenario} like so:
+
+\begin{figure}[H]
+    \begin{lstlisting}[caption="Creating a scenario",label={lst:python-create-scenario}]
+from .AbstractScenario import AbstractScenario
+
+class Scenario(AbstractScenario):
+    def __init__(self, settings={}):
+        AbstractScenario.__init__(self, settings=settings)
+    \end{lstlisting}
+\end{figure}
+
+
+\subsection{Add states to scenario}
+%-----------------------------------------------------------------------------
+
+When adding a state to a scenario, you can also gives it several function that will be used for update, enter and leave trigger. You can also specify if it is a failure/success state. We satisfy the following requierement with one line of code:
+\begin{itemize}
+\item Add states to scenario
+\item Set success and failure states
+\item Set enter/leave processing for every states
+\item Set update processing for every states
+\end{itemize}
+
+\begin{figure}[H]
+    \begin{lstlisting}[caption="Add states",label={lst:python-add-state}]
+state = self.add_state("name", enter=self.on_enter, update=self.on_update, leave=self.on_leave, status=state_status)
+    \end{lstlisting}
+\end{figure}
+
+
+\begin{figure}[H]
+    \begin{lstlisting}[caption="Various usage of self.add\_state",label={lst:python-add-state-examples}]
+from .AbstractScenario import AbstractScenario
+
+NORMAL = 0
+SUCCESS = 1
+FAILURE = -1
+
+class Scenario(AbstractScenario):
+    def __init__(self, settings={}):
+        AbstractScenario.__init__(self, settings=settings)
+
+        init = self.add_state("init", enter=self.on_enter, update=None, leave=None, status=NORMAL)
+        failure = self.add_state("failure", enter=None, update=None, leave=None, status=FAILURE)
+
+        # Equivalent without handler
+        success = self.add_state("success", status=SUCCESS)
+
+        # Normal state with no handler
+        foo = self.add_state("foo")
+
+        # Only one update handler
+        bar = self.add_state("bar", update=self.on_update)
+
+    def on_enter(self):
+        # Do some stuff
+        pass
+
+    def on_update(self, t, d):
+        # Do some stuff
+        pass
+    \end{lstlisting}
+\end{figure}
+
+In the listing~\ref{lst:python-add-state}, \textbf{state\_status} is $0$ by default, a value of $-1$ indicates a failure state and a value of $1$ indicates a success state. Code starting with \textit{self.on\_} are function defined elsewhere, you can use whatever name you want to name them. The function definition of any update handler should take $t$ and $d$ as inputs: $t$ being the clock of the current state. This clock is reset when we enter the state and $d$ is a possibly empty array of dictionnaries given by the data sources used (we will define that later).
+
+
+
+\subsection{Add transition to state}
+%-----------------------------------------------------------------------------
+
+To do so, use the function \textbf{add\_transition} from any starting state and give it the goal state to which we should transition in case of success and a transition handler. The handler should return True if the transition must be taken and False otherwise. It takes $t$, the clock of the state as an input and $d$ a list of dictionnaries given by the data sources used (again, this will be defined later).
+
+\begin{figure}[H]
+    \begin{lstlisting}[caption="Add transition to any state",label={lst:python-add-transition}]
+from_state.add_transition(goal_state, lambda t, d: t > 60)
+from_state.add_transition(failure_state, self.transition_handler)
+    \end{lstlisting}
+\end{figure}
+
+
+\subsection{Set initial state}
+%-----------------------------------------------------------------------------
+
+Using a states previously created, a simple call to \textbf{self.tsm.set\_initial\_state} allows us to set the initial state.
+
+\begin{figure}[H]
+    \begin{lstlisting}[caption="Set the initial state",label={lst:python-set-initial-state}]
+self.tsm.set_initial_state(state)
+    \end{lstlisting}
+\end{figure}
+
+
 %-----------------------------------------------------------------------------
 
 \section{Nursery}
 
 %-----------------------------------------------------------------------------
 
-Because of the platform imposed for this project, which is Raspberry Pi, we had the choice between C or Python for the implementation. We choose Python as it is easier to deploy, easier to write and easier to debug. Of course, the produced software is a bit slower than if it where written in C but this is not a limiting factor in our case.
+As we already mentionned earlier, we uses Python as the programming language. Most internal tools used at Railnova are written in Python because it is fast and easy to prototype ideas with it. Most of the employees there have at least basic knowledge of it which is not necesseraly the case with other language such as C or C++. We wanted the system to be used by everyone with limited computer science knowledge so we decided to used Python too.
 
 
 \subsection{Architecture}
@@ -1450,19 +1563,16 @@ masterlist_op = [
     \begin{lstlisting}[caption="Tests configuration",label={lst:l_test_op}]
 l_test = [
     # Efficiency Vs Current
-    {
-        "name": "efficiency_vs_current",
+    {   "name": "efficiency_vs_current",
         "l_product": ["battpack"],
         "description": "Test the efficiency against the current",
         "duration": 24*3600,
         "l_scenario": [
             {"name": "EfficiencyVersusCurrent", "settings": {}},
-        ],
-    },
+        ], },
 
     # CAT test
-    {
-        "name": "cat",
+    {   "name": "cat",
         "description": "CAT bullshit",
         "duration": 500,
         "l_scenario": [
@@ -1473,18 +1583,15 @@ l_test = [
             }},
             {"name": "CATCheck", "settings": {}},
             {"name": "TimeoutCheck", "settings": {}},
-        ],
-    },
+        ], },
 
     # Charge Battery Pack
-    {
-        "name": "chargebattpack",
+    {   "name": "chargebattpack",
         "description": "Charge fully the battery pack",
         "duration": 7200,
         "l_scenario": [
             {"name": "ChargeBattPack", "settings": {}},
-        ],
-    },
+        ], },
 ]
     \end{lstlisting}
 \end{figure}
@@ -1662,16 +1769,16 @@ I think that Nursery is a key assets that will become more and more used inside 
 
 This part of the work is dedicated on describing how we managed to write simple piece of software that assure the link between Nursery and the real world/\gls{rug}.
 
-\subsection{About Inputs/Outputs}
+% \subsection{About Inputs/Outputs}
 
-As we are working with a system that we feed with inputs and as we are ourselves feeded by the system's outputs, the concept of \gls{io} is a bit confusing. On the figure~\ref{io_abstract}, you can visually see why it is ambiguous. So at this point, we'll simply consider that when we talk about inputs, we mean inputs of the system and when we talk about outputs, we talk of what the system produce.\\
+% As we are working with a system that we feed with inputs and as we are ourselves feeded by the system's outputs, the concept of \gls{io} is a bit confusing. On the figure~\ref{io_abstract}, you can visually see why it is ambiguous. So at this point, we'll simply consider that when we talk about inputs, we mean inputs of the system and when we talk about outputs, we talk of what the system produce.\\
 
-\begin{figure}
-    \centering
-    \includegraphics[scale=0.6]{io_abstract.png}
-    \caption{Inputs of the system are outputs of Nursery and vice/versa}
-    \label{io_abstract}
-\end{figure}
+% \begin{figure}
+%     \centering
+%     \includegraphics[scale=0.6]{io_abstract.png}
+%     \caption{Inputs of the system are outputs of Nursery and vice/versa}
+%     \label{io_abstract}
+% \end{figure}
 
 \subsection{Outputs}
 
