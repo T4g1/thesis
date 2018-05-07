@@ -683,6 +683,13 @@ More formally, we define the language recognized by our extendred finite state m
 
 To define a timed automata, we need some more definitions. A timed automata works with timed sequences, timed words and timed languages.\\
 
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.8]{timed_automata.png}
+    \caption{Example of a timed-out timed automata. X being one of the clocks that can be used}
+    \label{timed_automata_e1}
+\end{figure}
+
 For a given input alphabet $\Sigma$, a timed language is defined as a set of timed words over $\Sigma$. A timed word over $\Sigma$ is a pair $(\sigma, \tau)$ where $\sigma$ is a word over $\Sigma$ and $\tau$ is a timed sequence. Lastly, a timed sequence is a sequence of real time values increasing monotonically.~\cite{ALUR1994183}
 
 \theoremstyle{definition}
@@ -1295,39 +1302,10 @@ We also want to improve the input alphabet we will be working on, if we include 
 \end{definition}
 
 
-
-Using this \gls{dsl} we comes up with a code like the one in listing~\ref{lst:python-pseudo-tsm}. We create 4 states, one, "init", is purely optional, it's purpose is for initializing external tools or some variables if we need them. Then a state that will simply do nothing, waiting for some data to arrive. A success and a failure state. This test works by looping in wait-state every time a data is received. The test success when enough time has elapsed without any timeout and it fails at the first timeout encountered.\\
-
-\begin{figure}
-    \label{python-pseudo-tsm}
-    \begin{lstlisting}[caption="Pseudo test case example",label={lst:python-pseudo-tsm}]
-class MyTest:
-    add_state("init", enter=init_all)
-    add_state("wait")
-    add_state("success")
-    add_state("failure")
-
-    init.add_transition("wait", True)
-    wait.add_transition("success", no_failure_since_long)
-    wait.add_transition("failure", timeout)
-
-    set_initial_state("init")
-
-    listen_to("distant_data")
-    \end{lstlisting}
-\end{figure}
-
-\begin{figure}
-    \centering
-    \includegraphics[scale=0.8]{timed_automata.png}
-    \caption{Example of a timed-out timed automata. X being one of the clocks that can be used}
-    \label{timed_automata_e1}
-\end{figure}
-
-
 \subsection{Determinism}
 %-----------------------------------------------------------------------------
 
+TODO
 Explain: Transition not on symbols but on complex conditions
 First, evaluate complex conditions (mapping to TRUE/FALSE)
 Maps each transition to a transition number $\R$ unique/growing.
@@ -1492,6 +1470,62 @@ Using a states previously created, a simple call to \textbf{self.tsm.set\_initia
 \begin{figure}[H]
     \begin{lstlisting}[caption="Set the initial state",label={lst:python-set-initial-state}]
 self.tsm.set_initial_state(state)
+    \end{lstlisting}
+\end{figure}
+
+
+\subsection{Manipulates clocks}
+%-----------------------------------------------------------------------------
+
+In every state, a clock is created. This clock is resetted every time we enter this specific state. We can also create new clocks when needed using the functions in listing~\ref{lst:python-clocks}. The main clock is used as the $t$ parameter for update handlers and transition functions. This implies that the following are satisfied:
+\begin{itemize}
+\item Add/Remove/Set/Reset clocks
+\item Get given clocks time
+\item Trigger transition using clocks
+\end{itemize}
+
+
+\begin{figure}[H]
+    \begin{lstlisting}[caption="Set the initial state",label={lst:python-clocks}]
+# Main clock. This clock value is the t parameter of update handlers and transitions
+self.clock.get_elapsed()
+
+clock1 = Clock()
+clock1.start()
+sleep(1)
+clock1.get_elapsed() # should give 1
+clock1.reset()
+clock1.get_elapsed() # should give 0
+clock1.stop()
+    \end{lstlisting}
+\end{figure}
+
+
+\subsection{Manipulates data sources}
+%-----------------------------------------------------------------------------
+
+Here we want to satisfy the last three requierements:
+\begin{itemize}
+\item Set data sources to be used
+\item Receive discrete data as they appears from data source
+\item Ask for continuous data reading from data source
+\end{itemize}
+
+First, any scenario needs to states which data sources will be used. For a continuous data source, we will receive a data dictionary from a given data sources for every call of \textbf{self.ask\_data("DATA\_SOURCE")} where \textbf{DATA\_SOURCE} is the name of the data source. For discrete data, the $d$ parameter for update handler and transition will be a dictionnary every time new data is available without further function calls.
+
+\begin{figure}[H]
+    \begin{lstlisting}[caption="Set data source",label={lst:python-data-sources}]
+# Set data sources
+self.l_data_type.append("EMAIL")
+self.l_data_type.append("ROOM_TEMP")
+
+# Asking data
+self.ask_data("ROOM_TEMP")
+
+# Checking data
+if d is not None and d['type'] == "ROOM_TEMP":
+    # Process
+    pass
     \end{lstlisting}
 \end{figure}
 
