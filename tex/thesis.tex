@@ -958,16 +958,16 @@ This tend to make it difficult to keep track of what is working and what is not 
 Usually, when one of the \gls{rug} fails in production, the product is called back to the Railnova HQ for \gls{fqm}. \gls{fqm} consists of several phases. During the first one also called "fingerprinting", we try to identify the root cause of the failure. Then, we re-direct the product either to "Debug HW" for hardware debugging if the root cause is hardware linked or to "Debug SW" if the root cause is software linked. After those steps, the problem should be solved. The product is sent to "Fixing" to apply other pending modifications that did not necessitate an immediate return of the product. Finally, the product is sent to "Flash \& Validate" to re-initialize it completely and flag it as "ready to ship".\\
 
 
-%\clearpage
+\clearpage
 
 
 %-----------------------------------------------------------------------------
 
-%\section{Conclusion}
+\section{Conclusion}
 
 %-----------------------------------------------------------------------------
 
-%TODO
+This section should have given you a good idea of why testing is so important at Railnova and in virtually any enterprise. Assuming everything works is just not sufficient and can lead to big trouble with clients.
 
 
 %------------------------------------------------------------------------%
@@ -1302,17 +1302,6 @@ We also want to improve the input alphabet we will be working on, if we include 
 \end{definition}
 
 
-\subsection{Determinism}
-%-----------------------------------------------------------------------------
-
-TODO
-Explain: Transition not on symbols but on complex conditions
-First, evaluate complex conditions (mapping to TRUE/FALSE)
-Maps each transition to a transition number $\R$ unique/growing.
-Find first transition number mapped to TRUE -> transition taken
-Explain why it's deterministic
-
-
 \clearpage
 
 
@@ -1528,6 +1517,12 @@ if d is not None and d['type'] == "ROOM_TEMP":
     pass
     \end{lstlisting}
 \end{figure}
+
+
+\subsection{Determinism}
+%-----------------------------------------------------------------------------
+
+A question you should be asking yourself now is, is this system deterministic ? The answer is not yet. In the current state, if we have two transition that maps to True, we do not know which one should be taken. To solve this problem, we mapped every transition to a integer in $\R$ always growing for each added transition. Trnasition are then evaluated from the lowest integer value to the biggest. The first succeeding transition will then be taken and we completely ignores the following ones. When designing scenarion, ones should keep that in mind otherwise some unexpected cases can appear. Every time the scenario is used, this mapping should stay the same. It can only be modified by modifying the source code itself. This is why every scenario should be verionned too. At Railnova, we uses Github for that purpose. It is not garanteed that two different version of a scenario will have the same behavior but for a given version number, every time the scenario is used, it will give have the same behavior.
 
 
 %-----------------------------------------------------------------------------
