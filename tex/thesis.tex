@@ -10,6 +10,7 @@
 \usepackage{amsmath}
 \usepackage{amssymb}
 \usepackage{float}
+\usepackage[T1]{fontenc}
 
 \theoremstyle{definition}
 \newtheorem{definition}{Definition}[section]
@@ -78,7 +79,7 @@
 
 \section*{abstract}
 
-This paper will describe a practical case of software testing and explain all the choices that where made during the implementation process. It will also try to provide some generic way of doing the same for a different use case given a similar running environment and constraints.
+This thesis will describe a practical case of software testing and explain all the choices that where made during the implementation process. It will also try to provide some generic way of doing the same for a different use case given a similar running environment and constraints.
 
 \clearpage
 \pagebreak
@@ -97,13 +98,13 @@ This paper will describe a practical case of software testing and explain all th
 
 \section{Introduction}
 
-Nowadays, softwares are everywhere. In banks, cars, vending machines, airplanes, televisions, ... You are using software in your everyday life even without knowing it and when you do, you expect them to meet some expectation, you don't expect your plane to crash because of a software failure or a vending machine stealing your money. That's why some guidelines and processes exists to build those softwares. Those processes can last for days, months or even years before producing the expected software and during this process, some errors can be made that makes the software faulty or broken. That's why, all along this process, we need to make sure that everything is working just fine. To do that, we introduce a step in the development process called "testing". Without it, no complicated software will be able to do its task without problems. Of course, this testing step can be done differently depending on the overall development process but nevertheless, every software need to goes through that step.\\
+Nowadays, software is everywhere. In banks, cars, vending machines, airplanes, televisions, ... You are using software in your everyday life even without knowing it and when you do, you expect it to meet some expectation, you don't want your plane to crash because of a software failure or a vending machine stealing your money. That's why some guidelines and processes exists to build those softwares. Those processes can last for days, months or even years before producing the expected software and during this process, some errors can be made that makes the software faulty or broken. That's why, all along this process, we need to make sure that everything is working just fine. To do that, we introduce a step in the development process called "testing". Without it, no complicated software will be able to do its task without problems. Of course, this testing step can be done differently depending on the overall development process but nevertheless, every software need to go through that step.\\
 
-Not so surprisingly, this paper is all about this particular testing step. The goal of it will be to provide a way of automating this step. As we will explain later on, providing this automatic process is of major interest in term of time gained in the development process and reliability for the final software. Of course, detecting all problems during tests is a really complex task and the process developed throughout this paper will only help to reduce the risk of shipping faulty softwares and to make sure that previously encountered/corrected problems are not re-introduced between different versions of it.\\
+This thesis is all about this particular testing step. The goal of it will be to provide a way of automating this step. As we will explain later on, providing this automatic process is of major interest in term of time gained in the development process and reliability for the final software. Of course, detecting all problems during testing is a really complex task and the process developed throughout this thesis will only help to reduce the risk of shipping faulty softwares and to make sure that previously encountered/corrected problems are not re-introduced between different versions of it.\\
 
-To guide us during this work, we will focus on a concrete case study that was encountered at the Railnova company in Brussels. Of course, as the goal of this work is to stay generic, we will go from the concrete examples solution to more generic solutions that can easily be extended for any other software. Despite the fact that this paper will try yo stay generic, we will not talk about hardware testing even if we can see that as a particular case of testing in a development process. We think that focusing on software development will help the reader to get a better understanding of the principles used and developed ideas.\\
+To guide us during this work, we will focus on a concrete case study that was encountered at the Railnova company in Brussels. Of course, as the goal of this work is to stay generic, we will go from the concrete examples solution to more generic solutions that can easily be extended for any other software. Despite the fact that this thesis will try yo stay generic, we will not talk about hardware testing even if we can see that as a particular case of testing in a development process. We think that focusing on software development will help the reader to get a better understanding of the principles used and developed ideas.\\
 
-I tried to divided this work in many blocs that introduces them-self one after the other. As this topic and all the techniques involved are closely related, there will often be references to area not already covered during the sequential reading of this paper: First, we'll introduce software testing. We'll try to give an overview of all the main techniques and good practices currently used. After that, we will introduce the main tool we used to complete the task at hand, the \gls{fsm}. We will also give various alterations of \gls{fsm} which are relevant in our case. Then, we will introduce the context in which this work was done, where and why we had to solve such a task. Following this, we will show how we used all the previous chapters concepts to devellop our solution, what was used or not in the previously coverred topics and how we used them all together. Lastly, we will present the final product that was develloped. Showing how it works and what it can do.
+I divided this work in many blocs that introduces them-self one after the other. As this topic and all the techniques involved are closely related, there will often be references to area not already covered during the sequential reading of this thesis: First, we'll introduce software testing. We'll try to give an overview of all the main techniques and good practices currently used. After that, we will introduce the main tool we used to complete the task at hand, the \gls{fsm}. We will also give various alterations of \gls{fsm} which are relevant in our case. Then, we will introduce the context in which this work was done, where and why we had to solve such a task. Following this, we will show how we used all the previous chapters concepts to devellop our solution, what was used or not in the previously coverred topics and how we used them all together. Lastly, we will present the final product that was developed. Showing how it works and what it can do.
 
 
 %------------------------------------------------------------------------%
@@ -117,20 +118,31 @@ I tried to divided this work in many blocs that introduces them-self one after t
 %\clearpage
 %\part{Preliminaries}
 
-%To begin with, we will present the very basics of software testing, what are the common practices and how we use them nowadays. This will allows us to introduce the technical terms used all along this paper. Following this technical introduction, we will present the studied case that was the starting point of this work at the Railnova company to introduce \gls{fsm}. Finally, we will describe what is a \gls{fsm} exactly and some of its variations.
+%To begin with, we will present the very basics of software testing, what are the common practices and how we use them nowadays. This will allows us to introduce the technical terms used all along this thesis. Following this technical introduction, we will present the studied case that was the starting point of this work at the Railnova company to introduce \gls{fsm}. Finally, we will describe what is a \gls{fsm} exactly and some of its variations.
 
 \clearpage
 \part{Software development and software testing}
 
-Software development is a complex area and a lot of different processes exists but at the very last, they all have some key principles in common. One of them being the testing part. For this work to be fully understood, we need to introduce a bit of software development and then, explain which are the different techniques used in software testing. This will provide us the required technical vocabulary to describe our own testing process.
+Software development is a complex area and different processes exists but at the very last, they all have some key principles in common. One of them being the testing part. For this work to be fully understood, we need to introduce a bit of software development and then, explain which are the different techniques used in software testing. This will provide us with the required technical vocabulary to describe our own testing process.
 
-Software development can be defined in a lot of different ways, every one of them being more or less equivalent but in this work, we will focus on the basis and simply say that software development is some kind of plan to produce a given software. This plan can be more or less complex and must involves at some point, some testing steps.\\
+Software development can be defined in different ways, every one of them being more or less equivalent but in this work, we will focus on the basis and simply say that software development is some kind of plan to produce a given software. This plan can be more or less complex and must involves at some point, some testing steps.\\
 
-Software are usually ordered by a client that can be ourself, some company or any set of users~\cite{SoftwareDevelopment:2016}. Clients have needs and our task as software developer will be to fulfill them by producing a software. The client's will first be translated into requirements specifications that, to put it simply, are formal description of them. We usually create those requirements specifications during meetings with the client, this requires a lot of talk to be sure that the idea we get from them is what they want.\\
+Software is usually ordered by a client that can be ourself, some company or any set of users~\cite{SoftwareDevelopment:2016}. Clients have needs and our task as software developer will be to fulfill them by producing a software. The client's request will first be translated into requirements specifications that, to put it simply, are formal description of them. We usually create those requirements specifications during meetings with the client, this requires meetings and discussions to be sure that the idea we get from them is what they want.\\
 
-Then the software can be built. Of course, if we got the wrong requirements specifications, our software will not be what the client asked and therefore, they will want us to start again from scratch. Lets assume that those requirements are good, then, once the software is built, we want to test it to ensure that it works and that it meets the given requirements. Once those test are successfully passed, we can ship the software to our client.\\
+Then the software can be built. Of course, if we got the wrong requirements specifications, our software will not be what the client asked and therefore, they will want us to fix that and updates the requierements but modified requierements can invalidate the choosen architecture or software decisions thus requiring in depth mmodification of the current built product. Let's assume that those requirements are good, then, once the software is built, we want to test it to ensure that it works and that it meets the given requirements. Once those test are successfully passed, we can ship the software to our client.\\
 
-This whole process, starting from the client order to the shipping of the produced software is what we call the software development process. Of course, there is not one only way of doing it even for the most simple process like this one their can be divergence of work-flow from one team to another. Lets introduce some of them~\cite{IIS2:IIS202348}.
+This whole process, starting from the client order to the shipping of the produced software is what we call the software development process. Of course, there is not one only way of doing it even for the most simple process like this one their can be divergence of work-flow from one team to another.~\cite{IIS2:IIS202348} The goal here is to show that testing is crucial wathever the choosen methodology or software development process, we will now introduce three of them that we think are the most used or accessible for neophytes:
+
+\begin{itemize}
+
+\item Waterfall
+\item Prototyping
+\item Design: resulting in the software architecture
+\item Coding: the development, proving, and integration of software
+\item Testing: the systematic discovery and debugging of defects
+\item Operations: the installation, migration, support, and maintenance of complete systems
+
+\end{itemize}
 
 
 \clearpage
@@ -160,14 +172,14 @@ The following problems can easilly be spotted in this process:
 \begin{itemize}
 
 \item If an error is made during the analysis step, this error is repercuted to the next steps.
-\item Between the first and the last step of it, there can be a lot of weeks, months or years ! During this time, the project needs can evolve and then, the delivered product will only match outdated requirements, which, of course, is not a good thing for the client.
+\item Between the first and the last step of it, there can be a lot of weeks, months or years! During this time, the project needs can evolve and then, the delivered product will only match outdated requirements, which, of course, is not a good thing for the client.
 \item If some problems occurs during the writing of the product requirements, let's say that the client forget to talk about a key feature. Then, again, the product we will deliver will miss that feature.
 
 \end{itemize}
 
-Producing the wrong product is really a big problem of this methodology and because of all those problems, organizations/teams tends to avoid it when possible. Nevertheless, there is still a lot of qualities to this process. As the first steps are strongly related to documentation of the product, if a team member leaves during the process, we have less risk of loosing knowledge of what has been done or what is left to do. New team members will simply need to read the requirements, the produced models and the software architecture.\\
+Probability to produce the wrong product is high because of those problems and because of that, organizations/teams tends to avoid it when possible. Nevertheless, there is still advantages to use this process. As the first steps are strongly related to documentation of the product, if a team member leaves during the process, we have less risk of loosing knowledge of what has been done or what is left to do. New team members will simply need to read the requirements, the produced models and the software architecture.\\
 
-This process is also one of the easiest to understand, every step of the project is well documented and one can easily jump in any project using this methodology and be ready to participate in a very small amount of time.\\
+This process is also one of the easiest to understand, every step of the project is well documented and one can easily jump in any project using this methodology and be ready to participate in a very short time.\\
 
 \begin{figure}
     \centering
@@ -183,7 +195,7 @@ This process is also one of the easiest to understand, every step of the project
 
 %-----------------------------------------------------------------------------
 
-Sometimes, you want to produce a product as soon as possible so you can conquer the market sooner. In that case, the waterfall approach is not going to be very useful. The prototyping process though, can help you towards this goal.\\
+Sometimes, you want to produce a product as soon as possible so you can conquer the market sooner. In that case, the waterfall approach is not going to be very useful. The prototyping process though, can help you towards this goal.~\cite{Software_prototyping:2018}\\
 
 The idea is to produce some prototype as soon as possible, test it and then, iterate over it again and again until the final product is fully functional. It is a trial-and-error process. This works especially well when the final product requirements are not fully known. By presenting a prototype to the client, he is able to give feedbacks and explain the following most wanted features. Like for the waterfall model, we have a plan for the whole process: The whole product is divided into as many sub-product as needed. Each of those division will be prototyped on top of the last ones until we get the final product.\\
 
@@ -217,7 +229,7 @@ Focusing on small sub-problems/sub-features distracts the developers from conduc
 
 %-----------------------------------------------------------------------------
 
-Agile Software Development is based on twelve principles:
+Agile Software Development is based on twelve principles:~\cite{agile_manifesto:2018}
 
 \begin{itemize}
 \item Customer satisfaction by early and continuous delivery of valuable software
@@ -229,34 +241,34 @@ Agile Software Development is based on twelve principles:
 \item Working software is the principal measure of progress
 \item Sustainable development, able to maintain a constant pace
 \item Continuous attention to technical excellence and good design
-\item Simplicity—the art of maximizing the amount of work not done—is essential
+\item Simplicity or the art of maximizing the amount of work not done is essential
 \item Best architectures, requirements, and designs emerge from self-organizing teams
 \item The team reflects on how to become more effective, and adjusts accordingly
 \end{itemize}
 
-There exist many different frameworks that complies to those principles. One of the most commonly used is Scrum~\cite{ScrumAlliance:2017}. With this framework, we work using sprints. A sprint is the basic unit of development in Scrum. The team fixes the time-frame during which the sprint must be done and then, fixes the scope of work that needs to be done during a Sprint Planning event.\\
+There exist many different frameworks that complies to those principles. One of the most commonly used is Scrum~\cite{ScrumAlliance:2017}~\ref{Scrum}. With this framework, we work using sprints. A sprint is the basic unit of development in Scrum. The team fixes the time-frame during which the sprint must be done and then, fixes the scope of work that needs to be done during a Sprint Planning event.\\
 
 At the end of each day, the team holds a Daily Scrum to answer the following questions:
 
 \begin{itemize}
-\item What did i do ?
-\item What will i do to meet the sprint goals ?
-\item Is there anything that block the team progress ?
+\item What did I do?
+\item What will I do to meet the sprint goals?
+\item Is there anything that block the team progress?
 \end{itemize}
 
 Finally, at the end of the sprint period, the team holds a Sprint Retrospective to answer the following questions:
 
 \begin{itemize}
-\item What went well ?
-\item What could be improved ?
+\item What went well?
+\item What could be improved?
 \end{itemize}
 
-This allows for a very dynamic development process in which no ones get stuck too long on ineffective or impossible processes.
+This allows for a very dynamic development process in which no one gets stuck too long on ineffective or impossible processes.
 
 \begin{figure}
     \centering
     \includegraphics[scale=0.4]{scrum.png}
-    \caption{Schema of the Scrum Framework One of the most effective development process. This is only an example, the sprint duration is not always 30 days.}
+    \caption{Schema of the Scrum Framework. A popular development process. This is only an example, the sprint duration is not always 30 days.}
     \label{Scrum}
 \end{figure}
 
@@ -269,7 +281,7 @@ This allows for a very dynamic development process in which no ones get stuck to
 
 Now that we have settled down our requirements specifications, we need to introduces the validation and verification topic. Validation and verification is what we use to make sure that our software is meeting the previously specified requirements. In short, that our software is exactly what we specified. Failing to this would produce a software that will maybe not meet the clients requirements and, therefore, be of little or no use to him.\\
 
-Both concepts are closely related but are completely independent Software validation is a procedure used to ensure that the software meets the user's needs and that the specifications were correct while software verification is a procedure used to ensure that the software follows the specified requirements~\cite{VnV:2016}. Following is a more formal definition:
+Both concepts are closely related but are completely independent. Software validation is a procedure used to ensure that the software meets the user's needs and that the specifications were correct while software verification is a procedure used to ensure that the software follows the specified requirements~\cite{VnV:2016}. Following is a more formal definition:
 
 \begin{itemize}
 
@@ -278,7 +290,7 @@ Both concepts are closely related but are completely independent Software valida
 
 \end{itemize}
 
-Simply put, validation is answering to "Are we trying to build the right thing ?" while verification is answering to "Have we made what we were trying to make ?". Of course, in our case, we are more interested in the verification part and we will leave the validation part out of this work. We will assume that the requirements are correct and therefore that if we follow them, the built software will be the one our client wants.
+Simply put, validation is answering to \guillemotleft Are we trying to build the right thing?\guillemotright while verification is answering to \guillemotleft Have we made what we were trying to make?\guillemotright. Of course, in our case, we are more interested in the verification part and we will leave the validation part out of this work. We will assume that the requirements are correct and therefore that if we follow them, the built software will be the one our client wants.
 
 
 %-----------------------------------------------------------------------------
@@ -289,7 +301,17 @@ Simply put, validation is answering to "Are we trying to build the right thing ?
 
 Code coverage is a metrics used in software testing that basically tells you how much of your code has been tested. It can be computed on many different criteria like how many subroutines have been called, how many lines of code have been interpreted and so on.\\
 
-The idea behind this metric usage is that, if all of your code is tested, then there is probably no bugs left, or at least, there is a good probability that we will encounter fewer bugs in a completely tested software than in an untested one. Getting a good code coverage is therefore a key point in testing as it improve the software quality by reducing the probability of faults left in it~\cite{TestingForContinuousDelivery:2016}.
+The idea behind this metric usage is that, if all of your code is tested, then there is probably no bugs left, or at least, there is a good probability that we will encounter fewer bugs in a completely tested software than in an untested one. Getting a good code coverage is therefore a key point in testing as it improve the software quality by reducing the probability of faults left in it~\cite{TestingForContinuousDelivery:2016}.\\
+
+You can compute code coverage differently based on the testing requierements. Here is a non exhustive list of some criteria you can use to compute it:
+
+\begin{itemize}
+\item \textbf{Function coverage} Percentage of defined functions called during testing.
+\item \textbf{Statement coverage} Percentage of statements called during testing.
+\item \textbf{Branch coverage} Percentage of branching possibility executed during testing.
+\end{itemize}
+
+Using one or several code coverage criteria, you can define a threshold used to certify that the product is unlikely to contains fault. For example, you can requires that 95\% of defined functions are called during tests.
 
 
 %-----------------------------------------------------------------------------
@@ -298,7 +320,7 @@ The idea behind this metric usage is that, if all of your code is tested, then t
 
 %-----------------------------------------------------------------------------
 
-Black-box testing and white-box are two terms used by softwares testers to describe how they approach their testing~\cite{Patton:2005}. They describes two of the most common used techniques in software testing.
+Black-box testing and white-box are two terms used by softwares testers to describe how they approach their testing~\cite{Patton:2005}. They describe two of the most common used techniques in software testing.
 
 With black-box testing, also known as functional testing, we consider the software as a black-box and we have no knowledge of what is inside of it nor on how it works. This is the opposite of white-box testing where the whole software is known from the inside, all the code is accessible and we have a deep knowledge of how it works.\\
 
@@ -312,7 +334,7 @@ White-box testing is more or less done by developers themselves while black-box 
 \subsection{Grey-box testing}
 %-----------------------------------------------------------------------------
 
-There is also a third option there which is called "Grey-Box testing". We are doing Grey-Box testing when we do both Black-Box testing and White-Box testing.
+There is also a third option there which is called \guillemotleft Grey-Box testing \guillemotright . We are doing Grey-Box testing when we do both Black-Box testing and White-Box testing. In Black-box testing, you don't have knowledges of the internal structure of code while in White-box testing, you do have this knowledges. Grey-box testing is when you do have a limited knowledge of the internal structure of code.
 
 
 %-----------------------------------------------------------------------------
@@ -341,7 +363,7 @@ Who: Coder\\
 
 Unit testing is a software testing method by which individual units of source code, sets of one or more computer program modules together with associated control data, usage procedures, and operating procedures, are tested to determine whether they are fit for use. The goal is to isolate each part of the program and show that the individual parts are correct~\cite{AutomatedDefectPrevention:2007}.\\
 
-In a more practical point-of-view, it's about isolating each function/method/class/... from the code and test their behavior for a wide range of input values. A lot of faults can stay undetected after this step. One of the reason of this being that people who write unit-test have a deep knowledge of the underlying code. This knowledge influence them when writing unit-test so it becomes really hard to set realistic test cases. Also, if those who write the unit-test are the same ones that wrote the code that is being tested, the test code is likely to be as faulty as the code being tested itself !
+In a more practical point-of-view, it's about isolating each function or method in the code and test their behavior for a wide range of input values. A lot of faults can stay undetected after this step. One of the reason of this being that people who write unit-test have a deep knowledge of the underlying code. This knowledge introduces biases and influences them when writing unit-test so it is easy to miss use cases because the programmer assume unconsciously that they are working. Also, if those who write the unit-test are the same ones that wrote the code that is being tested, the test code is likely to be as faulty as the code being tested itself!
 
 \begin{figure}
 \label{unit_testing_sample}
@@ -360,7 +382,7 @@ int readFile(const char* name, const char* buffer);
 assert(readFile("doesnotexist.txt", buffer) == -1);
 
 // Tests file can't be read
-assert(readFile("busyFile.txt", buffer) == -1);
+assert(readFile("busyFile.txt", buffer) == -2);
 
 // Tests file read success
 writeFile("file.txt", "some text");
@@ -451,7 +473,7 @@ Requirements-based testing is a testing approach in which test cases, conditions
 
 Requirements-based testing is exactly what we are trying to do with black-box testing. For each given requirements stating, for example, that we want to produce some result Y when you give some input X, we want to produce a test case that maps the input X to our software and gets the output Y'. Comparing Y and Y' will allow us to decide whether or not, there is a fault and/or decide if the requirement is met or not. If not, our software is not built correctly and we need to work more on it before shipping it for the client.\\
 
-All the previously described type of testing are not necessarily requirements-based. For example, unit testing is about the code. We want to make sure that each part of the code work well but satisfying that does not imply that requirements are met ! For a 3D modeling software, we can have a code that compute square roots, if the code works well, that does not imply that our software allows the user to design houses for example.\\
+All the previously described type of testing are not necessarily requirements-based. For example, unit testing is about the code. We want to make sure that each part of the code work well but satisfying that does not imply that requirements are met! For a 3D modeling software, we can have a code that compute square roots, if the code works well, that does not imply that our software allows the user to design houses for example.\\
 
 
 \clearpage
@@ -634,7 +656,7 @@ An \gls{afa} is a 6-tuple, $(S(\exists), S(\forall), \Sigma, \delta, P_0, F)$, w
 \item $F$ is the set of final state with $F \subseteq (S(\exists) \cup S(\forall))$
 \end{itemize}
 
-In an \gls{afa}, transition are more complex than those we encountered in traditional \gls{fsm}. The transition we are working with can lead to more than one state ! This is used to represent logical AND and OR with transitions (see figure~\ref{afa}).\\
+In an \gls{afa}, transition are more complex than those we encountered in traditional \gls{fsm}. The transition we are working with can lead to more than one state! This is used to represent logical AND and OR with transitions (see figure~\ref{afa}).\\
 
 \begin{figure}
     \centering
@@ -731,7 +753,7 @@ A clock interpretation $v$ over $X$ satisfies a clock constraint $\delta$ over $
 \end{itemize}
 \end{definition}
 
-We now have all the needed tools to define properly the type of timed automaton we'll need for this paper:
+We now have all the needed tools to define properly the type of timed automaton we'll need for this thesis:
 
 \theoremstyle{definition}
 \begin{definition}{Timed automaton.} A timed automaton (TA) is a tuple $(\A, W, F)$ where $\A$ is a timed transition table, $W \subseteq S(\A)$ (with $S(\A)$ being the set of state of $\A$) is the set of \textit{success} states (W stands for winning as S was already taken) and $F \subseteq S(\A)$ is the set of \textit{failure} states.
@@ -769,7 +791,7 @@ Using this new definition of run, we can define the language accepted by a timed
 
 %-----------------------------------------------------------------------------
 
-One of the first question one should ask is how is model checking and formal verification used in the everyday life or at least, for some projects. The following examples of what is currently used in this domain where taken from the most used tools at the time this paper was written. Unfortunately, this choice is rather subjective as metrics about each possible software usage is not always available but the only thing that interest us is to know how they works and what they have in common.
+One of the first question one should ask is how is model checking and formal verification used in the everyday life or at least, for some projects. The following examples of what is currently used in this domain where taken from the most used tools at the time this thesis was written. Unfortunately, this choice is rather subjective as metrics about each possible software usage is not always available but the only thing that interest us is to know how they works and what they have in common.
 
 
 \subsection{UPPAL}
@@ -858,7 +880,7 @@ You should now have a good understanding of \gls{fsm} and some of the various mo
 \clearpage
 \part{Case study}
 
-Now that you know what software testing and \gls{fsm} are all about, lets introduce the case that is of interest to us, namely, Nursery ! I'll first introduce the Railnova enterprise and the system we will work with all along this paper. Then I will explain why this work is of critical importance for them and generally speaking, for every software development process.
+Now that you know what software testing and \gls{fsm} are all about, lets introduce the case that is of interest to us, namely, Nursery! I'll first introduce the Railnova enterprise and the system we will work with all along this thesis. Then I will explain why this work is of critical importance for them and generally speaking, for every software development process.
 
 \clearpage
 
@@ -891,7 +913,7 @@ This dedicated hardware provides a lot of data from the train. We can access inf
 
 Every engine is more or less unique. They can use a wide range of different component and thus have different parameters like their maximal speed when loaded or not, the maximal weight they can carry or even the number of wheels the engine uses. Because of that \gls{railsteros} needs to accept a wide range of different configuration so we don't stream fuel remaining if we are on an electrical engine for example. We can also have two kinds of motors that give information about their speed without using the same type of cable or protocol. To achieve this flexibility, we allow \gls{railsteros} to start only a subset of its internal software using some configuration files. All this software's modules, which we call \gls{daemons}, are small applications used to interface with a given protocol. For example, we have one daemon that is dedicated to GPS location's informations. The set of daemon we use, which is defined in the configuration files, defines what type of engine we can handle and what operations we can do.\\
 
-To retrieve all those informations, we need to use different communication protocols and wires because engines built by different companies will have different behaviors and communication protocols. All of them, we will call interfaces. Each of those interface needs proper test that relies on the used protocol, we want to be able to describe our needs by saying things like "I want this particular data when I receive this kind of message on this interface". As there is a lot of them, this will take time to implement proper testing for all of them so we will only cover a subset of them in this paper but we will provide a generic way of implementing test for them all.
+To retrieve all those informations, we need to use different communication protocols and wires because engines built by different companies will have different behaviors and communication protocols. All of them, we will call interfaces. Each of those interface needs proper test that relies on the used protocol, we want to be able to describe our needs by saying things like "I want this particular data when I receive this kind of message on this interface". As there is a lot of them, this will take time to implement proper testing for all of them so we will only cover a subset of them in this thesis but we will provide a generic way of implementing test for them all.
 
 
 \subsection{Railster Universal Gateway}
@@ -913,7 +935,7 @@ Some of the \gls{rug} were experiencing troubles during the end of fall 2016. 8\
 
 The test procedure was defined as follow: First, set the temperature of a thermionic chamber to -10 Celisus to replicate the outside temperature recorded when we experienced the failures. Put a \gls{rug} in it and connect to the serial communication port of the system. Once we are connected, we issue some command to manually choose which GPS protocol to use out of the four of them supported and for each of them, we manually set the emitting power of the GPRS chip in order to reproduce the problem seen on the practical field.\\
 
-Those test were made, approximately 30 for different temperatures of the thermionic chamber, different band and different emitting power. Those took one person an entire day of work ! That's because the thermionic chamber needs an hour to set a fixed temperature, the system needs 5 minutes to reboot when we set the band to use and we wait 10 minutes for each test to be sure the problem did not appear (or did). After each test, if we want to do another one, we need to wait for the system to cool down as each time we boot it up, it produces heat.\\
+Those test were made, approximately 30 for different temperatures of the thermionic chamber, different band and different emitting power. Those took one person an entire day of work! That's because the thermionic chamber needs an hour to set a fixed temperature, the system needs 5 minutes to reboot when we set the band to use and we wait 10 minutes for each test to be sure the problem did not appear (or did). After each test, if we want to do another one, we need to wait for the system to cool down as each time we boot it up, it produces heat.\\
 
 And those tests are just to prove the initial hypothesis. Once this was proved, we wanted to know for sure, what emitting power we could use for each \gls{rug} (not only for one) depending on the band used and the external temperature. This would need hundreds of tests if not a thousand on a lot more than just one \gls{rug} to be able to make enough data and say for sure which levels are safe, which levels are risky and which levels are forbidden to avoid problems in the real world.\\
 
@@ -936,7 +958,7 @@ But if the shipped product contains faults, it will probably begins to produce i
 
 All of this comes with a cost, for example, we can imagine that we are working on a assembly line controller. If our controller (product) does not work correctly, the assembly line can be damaged because of incorrect usage or the materials being manipulated can be damaged too resulting in repair cost for the assembly line and incorrect/damaged product assembled that cannot be sold afterwards.\\
 
-In the \gls{rug} ecosystem, if our product, \gls{railsteros} isn't working well, the \gls{rug} its running on will not send the intended data to the client. For him, it is like the engine itself is malfunctioning or not functioning at all if we are unable to send any data ! He will then need to send a team to the engine to find the problems and a lot of work will be delayed because the engine is not running and, of course, every step in this process is very costly for the client and for the company itself because when a product in production is faulty, we also need to get back the devices that are malfunctioning and, perhaps, every other device running the same software of having the same hardware. And finally, we need to replace them and invest time in correcting them or, at least, solving the issue for the other product versions.\\
+In the \gls{rug} ecosystem, if our product, \gls{railsteros} isn't working well, the \gls{rug} its running on will not send the intended data to the client. For him, it is like the engine itself is malfunctioning or not functioning at all if we are unable to send any data! He will then need to send a team to the engine to find the problems and a lot of work will be delayed because the engine is not running and, of course, every step in this process is very costly for the client and for the company itself because when a product in production is faulty, we also need to get back the devices that are malfunctioning and, perhaps, every other device running the same software of having the same hardware. And finally, we need to replace them and invest time in correcting them or, at least, solving the issue for the other product versions.\\
 
 \begin{figure}
     \centering
@@ -945,7 +967,7 @@ In the \gls{rug} ecosystem, if our product, \gls{railsteros} isn't working well,
     \label{STBC-costfixs}
 \end{figure}
 
-It is commonly believed that the earliest a fault is found, the cheaper it is to correct it~\cite{EconomicsSTBC:2017}~\cite{EconomicsWiki:2017}. The case we mentioned is the latest possible time to detect a fault so, according to the previous statement, it is also the most expensive ! Those reasons are why we want to create some process that can be used to drastically reduces the amount of unexpected faults in the final product. That's the main motivation behind the project that is the subject of this paper called Nursery.\\
+It is commonly believed that the earliest a fault is found, the cheaper it is to correct it~\cite{EconomicsSTBC:2017}~\cite{EconomicsWiki:2017}. The case we mentioned is the latest possible time to detect a fault so, according to the previous statement, it is also the most expensive! Those reasons are why we want to create some process that can be used to drastically reduces the amount of unexpected faults in the final product. That's the main motivation behind the project that is the subject of this thesis called Nursery.\\
 
 
 \subsection{The Railnova Way}
@@ -993,14 +1015,14 @@ All the problems described above provides us a lot of informations. We know what
 
 %-----------------------------------------------------------------------------
 
-First of all, lets take back our software development concepts introduce during the first chapter of this paper. We have described seven type of testing and now that we know what we are working on, lets try to summarize what type of testing we really need:\\
+First of all, lets take back our software development concepts introduce during the first chapter of this thesis. We have described seven type of testing and now that we know what we are working on, lets try to summarize what type of testing we really need:\\
 
 \begin{itemize}
 \item Unit and integration testing: Those kind of testing are great to test the code but that does not give us much informations in terms of requirements. Knowing that every functions works separately is not enough to tell that the requierements are met as the program behavior results from the interaction of all those function one with another.
 \item System testing: We do want to make sure that our interfaces can run on different hardware. In our case, we want to be able to validate our software for at least RUG1 and RUG2.
 \item Functional testing: Testing that the software fullfils the requirements is, of course, our main preocupation. So this type of testing is of main importance.
 \item Regression testing: Being able to certify that a new feature or a bugfix does not break the whole system is a key point too. We dont want to re-introduce old bugs or break what is already working well.
-\item Acceptance testing: Automatizing client testing is not really in the scope of this paper. Besides, we assumed earlier that the requirements are good and well validated.
+\item Acceptance testing: Automatizing client testing is not really in the scope of this thesis. Besides, we assumed earlier that the requirements are good and well validated.
 \end{itemize}
 
 Summed up, those are the 3 main requierements we absolutely want in our solution:
@@ -1138,7 +1160,7 @@ Basically, what worked before must still work now.
 
 %-----------------------------------------------------------------------------
 
-We now have a good idea of what we want to do, checking various requierements of a given software to make sure they are all satisfied on every different system used. But how to know when a requirement is fullfilled or not ? In the chapter dedicated to them, we introduced the notion of failure and accepting states. If we manage to map all the interactions of our system with an input alphabet, we can easilly imagine that a run of a given \gls{fsm} extended with the concept of failure and accepting state can produce a the desired mapping for a given requierement. The underlying idea would be to create a \gls{fsm} for every requierement, run them using the defined input alphabet of the software's interactions and check that the resulting mapping is only made of \textit{True} values. If it is the case, we have successfully created a program that satisfies all the given requierements !
+We now have a good idea of what we want to do, checking various requierements of a given software to make sure they are all satisfied on every different system used. But how to know when a requirement is fullfilled or not? In the chapter dedicated to them, we introduced the notion of failure and accepting states. If we manage to map all the interactions of our system with an input alphabet, we can easilly imagine that a run of a given \gls{fsm} extended with the concept of failure and accepting state can produce a the desired mapping for a given requierement. The underlying idea would be to create a \gls{fsm} for every requierement, run them using the defined input alphabet of the software's interactions and check that the resulting mapping is only made of \textit{True} values. If it is the case, we have successfully created a program that satisfies all the given requierements!
 
 All we have to do is to find the best \gls{fsm} type that suits our needs and to formalize the software interactions in a way that allows us to capture and manage them
 
@@ -1151,7 +1173,7 @@ All we have to do is to find the best \gls{fsm} type that suits our needs and to
 
 In our practical case, we need to know how the tested program is performing in order to test it's requierements. To do that, we need to analyse the output it produces. In this context, outputs can be data, reports, logs, screenshots and many other things as long as they are produced by the analysed program. At Railnova, the \gls{rug} communicate with data servers, it produces particular messages that are saved in Railnova databases. It also can be accessed using a serial communication. Using this serial communication, we can fetch a lot of informations from the \gls{rug} operating system. We want our solution to interface with such data stream. Based on this quick analysis, we can think of separate program whose purpose is to continuously check for new data and fetch them into our solution as \gls{fsm}'s inputs. Let's call those program "Output Providers". So the idea is to setup a set a output providers that will provide informations about how the program is performing. We can imagine a lot of other use cases for those output providers, for example, we can have an output providers that look at a screen whose output is coming from our program and push the screen status into our solution.\\
 
-So, is interfacing outputs from our system enough to build a viable solution ? We figure out that it is not. Let's say you want to check that the software produces different output based on the room temperature. If you don't have the room temperature, you will not be able to check data's correctness. That's why we also need to fetch inputs of the tested program. Unfortunately, this was not considered early enoguh in the development process of our solution so the name "Output Provider" was also used for those in the final solution.
+So, is interfacing outputs from our system enough to build a viable solution? We figure out that it is not. Let's say you want to check that the software produces different output based on the room temperature. If you don't have the room temperature, you will not be able to check data's correctness. That's why we also need to fetch inputs of the tested program. Unfortunately, this was not considered early enoguh in the development process of our solution so the name "Output Provider" was also used for those in the final solution.
 
 
 %-----------------------------------------------------------------------------
@@ -1173,7 +1195,7 @@ $$D: k \to v$$
 
 So with those definitions, we can have several Output/Input Providers producing the same type of data (Dictionary). A practical example for this would be a temperature sensor, one could read the sensor value on a screen or directly on the electrical wire. In this case, we would have one \gls{op} that would fetch the sensor value from the screen and produce a dictionary with only one key $K = { "sensor" }$ and another \gls{op} would do the same but reading the value from the wire.\\
 
-But now, what if we want another sensor, let's say an oil sensor, the set of value that this sensor can be mapped to will probably not be the same and how does one differentiate between one or the other ? We could use the \gls{op} as an identification for the Dictionary but instead of that, we decided to add a custom data to all our Dictionary to identify them one from the other:
+But now, what if we want another sensor, let's say an oil sensor, the set of value that this sensor can be mapped to will probably not be the same and how does one differentiate between one or the other? We could use the \gls{op} as an identification for the Dictionary but instead of that, we decided to add a custom data to all our Dictionary to identify them one from the other:
 
 \theoremstyle{definition}
 \begin{definition}{Dictionary (extended).} A Dictionary $D$, in this context, is an identification $i \in \mathbb{R}$ and a mapping of key $k \in K$, where $K$ is the set $K(i)$ of all the keys produced by a given Dictionary identified as $i$, and discrete values $v \in V$ where $V$ is the set of values $V(i, k)$ that can be assigned to a given key $k$ from a given Dictionary identified as $i$:
@@ -1197,9 +1219,9 @@ This now implies that all Dictionary that shares the same identification should 
 
 % The \gls{railsteros} communicates with a GPS/GSM chipset that is connected to antenna that are not under our control. This is an issue because under those circumstances, if the antenna can behave differently in production than during our tests sessions so some faults can goes undiscovered until that.\\
 
-% Some solutions exists for this kind of problems like having our own antenna or using development boards for this chipset. We could also try to write some kind of simulator that will interface with the GPS/GSM chipset but we would need to reverse engineer the whole GSM/GPS networks or at least one particular antenna which would be really time and resources consuming. Not to mention that it will also probably be way more expensive than fixing hypothetical faults when they arise in the production environment. So the complex interfaces needed for those kind of technical component and specifically, their implementations are not a simple matter and are way beyond the scope of this paper so we will not talk more about them. \\
+% Some solutions exists for this kind of problems like having our own antenna or using development boards for this chipset. We could also try to write some kind of simulator that will interface with the GPS/GSM chipset but we would need to reverse engineer the whole GSM/GPS networks or at least one particular antenna which would be really time and resources consuming. Not to mention that it will also probably be way more expensive than fixing hypothetical faults when they arise in the production environment. So the complex interfaces needed for those kind of technical component and specifically, their implementations are not a simple matter and are way beyond the scope of this thesis so we will not talk more about them. \\
 
-% In this paper and for case like this one, we will simply consider that it is not a part of the system that we can test. So every component that are part of the whole system being tested are provided with some interface that allows us to communicate with them, sends and retrieves data.\\
+% In this thesis and for case like this one, we will simply consider that it is not a part of the system that we can test. So every component that are part of the whole system being tested are provided with some interface that allows us to communicate with them, sends and retrieves data.\\
 
 % With that in mind, we want to be able to describe what happens on the input side of the studied system and then, what are the expected results or outputs produced. For example, when you put some money in a vending machine to buy a soda, the system is the vending machine, you don't know how it works (or at least, most people don't), you feed it some inputs (some money) and you expect a given output (a soda) (figure~\ref{vm-io}). This is exactly what you want to describe in your tests.\\
 
@@ -1210,7 +1232,7 @@ This now implies that all Dictionary that shares the same identification should 
 %     \label{vm-io}
 % \end{figure}
 
-% A naive idea to do so could be to write a file mapping every possible inputs to every possible outputs and claim that our process works only when no unpredicted input/output pair occurs during some run of it (figure~\ref{io_map1}). But then, what if we want to produce a different output depending on how many times we seen some given output ? With this first idea, it would not be possible to handle this as we don't keep track the current state of the process. We don't have a way of counting how many given inputs have been encountered since the start of the process.\\
+% A naive idea to do so could be to write a file mapping every possible inputs to every possible outputs and claim that our process works only when no unpredicted input/output pair occurs during some run of it (figure~\ref{io_map1}). But then, what if we want to produce a different output depending on how many times we seen some given output? With this first idea, it would not be possible to handle this as we don't keep track the current state of the process. We don't have a way of counting how many given inputs have been encountered since the start of the process.\\
 
 % \begin{figure}
 %     \centering
@@ -1269,23 +1291,23 @@ Speaking of input symbols, we talked about data providers in section \ref{sec:pr
 To choose the type of \gls{fsm} that best suits our needs, we need some kind of ranking system based on what we learn in the chapter \textit{Formal Verification and Model Checking}~\ref{ModelChecking}. We decided to use the following criteria:
 \begin{itemize}
 \item We want to make sure that a particular \gls{fsm} type is possible to apply in our case. If it is an abstract \gls{fsm} that uses infinite memory or another paradigms that is impossible to implement on modern computer, we know that we can discard it.
-\item How easy it is to describe a system's behavior with such \gls{fsm} ? If it takes to much times or if we find it too difficult for non-technical peoples to describe a system's behavior using that particular \gls{fsm} type, we know that it will probably be deprecated over time and wont be used as it should be.
+\item How easy it is to describe a system's behavior with such \gls{fsm}? If it takes to much times or if we find it too difficult for non-technical peoples to describe a system's behavior using that particular \gls{fsm} type, we know that it will probably be deprecated over time and wont be used as it should be.
 \item If the chosen \gls{fsm} introduces restriction on what can be described, those restriction must not prevent us from doing every testing needed. And if it introduces new possibilities that allows us to describe more system's behaviors, the complexity that it introduces into the system should be worth it.
 \end{itemize}
 
 We can summarize with the following questions:
 
 \begin{itemize}
-\item Is it possible to implement ?
-\item Is it user friendly ?
-\item Does this introduces restrictions ?
+\item Is it possible to implement?
+\item Is it user friendly?
+\item Does this introduces restrictions?
 \end{itemize}
 
-Now to the choice of \gls{fsm} model, why don't we simply pick the most simple case of \gls{fsm} ? The reasons are very simple, take this case: You want to be able to detect a failure that happen if you receive a given data more than 10 seconds after some given data. How can you do this ? Or even simpler, you want to detect a failure if you didn't receive any data for 30 seconds.\\
+Now to the choice of \gls{fsm} model, why don't we simply pick the most simple case of \gls{fsm}? The reasons are very simple, take this case: You want to be able to detect a failure that happen if you receive a given data more than 10 seconds after some given data. How can you do this? Or even simpler, you want to detect a failure if you didn't receive any data for 30 seconds.\\
 
 All of those case requires you to create a new input type that will be the time. Say you receive this input each time a second pass. Already, it is a lot like timed state machine but lets say we want to use a pure \gls{fsm}. Now, we need to add state for each seconds passed, so if we want to wait 30 seconds, we need 30 states with 30 transitions for each seconds and 30 transitions for the event of "a data has been received" that will go back to initial state. And all of this needs to be written by someone. You can easily see why this is impracticable. So clearly, in this case, \gls{fsm} are too limited if we want to handle this in a simple and practicable way, that is, by limiting the number of states the user will need to use.\\
 
-Now with the \gls{afa}, the complexity of implementation required by this paradigm is quite important, we need to run multiple automaton, construct execution trees and analyze them. Compared to a simple \gls{fsm} implementation, this is quite a lot of work. So is it worth it ? To answer this question, we need to find practical case where such a paradigm would become indispensable and such case should be really difficult to implement into a classic \gls{fsm} to justify choosing \gls{afa} as our main choice for the implementation of Nursery. Based on the concrete needs we had when we analyzed this possibility, we choose not to consider it as a good solution because none of the case we had prepared needed such complexity and using this would have made it difficult to design test by inexperienced users. This also follows from the fact that we wanted to avoid dealing with concurrency.\\
+Now with the \gls{afa}, the complexity of implementation required by this paradigm is quite important, we need to run multiple automaton, construct execution trees and analyze them. Compared to a simple \gls{fsm} implementation, this is quite a lot of work. So is it worth it? To answer this question, we need to find practical case where such a paradigm would become indispensable and such case should be really difficult to implement into a classic \gls{fsm} to justify choosing \gls{afa} as our main choice for the implementation of Nursery. Based on the concrete needs we had when we analyzed this possibility, we choose not to consider it as a good solution because none of the case we had prepared needed such complexity and using this would have made it difficult to design test by inexperienced users. This also follows from the fact that we wanted to avoid dealing with concurrency.\\
 
 There is a wide variety a \gls{fsm}, there isn't any limit on how many \gls{fsm} type you can think of but when we started implementing our solution, the best \gls{fsm} that our 3 ranking questions left us with was timed automaton. Those \gls{fsm} are really well adapted for our use case. Being able to manipulate time directly in our transitions and state gives us a lot of ease to write the code and its also very powerful too! With it, we are able, for example, to send a lot of data with a variable interval between them and then receive data accordingly. You can also decide to create a clock for timeout that will be reseted each time you receive a given data. There are really a lot of use case and some more will be described later on.\\
 
@@ -1522,7 +1544,7 @@ if d is not None and d['type'] == "ROOM_TEMP":
 \subsection{Determinism}
 %-----------------------------------------------------------------------------
 
-A question you should be asking yourself now is, is this system deterministic ? The answer is not yet. In the current state, if we have two transition that maps to True, we do not know which one should be taken. To solve this problem, we mapped every transition to a integer in $\R$ always growing for each added transition. Trnasition are then evaluated from the lowest integer value to the biggest. The first succeeding transition will then be taken and we completely ignores the following ones. When designing scenarion, ones should keep that in mind otherwise some unexpected cases can appear. Every time the scenario is used, this mapping should stay the same. It can only be modified by modifying the source code itself. This is why every scenario should be verionned too. At Railnova, we uses Github for that purpose. It is not garanteed that two different version of a scenario will have the same behavior but for a given version number, every time the scenario is used, it will give have the same behavior.
+A question you should be asking yourself now is, is this system deterministic? The answer is not yet. In the current state, if we have two transition that maps to True, we do not know which one should be taken. To solve this problem, we mapped every transition to a integer in $\R$ always growing for each added transition. Trnasition are then evaluated from the lowest integer value to the biggest. The first succeeding transition will then be taken and we completely ignores the following ones. When designing scenarion, ones should keep that in mind otherwise some unexpected cases can appear. Every time the scenario is used, this mapping should stay the same. It can only be modified by modifying the source code itself. This is why every scenario should be verionned too. At Railnova, we uses Github for that purpose. It is not garanteed that two different version of a scenario will have the same behavior but for a given version number, every time the scenario is used, it will give have the same behavior.
 
 
 %-----------------------------------------------------------------------------
@@ -1748,16 +1770,16 @@ A web-administration tool was also developed. Allowing users to manage testing e
 \clearpage
 \part{Conclusion}
 
-Putting the complexity as a limitation gave us a software that can run on any moder system. The simulation is hosted on RaspBerry Pi which are low end system. This allowed us to build a lot of Nursery system for a really cheap price, RaspBerry Pi costing around fifteen euros. We made around sixteen Nursery system separated into two areas. Height of them dedicated for RailsterOS verification and height of them used mainly for fingerprinting. So, using the work done in this paper, we are now able to fingerprint the faulty RUG way faster. We need only one guy to analyze up to height of them in parallel using the Nursery systems we just talked about. The same thing hold true for RailsterOS testing. We can now leave newly developed version of it running on Nursery for days and get a report of all the errors that happened afterwards instead of waiting for errors to happen into the production environment. The total count of line of code in Python is about 7000 and 17 tests where developed with more to come.\\
+Putting the complexity as a limitation gave us a software that can run on any moder system. The simulation is hosted on RaspBerry Pi which are low end system. This allowed us to build a lot of Nursery system for a really cheap price, RaspBerry Pi costing around fifteen euros. We made around sixteen Nursery system separated into two areas. Height of them dedicated for RailsterOS verification and height of them used mainly for fingerprinting. So, using the work done in this thesis, we are now able to fingerprint the faulty RUG way faster. We need only one guy to analyze up to height of them in parallel using the Nursery systems we just talked about. The same thing hold true for RailsterOS testing. We can now leave newly developed version of it running on Nursery for days and get a report of all the errors that happened afterwards instead of waiting for errors to happen into the production environment. The total count of line of code in Python is about 7000 and 17 tests where developed with more to come.\\
 
 My personal analysis lead me to think that the success of Nursery is based on the following key point:
 \begin{itemize}
-\item Will it be used by other users ?
-\item Will it save time or make life easier for some people ?
-\item Can we gain money from it ?
+\item Will it be used by other users?
+\item Will it save time or make life easier for some people?
+\item Can we gain money from it?
 \end{itemize}
 
-Clearly, detecting fault earlier allows us to save money and time. No need to call back some hardware and less fault in production means less loss of money. We do not longer need to invest days of analyze for fingerprinting, all it takes is to plug the faulty RUG into Nursery and click a button. This could easily take up to 3 hours per RUG where now, we can do it in just one day of work for height RUG using more intensive testing cases ! Lastly, some guys of the hardware team and from the supply chain were introduced with Nursery. We showed them how to write test for Nursery and they loved the way things were made and how simple it was. Their test were done in approximately one hour. This lead us to think that, with proper formations and documentation, other users could gladly uses Nursery.\\
+Clearly, detecting fault earlier allows us to save money and time. No need to call back some hardware and less fault in production means less loss of money. We do not longer need to invest days of analyze for fingerprinting, all it takes is to plug the faulty RUG into Nursery and click a button. This could easily take up to 3 hours per RUG where now, we can do it in just one day of work for height RUG using more intensive testing cases! Lastly, some guys of the hardware team and from the supply chain were introduced with Nursery. We showed them how to write test for Nursery and they loved the way things were made and how simple it was. Their test were done in approximately one hour. This lead us to think that, with proper formations and documentation, other users could gladly uses Nursery.\\
 
 I think that Nursery is a key assets that will become more and more used inside of Railnova. We even talked about using it for production lines in the future. But a lot of work is yet to be done on the accessibility aspect of it. Proper documentation needs to be written, some ideas are expected to ease a bit more the writing of tests like adding a generic state allowing us to create a transition from "any state" to one particular state without needing to repeat this transition to every other states and theres probably a lot more thing we didn't think about.
 
