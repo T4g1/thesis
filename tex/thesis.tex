@@ -58,6 +58,7 @@
 \newacronym{pta}{PTA}{Probabilistic Timed Automaton}
 \newacronym{dsl}{DSL}{Domain-specific language}
 \newacronym{gpl}{GPL}{General-purpose language}
+\newacronym{ta}{TA}{Timed Automata}
 
 \newglossaryentry{railsteros}
 { name=RailsterOS,
@@ -580,17 +581,13 @@ A \gls{fsm} can be run over a finite word from the input alphabet in order to ac
 
 \theoremstyle{definition}
 \begin{definition}{Run.} A run $r$ of the \gls{fsm} $\A = (\Sigma, S, s_{0}, \Delta, F)$ over a finite word $\sigma = \sigma_1 \sigma_2 ... \sigma_n$ over the alphabet $\Sigma$ is a sequence of states and alphabet symbols
-$$r: s_0 \xrightarrow[]{\sigma_1} s_1 \xrightarrow[]{\sigma_2} s_2 \xrightarrow[]{\sigma_3} ... \xrightarrow[]{\sigma_n} s_{n+1}$$ where $\forall i \ge 1: (s_{i-1}, s_i, \sigma_i) \in \Delta$
+$$r: \overline{s} = s_0 \xrightarrow[]{\sigma_1} s_1 \xrightarrow[]{\sigma_2} s_2 \xrightarrow[]{\sigma_3} ... \xrightarrow[]{\sigma_n} s_{n+1}$$ where $\forall i \ge 1: (s_{i-1}, s_i, \sigma_i) \in \Delta$
 \end{definition}
 
 \theoremstyle{definition}
 \begin{definition}{Accepting run.} A run $r$ of the \gls{fsm} $\A = (\Sigma, S, s_{0}, \Delta, F)$ over a finite word $\sigma = \sigma_1 \sigma_2 ... \sigma_n$ over the alphabet $\Sigma$ is an accepting run if:
 $$s_{n+1} \in F$$
 $$r: s_0 \xrightarrow[]{\sigma_1} s_1 \xrightarrow[]{\sigma_2} s_2 \xrightarrow[]{\sigma_3} ... \xrightarrow[]{\sigma_n} s_{n+1}$$ where $\forall i \ge 1: (s_{i-1}, s_i, \sigma_i) \in \Delta$
-\end{definition}
-
-\theoremstyle{definition}
-\begin{definition}{Rejecting run.} A run $r$ is a rejecting run if it is not an accepting run.
 \end{definition}
 
 \theoremstyle{definition}
@@ -613,14 +610,18 @@ We can extend the definition of \gls{fsm} by splitting the final states in two d
 
 This extension of finite state machine doesn't introduce any more complexity. Take the original definition where a finite state machine FSM is a tuple $(\Sigma, S, s_{0},\delta, A)$. In this definition, the set of final state $A$ is equivalent to $W \cup F$ from our extended definition.
 
-With this new defintion in mind, we define a run to be an \textit{succesful run} and \textit{failed run}: Every run is a said to fail if it is not a succesful run. Now, we say a run is a succesful run if the last state is a success state and no state in between, from the start of the run to the end, is a failure state:
+With this new defintion in mind, we define a run to be a \textit{successful run} and \textit{failed run}: Every run is a said to fail if it is not a successful run. Now, we define a successful run as a run where at least one state is a success state and no previous state is a failure state:
 
 \theoremstyle{definition}
-\begin{definition}{Succesful run.} A run $r$ of the \gls{efsm} $\A = (\Sigma, S, s_{0}, \Delta, W, F)$ over a finite word $\sigma = \sigma_1 \sigma_2 ... \sigma_n$ over the alphabet $\Sigma$ is a succesful run if:
-$$s_{n+1} \in W$$ and $$\forall i \in [0, n]: s_{i} \notin F$$
+\begin{definition}{Successful run.} A run $r$ of the \gls{efsm} $\A = (\Sigma, S, s_{0}, \Delta, W, F)$ over a finite word $\sigma = \sigma_1 \sigma_2 ... \sigma_n$ over the alphabet $\Sigma$ is a successful run if:
+$$\exists s_i \in \overline{s} | s_{i} \in W$$ and $$\forall j < i: s_{j} \notin F$$
 \end{definition}
 
-%To determine what is a succesful run, assume at least one state $s_i$ from $r$ is in $W$: Take the one with the smallest $i$. If $i$ equals $0$, the run is accepting, if not: if $\forall j < i: s_j \notin L$ then its an accepting run.
+\theoremstyle{definition}
+\begin{definition}{Failure run.} A run $r$ of the \gls{efsm} $\A = (\Sigma, S, s_{0}, \Delta, W, F)$ over a finite word $\sigma = \sigma_1 \sigma_2 ... \sigma_n$ over the alphabet $\Sigma$ is a failure run if it is not a successful run.
+\end{definition}
+
+%To determine what is a successful run, assume at least one state $s_i$ from $r$ is in $W$: Take the one with the smallest $i$. If $i$ equals $0$, the run is accepting, if not: if $\forall j < i: s_j \notin L$ then its an accepting run.
 
 
 \subsection{Description of Finite State Machine using graphs}
@@ -667,7 +668,7 @@ An \gls{fsm} can accept or reject words, we will call the set of accepted words 
 
 We define the language recognized by an \gls{efsm} as follows:
 \theoremstyle{definition}
-\begin{definition}{Language of an \gls{efsm}.} The language $L \subseteq \Sigma*$ recognized by an \gls{efsm} is the set of all words that produce succesful run for the \gls{efsm}.
+\begin{definition}{Language of an \gls{efsm}.} The language $L \subseteq \Sigma*$ recognized by an \gls{efsm} is the set of all words that produce successful run for the \gls{efsm}.
 \end{definition}
 
 
@@ -759,8 +760,8 @@ To define a timed automata, we need some more definitions. A timed automata work
 
 \begin{figure}[H]
     \centering
-    \includegraphics[scale=0.8]{timed_automata.png}
-    \caption{Example of a timeout timed automaton. X being one of the clocks that can be used}
+    \includegraphics[scale=2.5]{timed_automata.png}
+    \caption{Example of a timeout timed automaton. x being one of the clocks that can be used}
     \label{timed_automata_e1}
 \end{figure}
 
@@ -794,7 +795,15 @@ $$\delta := x \le c \mid c \le x \mid \neg \delta \mid \delta_1 \land \delta_2$$
 \begin{definition}{Clock interpretation.} A clock interpretation $v$ is a mapping $X \to \R$, with $X$ being a set of clocks.
 \end{definition}
 
-A clock interpretation $v$ over $X$ satisfies a clock constraint $\delta$ over $X$ iff $\delta$ evaluates to true using the values given by $v$.
+A clock interpretation $v$ over $X$ satisfies a clock constraint $\delta$ over $X$ iff $\delta$ evaluates to true using the values given by $v$.\\
+
+To use this type of automaton, we need to define a time unit that will be used for the clock interpreation. Each passed time unit, we increase the clock interpreation of every clock by some fixed increment. A simple example is to have a set of clock that are incremented by one every passing second. Here, the time unit is the second and the increment is $1$. Using the same time unit and increment, we can interpert the example given in Figure~\ref{timed_automata_e1} as follows:
+\begin{itemize}
+\item When data is received, we reset the clock interpretation of the clock $x$
+\item If we do not receive data after $30$ seconds, the run is over.
+\end{itemize}
+
+The clock constraint here is $x > 30$. This automata can be used to ensure that a data is received at least every 30 seconds.
 
 \theoremstyle{definition}
 \begin{definition}{Timed transition table.} A timed transition table $\A$ is a quintuple $(\Sigma, S, s_{0},C, E)$, where:
@@ -803,40 +812,63 @@ A clock interpretation $v$ over $X$ satisfies a clock constraint $\delta$ over $
 \item $S$ is the set of state.
 \item $s_{0} \in S$ is the initial state.
 \item $C$ is a finite set of clocks
-\item $E \subseteq S \times S \times \Sigma \times 2^{C} \times \Phi(C)$ gives the set of transitions. A transition from the state $s$ to $s'$ on input symbol $a$ is represented by a qintuple $(s, s', a, \lambda, \delta)$ where $\lambda$ is the set of clock to be set to zero and $\delta$ is the clock constraint over $C$.
+\item $E \subseteq S \times S \times \Sigma \times 2^{C} \times \Phi(C)$ gives the set of transitions where $\Phi(C)$ is the set of clock constraint over $C$. A transition from the state $s$ to $s'$ on input symbol $a$ is represented by a qintuple $(s, s', a, \lambda, \delta)$ where $\lambda$ is the set of clock to be set to zero and $\delta$ is the clock constraint over $C$.
 \end{itemize}
 \end{definition}
 
 We now have all the needed tools to define properly the type of timed automaton we'll need for this thesis:
 
 \theoremstyle{definition}
-\begin{definition}{Timed automaton.} A timed automaton (TA) is a tuple $(\A, W, F)$ where $\A$ is a timed transition table, $W \subseteq S(\A)$ (with $S(\A)$ being the set of state of $\A$) is the set of \textit{success} states (W stands for winning as S was already taken) and $F \subseteq S(\A)$ is the set of \textit{failure} states.
+\begin{definition}{Timed automaton.} A \gls{ta} $\T$ is a tuple $(\A, W, F)$ where $\A$ is a timed transition table, $W \subseteq S(\A)$ (with $S(\A)$ being the set of state of $\A$) is the set of \textit{success} states and $F \subseteq S(\A) \ W$ is the set of \textit{failure} states. We will only consider deterministic timed automaton in this thesis as ~\cite{10.1007/3-540-63174-7_12} shows that we can transform any \gls{nfa} into a \gls{dfa}.
 \end{definition}
 
 \theoremstyle{definition}
-\begin{definition}{Run.} We define a run $r$ of a timed automaton TA $(\A, W, F)$, where $\A$ is $(\Sigma, S, s_{0},C, E)$, over a timed word $(\sigma, \tau)$ as the sequence
+\begin{definition}{Run.} We define a run $r$ of a \gls{ta} $\T = (\A, W, F)$, where $\A$ is a transition table $(\Sigma, S, s_{0},C, E)$, over a timed word $(\sigma, \tau)$ as the sequence
 $$(\overline{s}, \overline{v}): (s_0, v_0) \xrightarrow[\tau_1]{\sigma_1} (s_1, v_1) \xrightarrow[\tau_2]{\sigma_2} (s_2, v_2) \xrightarrow[\tau_3]{\sigma_3} ...$$
-with $s_i \in S$ and $v_i$ is a mapping $C \to \R$ $\forall i \ge 0$.
+with $s_i \in S$ and $v_i$ is a clock interpretation $C \to \mathbb{N}_0$ $\forall i \ge 0$.
 \begin{itemize}
 \item $s_o$ is the initial state of $\A$.
 \item $\forall x \in C: v_0(x) = 0$
-\item $\forall i \ge 1: \exists e \in E$ of the form $(s_{i-1}, s_i, \sigma_i, \lambda_i, \delta_i)$ so that $(v_{i-1} + \tau_i - \tau_{i-1})$ satisfies $\delta_i$ and $v_i$ equals $[\lambda_i \mapsto 0](v_{i-1} + \tau_i - \tau_{i-1})$.~\cite{ALUR1994183}
+\item $\forall i \ge 1: \exists e \in E$ of the form $(s_{i-1}, s_i, \sigma_i, \lambda_i, \delta_i)$ so that $(v_{i-1} + \tau_i - \tau_{i-1})$ satisfies $\delta_i$ and $v_i$ equals $[\lambda_i \mapsto 0](v_{i-1} + \tau_i - \tau_{i-1})$ with $\tau_0 = 0$.~\cite{ALUR1994183}
 \end{itemize}
 \end{definition}
 
-Intuitively, a run is the sequence of states and clock interpretations characterizing the \textit{run}/processing of a given timed word to a given timed automata.
+%\theoremstyle{definition}
+%\begin{example}{Timed automaton.} An example of timed automaton where $C = \{x\}$ is given in figure~\ref{timed_automata_e1}.
+%\end{example}
+// TODO more example
+
+Intuitively, a run is the sequence of states and clock interpretations characterizing the \textit{run}/processing of a given timed word to a given timed automata. For each tuple of state and clock interpretation, the clock interpretation is:
+\begin{itemize}
+\item $0$ for every clock if it is the first of the sequence or
+\item the clock interpretation in the sequence $+$ the amount of time unit elapsed with every clock in $\lambda$ being resetted.
+\end{itemize}
 
 \theoremstyle{definition}
-\begin{example}{Timed automaton.} An example of timed automaton where $C = \{x\}$ is given in figure~\ref{timed_automata_e1}.
-\end{example}
-
-We can now speak of successful and failing runs. Given a timed automaton TA $(\A, W, F)$ and a run $r$, lets assume $r$ contains one or more $(s_i, v_i)$ where $s_i \in W$. Take such $(s_i, v_i)$ with the smallest possible value of $i$. The run is said to be successful iff $i = 0$ or $\forall j < i: s_j \notin L$. We define all the other runs as failing runs.
-
-Using this new definition of run, we can define the language accepted by a timed automaton TA as the set of timed words whose run over TA are accepting:
-
-\theoremstyle{definition}
-\begin{definition}{Timed language.} Given a timed automaton TA $(\A, W, F)$, where $\A$ is $(\Sigma, S, s_{0},C, E)$, the language $L \subseteq \Sigma*$ recognized by TA is the set of timed words which produces accepting runs.
+\begin{definition}{Accepting run.} A run $r$ of a \gls{ta} $\mathcal{T} = (\A, W, F)$, where $\A$ is a transition table $(\Sigma, S, s_{0},C, E)$, over a timed word $(\sigma, \tau)$ is accepting if for $s_{n}$ the last state of $\overline{s}$:
+$$s_{n} \in W \bigcup F$$
 \end{definition}
+
+\theoremstyle{definition}
+\begin{definition}{Rejecting run.} A run $r$ is a rejecting run if it is not an accepting run.
+\end{definition}
+
+Using this new definition of run, we can define the language accepted by a \gls{ta} as the set of timed words whose run over \gls{ta} are accepting:
+
+\theoremstyle{definition}
+\begin{definition}{Timed language.} Given a \gls{ta} $\mathcal{T} = (\A, W, F)$, where $\A$ is a transition table $(\Sigma, S, s_{0},C, E)$, the language $L \subseteq \Sigma*$ recognized by the \gls{ta} is the set of timed words $w \in \Sigma*$ for which the run of $w$ over the \gls{ta} is accepting.
+\end{definition}
+
+We also add the definition of successful and failing runs for future use. Given a \gls{ta} $(\A, W, F)$ and a run $r$, we say it is a successful run if at least one state of the run is a success state and no previous state to this one is a failure state.
+
+\begin{definition}{Success run.} A run $r$ over a \gls{ta} $\mathcal{T}$ is a success run if
+$$\exists s_i \in \overline{s} | s_i \in W$$ and $$\forall j < i: s_j \notin F$$.
+\end{definition}
+
+\begin{definition}{Failure run.} A run $r$ over a \gls{ta} $\mathcal{T}$ is a failure run if it is not a success run.
+\end{definition}
+
+We will use those definition to allows us to use non finite timed words later.
 
 
 %-----------------------------------------------------------------------------
@@ -858,13 +890,15 @@ One of the first question one should ask is how is model checking and formal ver
     \label{UPPAAL}
 \end{figure}
 
-The first software we came across while searching for such applications was UPPAL. UPPAAL is a rather complete tool to work on model checking and formal verification. With it, one can modelize a system, simulate and verify it. All the three steps in only one tool~\cite{Bengtsson1996}~\cite{Behrmann2004}~\cite{Larsen1997}.\\
+The first software we came across while searching for such applications was UPPAL. UPPAAL is a rather complete tool to work on model checking and formal verification. With it, one can model a system, simulate and verify it. All the three steps in only one tool~\cite{Bengtsson1996}~\cite{Behrmann2004}~\cite{Larsen1997}.\\
 
 UPPAAL was a great source of inspiration for some features of our own tool. We were specifically interested by the simulation tools which allows to navigate through the execution steps and visualizing what is going on with the model of our system. Also, UPPAAL uses TAs which comforted us in our choice of such tool.\\
 
 
 \subsection{PRISM}
 %-----------------------------------------------------------------------------
+
+// TODO intuition for probabilistic models
 
 \begin{figure}
     \centering
@@ -873,9 +907,9 @@ UPPAAL was a great source of inspiration for some features of our own tool. We w
     \label{PRISM_model}
 \end{figure}
 
-We where also interested by PRISM, which is a tool for modelization and verification of probabilistic systems. PRISM supports different kind of probabilistic models like \gls{dtmc}, \gls{mdp}, \gls{pa}, \gls{ctmc} and \gls{pta}.\footnote{Probabilistic Automaton are Markov Chains that also supports deterministic transitions.}~\cite{Kwiatkowska2011}~\cite{Hinton2006}\\
+We where also interested by PRISM, which is a tool for modeling and verification of probabilistic systems. PRISM supports different kind of probabilistic models like \gls{dtmc}, \gls{mdp}, \gls{pa}, \gls{ctmc} and \gls{pta}.\footnote{Probabilistic Automaton are Markov Chains that also supports deterministic transitions.}~\cite{Kwiatkowska2011}~\cite{Hinton2006}\\
 
-PRISM uses a uniform modeling language for all the probabilistic models that it supports. This is a textual language, based on guarded command notation. See figure~\ref{PRISM_model}, this model was generated using the following lines of code:
+PRISM uses a uniform modeling language for all the probabilistic models that it supports. This is a textual language, based on guarded command notation. See Figure~\ref{PRISM_model}, this model was generated using the following lines of code:
 
 \lstset{
   showspaces=false,
@@ -908,7 +942,7 @@ endmodule
 \end{lstlisting}
 \end{figure}
 
-Again, this tools uses \gls{fsm} to modelize different systems.
+Again, this tools uses \gls{fsm} to model different systems.
 
 
 \clearpage
@@ -947,7 +981,7 @@ Now that you know what software testing and \gls{fsm} are all about, lets introd
 
 This work is done in partnership with Railnova. Railnova is a technology company that provides telematics and software solutions to the railway industry. Their headquarter is located in Brussels and they count approximatively 30 employees. Some of them coming from the ULB/VUB.\\
 
-The main goal of this work is to develop a better testing suite for their embedded software called \gls{railsteros}. Of course, the developed solution will not be limited to a particular software and our scope is a lot wider than that. Our solution will be considered successful if it meets the following requirements:
+The main goal of this work is to develop a better testing suite for their embedded software called \gls{railsteros}. Of course, the developed solution will not be limited to a particular software and our scope is wider than that. Our solution will be considered successful if it meets the following requirements:
 
 \begin{itemize}
 \item The system can be used by non-developers
@@ -975,9 +1009,9 @@ To retrieve all those informations, we need to use different communication proto
 
 As stated before, \gls{railsteros} is running on \gls{rug}. Those hardware are built by Railnova. Actually, the majority of them are in their first version (RUG1) but the RUG2 is on its way. It is important to keep that in mind to understand why we tried to keep this work as generic as possible. Indeed, in a year, maybe less, the majority of the product used will be RUG2 so if the system can only work for a dedicated and specific hardware, we will need to start over all this work for the RUG2.\\
 
-\gls{railsteros} is being developed incrementally since the start of the company. It means that the software is kind of messy with all the new features coming in and the old ones being deprecated or deleted. Actually, there is more than 10 different versions of the software in production and those are not the only existing versions.\\
+\gls{railsteros} is being developed incrementally since the start of the company. It means that the software becomes harder and harder to maintain with all the new features coming in and the old ones being deprecated or deleted. Actually, there is more than 10 different versions of the software in production and those are not the only existing versions.\\
 
-It is frequent to encounter new bug after the release of a new version that were supposed to be fixed since earlier versions simply because the new changes re-introduced the problem. This is mainly because Railnova is a young company, a start-up, and the work priority are very end-user scheduled. If a system stops working, a quick fix is developed and pushed to production as fast as possible to avoid loosing too much money but the cost on the long run for this operation can be greater than what we saved by fixing the problem quickly.\\
+It is frequent to encounter new bugs after the release of a new version that were supposed to be fixed since earlier versions simply because the new changes re-introduced the problem. This is mainly because Railnova is a young company, a start-up, and the work priority are very end-user scheduled. If a system stops working, a quick fix is developed and pushed to production as fast as possible to avoid loosing too much money but the cost on the long run for this operation can be greater than what we saved by fixing the problem quickly.\\
 
 Say that the problem is fixed by a quick and dirty patch. Then, one year later maybe, a major problem arises because all the fixes deployed are preventing us from adding wanted features. Then, the whole system is to be re-developed from the start. That was what happened when they tried to put \gls{railsteros} on the RUG2. RUG1 was developed the quick and dirty way to be on the market as soon as possible. So a lot of conception errors were made. The software had been modified to a point where it needed all those conception errors from the RUG1 to operate correctly.
 
@@ -995,7 +1029,7 @@ And those tests are just to prove the initial hypothesis. Once this was proved, 
 
 And that's without mentioning that the thermionic chamber makes a lot of noise to work, wasting an entire room as people can not work long in such a noisy environment.\\
 
-This is where the Nursery project comes in handy. The goal of it is to provide an environment fully automatized to realize all those testing when we want, like during the night so the room stays silent during the day for men to work in, without needing one or more persons to take weeks or years of works.
+This is where the Nursery project comes in handy. The goal of it is to provide an environment fully automatized to realize all those testing when we want, like during the night so the room stays silent during the day for people to work in, without needing one or more persons to take weeks or years of works.
 
 
 %-----------------------------------------------------------------------------
@@ -1004,6 +1038,7 @@ This is where the Nursery project comes in handy. The goal of it is to provide a
 
 %-----------------------------------------------------------------------------
 
+// TODO introduction ?
 Usually, when you work on a development project, you have many different development stages. The main ones are the proper development of the product and the final stage of the product, when it is shipped to the production environment.\\
 
 Shipping the product to production simply means that you put the product into its real environment. In other words, you begin to manipulates real world data and not the tests sets that you where probably using during the development. In our case, we install a RUG running \gls{railsteros} in some engine.\\
