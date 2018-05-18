@@ -47,6 +47,7 @@
 \newacronym{op}{O.P.}{Output Provider}
 \newacronym{afa}{AFA}{Alternating Finite Automaton}
 \newacronym{fsm}{FSM}{Finite State Machine}
+\newacronym{efsm}{EFSM}{Extended Finite State Machine}
 \newacronym{dfa}{DFA}{Deterministic Finite Automaton}
 \newacronym{nfa}{NFA}{Non-Deterministic Finite Automaton}
 \newacronym{io}{I/O}{Inputs/Outputs}
@@ -537,60 +538,82 @@ The input alphabet is the list of every symbol it can receive in any given state
 \item $\Sigma$ is the finite input alphabet.
 \item $S$ is the set of state.
 \item $s_{0} \in S$ is the initial state.
-\item $\delta$ is the state-transition function.
+\item $\delta$ is the state-transition function: $\delta: S \times \Sigma \to S$.
 \item $F \subseteq S$ is the set of final states.
 \end{itemize}
 \end{definition}
 
 Because of those rules, a transition function can start and end in the same state, thus creating a loop on the state. $\delta$ is conventionally allowed to be a partial function. This means that $\delta(s, e)$ does not needs to be defined for every possible combination of $s \in S$ and $e \in \Sigma$. This allows us to have a finite $\delta$ transition function even when the input alphabet $\Sigma$ is not finite or defined.\footnote{This is crucial for our practical case describe later on.}
 
-About the input alphabet, we usually define every input as a character or token read on the input tape of the \gls{fsm}. Where the input tape is a sequential list of every symbols feed into the system. This is a lot like a Turing Machine.
+%About the input alphabet, we usually define every input as a character or token read on the input tape of the \gls{fsm}. Where the input tape is a sequential list of every symbols feed into the system. This is a lot like a Turing Machine.
 
 \theoremstyle{definition}
 \begin{definition}{Finite word.} A finite word $\sigma = \sigma_1 \sigma_2 ... \sigma_n$ is a finite sequence of symbols from $\Sigma$: $\forall i: \sigma_i \in \Sigma$
 \end{definition}
 
-\theoremstyle{definition}
-\begin{definition}{Transition table.} A transition table $\A$ is a tuple $(\Sigma, S, s_{0}, \Delta)$, where:
-\begin{itemize}
-\item $\Sigma$ is the input alphabet.
-\item $S$ is the set of state.
-\item $s_{0} \in S$ is the initial state.
-\item $\Delta \subseteq S \times S \times \Sigma$ is the set of state-transitions function.
-\end{itemize}
-\end{definition}
+%\theoremstyle{definition}
+%\begin{definition}{Transition table.} A transition table $\A$ is a tuple $(\Sigma, S, s_{0}, \Delta)$, where:
+%\begin{itemize}
+%\item $\Sigma$ is the input alphabet.
+%\item $S$ is the set of state.
+%\item $s_{0} \in S$ is the initial state.
+%\item $\Delta \subseteq S \times S \times \Sigma$ is the set of state-transitions function.
+%\end{itemize}
+%\end{definition}
+
+A \gls{fsm} can be run over a finite word from the input alphabet in order to accept or reject it. This is formally defined as follows:
 
 \theoremstyle{definition}
-\begin{definition}{Run.} A run $r$ of the transition table $\A = (\Sigma, S, s_{0}, \Delta)$ over a finite word $\sigma = \sigma_1 \sigma_2 ... \sigma_n$ over the alphabet $\Sigma$ is the sequence of state
+\begin{definition}{Run.} A run $r$ of the \gls{fsm} $\A = (\Sigma, S, s_{0}, \Delta, F)$ over a finite word $\sigma = \sigma_1 \sigma_2 ... \sigma_n$ over the alphabet $\Sigma$ is the sequence of state
 $$r: s_0 \xrightarrow[]{\sigma_1} s_1 \xrightarrow[]{\sigma_2} s_2 \xrightarrow[]{\sigma_3} ... \xrightarrow[]{\sigma_n} s_{n+1}$$ where $\forall i \ge 1: (s_{i-1}, s_i, \sigma_i) \in \Delta$
 \end{definition}
 
-Let us extend the definition of \gls{fsm} with another usefull notion:
 \theoremstyle{definition}
-\begin{definition}{(Extended) Finite State Machine.} A \gls{fsm} is a tuple $(\Sigma, S, s_{0},\delta, W, F)$, where:
+\begin{definition}{Accepting run.} A run $r$ of the \gls{fsm} $\A = (\Sigma, S, s_{0}, \Delta, F)$ over a finite word $\sigma = \sigma_1 \sigma_2 ... \sigma_n$ over the alphabet $\Sigma$ is an accepting run if:
+$$s_{n+1} \in F$$
+$$r: s_0 \xrightarrow[]{\sigma_1} s_1 \xrightarrow[]{\sigma_2} s_2 \xrightarrow[]{\sigma_3} ... \xrightarrow[]{\sigma_n} s_{n+1}$$ where $\forall i \ge 1: (s_{i-1}, s_i, \sigma_i) \in \Delta$
+\end{definition}
+
+\theoremstyle{definition}
+\begin{definition}{Rejecting run.} A run $r$ is a rejecting run if it is not an accepting run.
+\end{definition}
+
+\theoremstyle{definition}
+\begin{definition}{Rejecting run.} A run $r$ is a rejecting run if it is not an accepting run.
+\end{definition}
+
+We can extend the definition of \gls{fsm} by splitting the final states in two distinct set: success states and failure states.
+
+\theoremstyle{definition}
+\begin{definition}{(Extended) Finite State Machine.} A \gls{efsm} is a tuple $(\Sigma, S, s_{0},\delta, W, F)$, where:
 \begin{itemize}
 \item $\Sigma$ is the finite input alphabet.
 \item $S$ is the set of state.
 \item $s_{0} \in S$ is the initial state.
 \item $\delta$ is the state-transition function.
-\item $W \subseteq S$ is the set of final accepting states.
-\item $F \subseteq S / W$ is the set of final failure states.
+\item $W \subseteq S$ is the set of final success states.
+\item $F \subseteq S \\ W$ is the set of final failure states.
 \end{itemize}
 \end{definition}
 
-This extension of finite state machine doesn't introduce any more complexity. Take the original definition where a finite state machine FSM is a tuple $(\Sigma, S, s_{0},\delta, F)$. In this definition, the set of final state $F$ is equivalent to $W \cup L$ from our extended definition.
+This extension of finite state machine doesn't introduce any more complexity. Take the original definition where a finite state machine FSM is a tuple $(\Sigma, S, s_{0},\delta, A)$. In this definition, the set of final state $A$ is equivalent to $W \cup F$ from our extended definition.
 
-With this new defintion in mind, we define a run to be an \textit{accepting run} and \textit{failed run}: Every run is a said to fail if it is not an accepting run. To determine what is an accepting run, assume at least one state $s_i$ from $r$ is in $W$: Take the one with the smallest $i$. If $i$ equals $0$, the run is accepting, if not: if $\forall j < i: s_j \notin L$ then its an accepting run.
+With this new defintion in mind, we define a run to be an \textit{succesful run} and \textit{failed run}: Every run is a said to fail if it is not a succesful run. Now, we say a run is a succesful run if the last state is a success state and no state in between, from the start of the run to the end, is a failure state:
+
+\theoremstyle{definition}
+\begin{definition}{Succesful run.} A run $r$ of the \gls{efsm} $\A = (\Sigma, S, s_{0}, \Delta, W, F)$ over a finite word $\sigma = \sigma_1 \sigma_2 ... \sigma_n$ over the alphabet $\Sigma$ is a succesful run if:
+$$s_{n+1} \in W$$ and $$\forall i \in [0, n]: s_{i} \notin F$$
+\end{definition}
+
+%To determine what is a succesful run, assume at least one state $s_i$ from $r$ is in $W$: Take the one with the smallest $i$. If $i$ equals $0$, the run is accepting, if not: if $\forall j < i: s_j \notin L$ then its an accepting run.
 
 
 \subsection{Description of Finite State Machine using graphs}
 %-----------------------------------------------------------------------------
 
-Having a more human friendly way of presenting \gls{fsm} is possible using graphs. To show an \gls{fsm} as a graph, we create a directed empty graph $G$. Then, we create a node for every state of our \gls{fsm}. We need to remember the mapping node/state. Various solutions can be used for this problem: Let us apply a function that give each state label starting at 0 and incrementing by one for each state. Then, lets label every newly created node with the label previously assigned to the state.\\
+Having a more human friendly way of presenting \gls{efsm} is possible using graphs. To show an \gls{efsm} as a graph, we use a directed empty graph $G$. Then, we create a node for every state of our \gls{efsm}. Now we add an edge for every transition defined in $\delta$ with the starting point being the current node and the endpoint is the node corresponding to the goal of the transition. Finally, we add an edge starting from nowhere and pointing to the node representing the initial state.\\
 
-Now we add an arrow for every transition defined in $\delta$ with the starting point being the current node and the endpoint is the node corresponding to the goal of the transition. Finally, we add an arrow starting from nowhere and pointing to the node representing the initial state.\\
-
-Every state $s$ in $W$ or $L$ is displayed with a double circle. We label those in $W$ with "\textit{success}" and those in $L$ with "\textit{failure}". This gives us a graph we can display like in the figure~\ref{battcycle}. For comprehension sake, we have also labeled each node with a brief state name and every transition with an unique name based on the starting node.
+Every state $s$ in $W$ or $F$ is displayed with a double circle. We label those in $W$ with "\textit{success}" and those in $F$ with "\textit{failure}". This gives us a graph we can display like in the Figure~\ref{battcycle}. For comprehension sake, we have also labeled each node with a brief state name and every transition with an unique name based on the starting node.
 
 
 %-----------------------------------------------------------------------------
@@ -599,7 +622,7 @@ Every state $s$ in $W$ or $L$ is displayed with a double circle. We label those 
 
 %-----------------------------------------------------------------------------
 
-An acceptor takes a sequence of inputs from the input alphabet and run a \gls{fsm} on it. Every state of the acceptor is either and accept state or a reject state. When the computation ends in an accepting state, we say that the input is accepted and the input is not accepted otherwise (figure~\ref{acceptor}). The set of sequence of input symbols accepted by an acceptor is called a regular language.\\
+An acceptor takes a sequence of inputs from the input alphabet and run a \gls{fsm} on it. Every state of the acceptor is either and accept state or a reject state. When the computation ends in an accepting state, we say that the input is accepted and the input is not accepted otherwise (Figure~\ref{acceptor}). The set of sequence of input symbols accepted by an acceptor is called a regular language.
 
 \begin{figure}
     \centering
@@ -607,6 +630,30 @@ An acceptor takes a sequence of inputs from the input alphabet and run a \gls{fs
     \caption{Example of acceptor for the string 'nice'~\cite{FSM:2017}}
     \label{acceptor}
 \end{figure}
+
+
+%-----------------------------------------------------------------------------
+
+\section{Language}
+
+%-----------------------------------------------------------------------------
+
+We define a word over a given alphabet as a sequence of symbols from that alphabet. As you already know, a \gls{fsm} takes an input alphabet as a parameter and every sequence of symbols from that alphabet are words. We also define a language as a set of words.
+
+\theoremstyle{definition}
+\begin{definition}{Language.} A language $L$ over an alphabet $\Sigma$ is a subset of $\Sigma^*$, a set of word over the alphabet.
+\end{definition}
+
+An \gls{fsm} can accept or reject words, we will call the set of accepted words a regular language over the input alphabet of the \gls{fsm}.
+
+\theoremstyle{definition}
+\begin{definition}{Regular Language.} A language $L \subseteq \Sigma*$ is regular if all word $w \in L$ are accepted by an \gls{fsm} $A$.~\cite{Yu:1997:RL:267846.267848}
+\end{definition}
+
+We define the language recognized by an \gls{efsm} as follows:
+\theoremstyle{definition}
+\begin{definition}{Language of an \gls{efsm}.} The language $L \subseteq \Sigma*$ recognized by an \gls{efsm} is the set of all words that produce succesful run for the \gls{efsm}.
+\end{definition}
 
 
 %-----------------------------------------------------------------------------
@@ -668,20 +715,6 @@ In an \gls{afa}, transition are more complex than those we encountered in tradit
 To implement this automaton, we need to be able to store the system's current state and restore it later so we can do multiple run and back-track when needed for every existential and universal transition we have. When we take an AND transition, we need to run a second automaton in parallel for each state the transition leads to and when we encounter an OR transition, we behave like a non-deterministic automaton by taking one of the possibilities non-deterministically. Depending on the number of those transitions, this increase the memory usage of our automaton as well as the time needed to complete the evalutation of all possible paths.\\
 
 The computation of such an automaton is a tree. And deciding whether or not an \gls{afa} accepts a word $w$ if there exists a run tree on $w$ such that every path ends in an accepting state.~\cite{AFA:2017}\\
-
-
-%-----------------------------------------------------------------------------
-
-\section{Regular Language}
-
-%-----------------------------------------------------------------------------
-
-We define a word over a given alphabet as a sequence of symbols from that alphabet. As you already know, a \gls{fsm} takes an input alphabet as a parameter and every sequence of symbols from that alphabet are words. We also define a language as a set of words. A \gls{fsm} can accept or reject words, we will call the set of accepted words a regular language over the input alphabet of the \gls{fsm}.
-
-More formally, we define the language recognized by our extendred finite state machine:
-\theoremstyle{definition}
-\begin{definition}{Language.} The language $L \subseteq \Sigma*$ recognized by an automaton is the set of all words whose run over the automaton are accepting.
-\end{definition}
 
 %\subsection{Markov model}
 %
