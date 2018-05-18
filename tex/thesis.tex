@@ -110,8 +110,8 @@ To guide us during this work, we will focus on a concrete case study that was en
 I divided this work in many blocs that introduces them-self one after the other. As this topic and all the techniques involved are closely related, there will often be references to area not already covered during the sequential reading of this thesis: First, we'll introduce software testing. We'll try to give an overview of all the main techniques and good practices currently used. After that, we will introduce the main tool we used to complete the task at hand, the \gls{fsm}. We will also give various alterations of \gls{fsm} which are relevant in our case. Then, we will introduce the context in which this work was done, where and why we had to solve such a task. Following this, we will show how we used all the previous chapters concepts to devellop our solution, what was used or not in the previously coverred topics and how we used them all together. Lastly, we will present the final product that was developed. Showing how it works and what it can do.
 
 // TODO Related works
-Chow:1978:TSD:1313335.1313730
-10.1007/978-3-540-39929-2_3
+%Chow:1978:TSD:1313335.1313730
+%10.1007/978-3-540-39929-2_3
 
 %------------------------------------------------------------------------%
 %                                                                        %
@@ -653,7 +653,7 @@ An acceptor takes a sequence of inputs from the input alphabet and runs an \gls{
 
 %-----------------------------------------------------------------------------
 
-We define a word over a given alphabet as a sequence of symbols from that alphabet. As you already know, a \gls{fsm} takes an input alphabet as a parameter and every sequence of symbols from that alphabet are words. We also define a language as a set of words.
+We define a word over a given alphabet as a sequence of symbols from that alphabet. As you already know, a \gls{fsm} is defined for an input alphabet and all sequence of symbols from that alphabet are words. We also define a language as a set of words.
 
 \theoremstyle{definition}
 \begin{definition}{Language.} A language $L$ over an alphabet $\Sigma$ is a subset of $\Sigma^*$, a set of word over the alphabet.
@@ -698,7 +698,9 @@ In an \gls{nfa}, the input alphabet $\Sigma$ usually contains a special symbol f
     \label{nfa}
 \end{figure}
 
-It is well known that a \gls{dfa} is equivalent to a \gls{nfa}. So using one or the other will not alter our ability to solve given problems.
+A run of a \gls{nfa} produces several set of transitions instead of only one like it did for a \gls{fsm}. From this, we say a run is accepting if when the last input symbol is consumed, there is at least one of the produced set of transition that ends in an accepting state. Similarly, we define a rejecting run as a run that do not produce a sequence of transition that ends in an accepting state.\\
+
+It is known that we can construct an equivalent \gls{dfa} from a \gls{nfa} and they recognizes the same language.~\cite{10.1007/3-540-63174-7_12}
 
 
 %-----------------------------------------------------------------------------
@@ -751,30 +753,34 @@ The computation of such an automaton is a tree. And deciding whether or not an \
 
 %-----------------------------------------------------------------------------
 
+// TODO: Motivation / Why was it created not why I use them
+
 To define a timed automata, we need some more definitions. A timed automata works with timed sequences, timed words and timed languages.\\
 
 \begin{figure}[H]
     \centering
     \includegraphics[scale=0.8]{timed_automata.png}
-    \caption{Example of a timed-out timed automata. X being one of the clocks that can be used}
+    \caption{Example of a timeout timed automaton. X being one of the clocks that can be used}
     \label{timed_automata_e1}
 \end{figure}
 
-For a given input alphabet $\Sigma$, a timed language is defined as a set of timed words over $\Sigma$. A timed word over $\Sigma$ is a pair $(\sigma, \tau)$ where $\sigma$ is a word over $\Sigma$ and $\tau$ is a timed sequence. Lastly, a timed sequence is a sequence of real time values increasing monotonically.~\cite{ALUR1994183}
+For a given input alphabet $\Sigma$, a timed language is defined as a set of timed words over $\Sigma$. A timed word over $\Sigma$ is a pair $(\sigma, \tau)$ where $\sigma$ is a word over $\Sigma$ and $\tau$ is a timed sequence. Lastly, a timed sequence is a sequence of real time values increasing monotonically.~\cite{ALUR1994183} The goal is to map each symbol from the timed word $\sigma$ to a particular time from the timed sequence $\tau$. It allows us to mesure the time between each input symbol.
+
+// TODO EXAMPLES
 
 \theoremstyle{definition}
 \begin{definition}{Timed sequence.}
-A timed sequence is an inifinite list of values increasing monotonically $\tau = \tau_1 \tau_2 ...$ where $\tau \in \R$ and $\tau_i > 0$ and $\forall i \in \R: \tau_i < \tau_{i+1}$.
+A timed sequence is an infinite sequence of values increasing monotonically $\tau = \tau_1 \tau_2 ...$ where $\tau \in \R$ and $\forall i : \tau_i > 0$ and $\forall i \in \mathbb{N}: \tau_i < \tau_{i+1}$.
 \end{definition}
 
 \theoremstyle{definition}
 \begin{definition}{Timed word.}
-A timed word over an alphabet $\Sigma$ is a pair $(\sigma, \tau)$ where $\sigma = \sigma_1 \sigma2 ...$ is an infinite word over $\Sigma$ and $\tau$ is a timed sequence.
+A timed word over an alphabet $\Sigma$ is a pair $(\sigma, \tau)$ where $\sigma = \sigma_1 \sigma_2 ...$ is an infinite word over $\Sigma$ and $\tau$ is a timed sequence.
 \end{definition}
 
 \theoremstyle{definition}
 \begin{definition}{Timed language.}
-A timed language over an alphabet $\Sigma$ is set of timed words over $\Sigma$.
+A timed language over an alphabet $\Sigma$ is a set of timed words over $\Sigma$.
 \end{definition}
 
 We also need a transition table that can read timed words. We want the transition to consider the input symbol from the input alphabet and the time associated to it when it makes a transition choice. To do so, we associate a set of clocks to our transition table and for each transition, we associate a clock constraint to it and require that the transition may be taken only if the current values of the clocks satisfy this constraint. A clock can be set to zero simultaenously with any transition.
