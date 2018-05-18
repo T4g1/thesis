@@ -103,10 +103,15 @@ Nowadays, software is everywhere. In banks, cars, vending machines, airplanes, t
 
 This thesis is all about this particular testing step. The goal of it will be to provide a way of automating this step. As we will explain later on, providing this automatic process is of major interest in term of time gained in the development process and reliability for the final software. Of course, detecting all problems during testing is a really complex task and the process developed throughout this thesis will only help to reduce the risk of shipping faulty softwares and to make sure that previously encountered/corrected problems are not re-introduced between different versions of it.\\
 
-To guide us during this work, we will focus on a concrete case study that was encountered at the Railnova company in Brussels. Of course, as the goal of this work is to stay generic, we will go from the concrete examples solution to more generic solutions that can easily be extended for any other software. Despite the fact that this thesis will try yo stay generic, we will not talk about hardware testing even if we can see that as a particular case of testing in a development process. We think that focusing on software development will help the reader to get a better understanding of the principles used and developed ideas.\\
+To guide us during this work, we will focus on a concrete case study that was encountered at the Railnova company in Brussels. Of course, as the goal of this work is to stay generic, we will go from the concrete examples solution to more generic solutions that can easily be extended for any other software. Despite the fact that this thesis will try to stay generic, we will not talk about hardware testing even if we can see that as a particular case of testing in a development process. We think that focusing on software development will help the reader to get a better understanding of the principles used and developed ideas.\\
+
+// TODO concrete case here
 
 I divided this work in many blocs that introduces them-self one after the other. As this topic and all the techniques involved are closely related, there will often be references to area not already covered during the sequential reading of this thesis: First, we'll introduce software testing. We'll try to give an overview of all the main techniques and good practices currently used. After that, we will introduce the main tool we used to complete the task at hand, the \gls{fsm}. We will also give various alterations of \gls{fsm} which are relevant in our case. Then, we will introduce the context in which this work was done, where and why we had to solve such a task. Following this, we will show how we used all the previous chapters concepts to devellop our solution, what was used or not in the previously coverred topics and how we used them all together. Lastly, we will present the final product that was developed. Showing how it works and what it can do.
 
+// TODO Related works
+Chow:1978:TSD:1313335.1313730
+10.1007/978-3-540-39929-2_3
 
 %------------------------------------------------------------------------%
 %                                                                        %
@@ -119,7 +124,7 @@ I divided this work in many blocs that introduces them-self one after the other.
 %\clearpage
 %\part{Preliminaries}
 
-%To begin with, we will present the very basics of software testing, what are the common practices and how we use them nowadays. This will allows us to introduce the technical terms used all along this thesis. Following this technical introduction, we will present the studied case that was the starting point of this work at the Railnova company to introduce \gls{fsm}. Finally, we will describe what is a \gls{fsm} exactly and some of its variations.
+%To begin with, we will present the very basics of software testing, what are the common practices and how we use them nowadays. This will allows us to introduce the technical terms used all along this thesis. Following this technical introduction, we will present the studied case that was the starting point of this work at the Railnova company to introduce \gls{fsm}. Finally, we will describe what is an \gls{fsm} exactly and some of its variations.
 
 \clearpage
 \part{Software development and software testing}
@@ -335,7 +340,7 @@ White-box testing is more or less done by developers themselves while black-box 
 \subsection{Grey-box testing}
 %-----------------------------------------------------------------------------
 
-There is also a third option there which is called \guillemotleft Grey-Box testing \guillemotright . We are doing Grey-Box testing when we do both Black-Box testing and White-Box testing. In Black-box testing, you don't have knowledges of the internal structure of code while in White-box testing, you do have this knowledges. Grey-box testing is when you do have a limited knowledge of the internal structure of code.
+There is also a third option there which is called \guillemotleft Grey-Box testing \guillemotright . We are doing Grey-Box testing when we do both Black-Box testing and White-Box testing. In Black-box testing, you don't have knowledges of the internal structure of code while in White-box testing, you do have this knowledges. Grey-box testing is when you do have a limited knowledge of the internal structure of code. You can get an idea of this with the following scenario: Let's say we want to check a sign-in feature for a service where you have a client software and a server that provides the service. If you have access to the source code for the client software, testing the sign-in feature using this knowledge is called Grey-box testing as you only have limited knowledge of the underlying structure of code.
 
 
 %-----------------------------------------------------------------------------
@@ -344,7 +349,7 @@ There is also a third option there which is called \guillemotleft Grey-Box testi
 
 %-----------------------------------------------------------------------------
 
-Two other terms used in software testing are static and dynamic testing. Static testing is the process of reviewing something that is not running. For example, some compilers (like gcc) perform static testing by finding unaffected variables, unused variables, dead code, syntax errors and so on. Dynamic testing, on the other hand, is performed while the program is running.
+Two other terms used in software testing are static and dynamic testing. Static testing is the process of reviewing something that is not running. For example, some compilers (like gcc) perform static testing by finding unaffected variables, unused variables, dead code, syntax errors and so on. Dynamic testing, on the other hand, is performed while the program is running~\cite{StaticDynamicTesting:2018}.
 
 
 %-----------------------------------------------------------------------------
@@ -399,7 +404,17 @@ assert(buffer == "some text");
 Scope: Black-box and white-box testing\\
 Who: Coder\\
 
-Integration testing is the phase in software testing in which individual software modules are combined and tested as a group. It occurs after unit testing and before validation testing. Integration testing takes as its input modules that have been unit tested, groups them in larger aggregates, applies tests defined in an integration test plan to those aggregates, and delivers as its output the integrated system ready for system testing~\cite{TestingInSoftwareDevelopment:1987}.
+Integration testing is the phase in software testing in which individual software modules are combined and tested as a group. It occurs after unit testing and before validation testing. Integration testing takes as its input modules that have been unit tested, groups them in larger aggregates, applies tests defined in an integration test plan to those aggregates, and delivers as its output the integrated system ready for system testing~\cite{TestingInSoftwareDevelopment:1987}.\\
+
+A good example for this would be a serial communication library. You have a module with several basic functions/blocs for serial devices manipulation like:
+\begin{enumerate}
+\item Sending a byte over a serial port
+\item Receiving a byte using the serial port
+\item Openning a serial port
+\item Closing a serial port
+\end{enumerate}
+
+An integration test could be done by checking by having a device that sends data through the serial port an expects the same data as a result. In this example you would have to use all the basic blocs that determines the module features.
 
 
 \subsection{Functional testing}
@@ -486,7 +501,7 @@ All the previously described type of testing are not necessarily requirements-ba
 
 %-----------------------------------------------------------------------------
 
-All the tools we have talked about in this chapter are of critical importance for what is coming. Having a good understanding of software development and testing is mandatory before going on with the other chapters.
+You should now have a good idea of why testing is of crucial importance in any software development process as well as some pointers on what needs to be tested, validated and verified all along the development process. Given requierments, the software development process should produce a software that meet those requirements. Let's now introduce the core aspect of this thesis, model checking.
 
 
 %------------------------------------------------------------------------%
@@ -500,7 +515,7 @@ All the tools we have talked about in this chapter are of critical importance fo
 \clearpage
 \part{Formal Verification and Model Checking}\label{ModelChecking}
 
-Our goal is to be able to verify that any kind of product, software or hardware, is working as expected. Formal verification can help us to achieve this goal. It is a process that allows us to check whether or not a given model satisfies given properties. You can, for example, create a model of a given software and verify that it does not contains bug. To be able to do that, both the model and the specification must be formally described in a mathematical language. The model is a simplification of the real system which can have some properties. The requierements we want to check must be expressed as properties which can then be checked against the model using \gls{fsm} that we will now introduce.\\
+Our goal is to be able to verify that any kind of product, software or hardware, is working as expected. Formal verification can help us to achieve this goal. It is a process that allows us to check whether or not a given model satisfies given properties. You can, for example, create a model of a given software and verify that it does not contain bugs. To be able to do that, both the model and the specification must be formally described in a mathematical language. The model is an abstraction of the real system which can have some properties. The requierements we want to check must be expressed as properties which can then be checked against the model using \gls{fsm} that we will now introduce.\\
 
 
 \clearpage
@@ -512,16 +527,16 @@ Our goal is to be able to verify that any kind of product, software or hardware,
 
 %-----------------------------------------------------------------------------
 
-A \gls{fsm} is a mathematical model of computation. It is a mathematical structure used to provide an abstract description of the behavior of a system. This mathematical structure is composed of a list of state. A \gls{fsm} can be in exactly one of a finite number of states at any given time. The FSM can change from one state to another in response to some external inputs. The function that maps state and inputs to states is called a transition. A FSM is defined by its list of states, its initial state, the input alphabet and a set of transitions~\cite{FSM:2017}.\\
+An \gls{fsm} is a mathematical model of computation. It is a mathematical structure used to provide an abstract description of the behavior of a system. This mathematical structure is composed of a set of states. An \gls{fsm} can be in exactly one of a finite number of states at any given time. The FSM can change from one state to another in response to some external inputs. The function that maps state and inputs to states is called a transition. An FSM is defined by its set of states, its initial state, the input alphabet and a set of transitions~\cite{FSM:2017}.\\
 
 \begin{figure}[H]
     \centering
     \includegraphics[scale=0.4]{graph/BatteryCycle.png}
-    \caption{Example of a \gls{fsm} shown as a graph.}
+    \caption{Example of an \gls{fsm} shown as a graph.}
     \label{battcycle}
 \end{figure}
 
-The input alphabet is the list of every symbol it can receive in any given state. For example, an input alphabet could be a list of keyboard's key if we consider a \gls{fsm} that simulates the behavior of a text editor. The key points here are that you need to have a finite set of state and a finite set of transitions.\\
+The input alphabet is the set of every symbol the \gls{fsm} can receive in any given state. For example, an input alphabet could be a list of keyboard's key if we consider an \gls{fsm} that simulates the behavior of a text editor. The key points here are that you need to have a finite set of states and a finite set of transitions.\\
 
 \theoremstyle{definition}
 \begin{definition}{Finite alphabet.} A finite alphabet $\Sigma$ is a finite set of symbols.
@@ -533,22 +548,22 @@ The input alphabet is the list of every symbol it can receive in any given state
 \end{definition}
 
 \theoremstyle{definition}
-\begin{definition}{Finite State Machine.} A \gls{fsm} is a quintuple $(\Sigma, S, s_{0},\delta, F)$, where:
+\begin{definition}{Finite State Machine.} an \gls{fsm} is a quintuple $(\Sigma, S, s_{0},\delta, F)$, where:
 \begin{itemize}
 \item $\Sigma$ is the finite input alphabet.
-\item $S$ is the set of state.
+\item $S$ is the set of states.
 \item $s_{0} \in S$ is the initial state.
 \item $\delta$ is the state-transition function: $\delta: S \times \Sigma \to S$.
 \item $F \subseteq S$ is the set of final states.
 \end{itemize}
 \end{definition}
 
-Because of those rules, a transition function can start and end in the same state, thus creating a loop on the state. $\delta$ is conventionally allowed to be a partial function. This means that $\delta(s, e)$ does not needs to be defined for every possible combination of $s \in S$ and $e \in \Sigma$. This allows us to have a finite $\delta$ transition function even when the input alphabet $\Sigma$ is not finite or defined.\footnote{This is crucial for our practical case describe later on.}
+Because of those rules, a transition function can start and end in the same state, thus creating a loop on the state. $\delta$ is conventionally allowed to be a partial function. This means that $\delta(s, e)$ does not needs to be defined for every possible combination of $s \in S$ and $e \in \Sigma$. This allows us to have a finite $\delta$ transition function even when the input alphabet $\Sigma$ is not totaly known or infinite. In our case, this allows to describe a \gls{fsm} by only specifying transition function for input we are actually interested in which can be helpful if we have a huge input alphabet.\footnote{As you'll see later, we will have to describe \gls{fsm} that have a huge input alphabet, this saves us a lot of time by only requiring us to describes what happen for symbols that actually are of interest for us.}
 
 %About the input alphabet, we usually define every input as a character or token read on the input tape of the \gls{fsm}. Where the input tape is a sequential list of every symbols feed into the system. This is a lot like a Turing Machine.
 
 \theoremstyle{definition}
-\begin{definition}{Finite word.} A finite word $\sigma = \sigma_1 \sigma_2 ... \sigma_n$ is a finite sequence of symbols from $\Sigma$: $\forall i: \sigma_i \in \Sigma$
+\begin{definition}{Finite word.} A finite word $\sigma = \sigma_1 \sigma_2 ... \sigma_n$ is a finite sequence of symbols from $\Sigma$: $\forall i: \sigma_i \in \Sigma$.
 \end{definition}
 
 %\theoremstyle{definition}
@@ -564,7 +579,7 @@ Because of those rules, a transition function can start and end in the same stat
 A \gls{fsm} can be run over a finite word from the input alphabet in order to accept or reject it. This is formally defined as follows:
 
 \theoremstyle{definition}
-\begin{definition}{Run.} A run $r$ of the \gls{fsm} $\A = (\Sigma, S, s_{0}, \Delta, F)$ over a finite word $\sigma = \sigma_1 \sigma_2 ... \sigma_n$ over the alphabet $\Sigma$ is the sequence of state
+\begin{definition}{Run.} A run $r$ of the \gls{fsm} $\A = (\Sigma, S, s_{0}, \Delta, F)$ over a finite word $\sigma = \sigma_1 \sigma_2 ... \sigma_n$ over the alphabet $\Sigma$ is a sequence of states and alphabet symbols
 $$r: s_0 \xrightarrow[]{\sigma_1} s_1 \xrightarrow[]{\sigma_2} s_2 \xrightarrow[]{\sigma_3} ... \xrightarrow[]{\sigma_n} s_{n+1}$$ where $\forall i \ge 1: (s_{i-1}, s_i, \sigma_i) \in \Delta$
 \end{definition}
 
@@ -622,7 +637,7 @@ Every state $s$ in $W$ or $F$ is displayed with a double circle. We label those 
 
 %-----------------------------------------------------------------------------
 
-An acceptor takes a sequence of inputs from the input alphabet and run a \gls{fsm} on it. Every state of the acceptor is either and accept state or a reject state. When the computation ends in an accepting state, we say that the input is accepted and the input is not accepted otherwise (Figure~\ref{acceptor}). The set of sequence of input symbols accepted by an acceptor is called a regular language.
+An acceptor takes a sequence of inputs from the input alphabet and runs an \gls{fsm} on it. Every state of the acceptor is either and accept state or a reject state. When the computation ends in an accepting state, we say that the input is accepted and the input is not accepted otherwise (Figure~\ref{acceptor}). The set of sequence of input symbols accepted by an acceptor is called a regular language.
 
 \begin{figure}
     \centering
@@ -662,16 +677,16 @@ We define the language recognized by an \gls{efsm} as follows:
 
 %-----------------------------------------------------------------------------
 
-A \gls{nfa} is a kind of \gls{fsm} in which transition does not requires the reading of an input symbols. We can take transitions from one state to another without looking at the input tape. The decision of taking such a transition is done in a non-deterministic way. And some transition can also lead to more than one state. So reading a given symbol $x$ in state $q1$ can lead to $q2$ or $q3$ for example (see figure~\ref{nfa}).~\cite{FA-DecisionProblems:1959}
+A \gls{nfa} is a kind of \gls{fsm} in which transitions do not requires the reading of input symbols. We can take transitions from one state to another without looking at the input tape. The decision of taking such a transition is done in a non-deterministic way and there can be several transition that are valid from the same state for the same input symbols. For example, in the Figure~\ref{nfa}, reading symbol $1$ while in state $p$ can give two outcomes: either we go in state $q$ or we stay in state $p$.~\cite{FA-DecisionProblems:1959}
 
 Formally speaking, we represent a \gls{nfa} with a 5-tuple, $(Q, \Sigma, \Delta, q_0, F)$ where:
 
 \begin{itemize}
-\item $Q$ is the finite set of states
-\item $\Sigma$ is the input alphabet
-\item $\Delta$ is the transition-function $\Delta: Q \times \Sigma \rightarrow P(Q)$ where $P(Q)$ is the power-set of $Q$
-\item $q_0$ is the initial state with $q_0 \in Q$
-\item $F$ is the set of accepting states where $F \subseteq Q$
+\item $Q$ is the finite set of states.
+\item $\Sigma$ is the input alphabet.
+\item $\Delta$ is the transition-function $\Delta: Q \times \Sigma \rightarrow P(Q)$ where $P(Q)$ is the power-set of $Q$.
+\item $q_0$ is the initial state with $q_0 \in Q$.
+\item $F$ is the set of accepting states where $F \subseteq Q$.
 \end{itemize}
 
 In an \gls{nfa}, the input alphabet $\Sigma$ usually contains a special symbol for representing a transition that can be taken without reading the next input symbol on the tape. This symbol is $\epsilon$.\\
@@ -1193,7 +1208,7 @@ Basically, what worked before must still work now.
 
 %-----------------------------------------------------------------------------
 
-We now have a good idea of what we want to do, checking various requierements of a given software to make sure they are all satisfied on every different system used. But how to know when a requirement is fullfilled or not? In the chapter dedicated to them, we introduced the notion of failure and accepting states. If we manage to map all the interactions of our system with an input alphabet, we can easilly imagine that a run of a given \gls{fsm} extended with the concept of failure and accepting state can produce a the desired mapping for a given requierement. The underlying idea would be to create a \gls{fsm} for every requierement, run them using the defined input alphabet of the software's interactions and check that the resulting mapping is only made of \textit{True} values. If it is the case, we have successfully created a program that satisfies all the given requierements!
+We now have a good idea of what we want to do, checking various requierements of a given software to make sure they are all satisfied on every different system used. But how to know when a requirement is fullfilled or not? In the chapter dedicated to them, we introduced the notion of failure and accepting states. If we manage to map all the interactions of our system with an input alphabet, we can easilly imagine that a run of a given \gls{fsm} extended with the concept of failure and accepting state can produce a the desired mapping for a given requierement. The underlying idea would be to create an \gls{fsm} for every requierement, run them using the defined input alphabet of the software's interactions and check that the resulting mapping is only made of \textit{True} values. If it is the case, we have successfully created a program that satisfies all the given requierements!
 
 All we have to do is to find the best \gls{fsm} type that suits our needs and to formalize the software interactions in a way that allows us to capture and manage them
 
@@ -1304,10 +1319,10 @@ This now implies that all Dictionary that shares the same identification should 
 
 %-----------------------------------------------------------------------------
 
-We still need a way for the user to describe how the testing will be done. We decided to describes that using a \gls{fsm} for each requierement testing and to call such \gls{fsm} a scenario, we will refine this definition later after having explained which \gls{fsm} we will use:
+We still need a way for the user to describe how the testing will be done. We decided to describes that using an \gls{fsm} for each requierement testing and to call such \gls{fsm} a scenario, we will refine this definition later after having explained which \gls{fsm} we will use:
 
 \theoremstyle{definition}
-\begin{definition}{Scenario.} A scenario is a \gls{fsm} whose goal is to perform a test.
+\begin{definition}{Scenario.} A scenario is an \gls{fsm} whose goal is to perform a test.
 \end{definition}
 
 In theoretical \gls{fsm}, the number of state is upper bound by the system's internal memory. If we want to test every possible state it would gives us $2^x$ states to analyze (where $x$ is the system's internal memory expressed in bit). Let's say that this memory can be around two to height gigabits and this is raising every passing years. So we would have to describe what should happen in $2^2*10^9$ different states. We don't say that this is not possible but if we can do the same using less than 25 states for example, it should be easier for any human being.\\
@@ -1342,7 +1357,7 @@ All of those case requires you to create a new input type that will be the time.
 
 Now with the \gls{afa}, the complexity of implementation required by this paradigm is quite important, we need to run multiple automaton, construct execution trees and analyze them. Compared to a simple \gls{fsm} implementation, this is quite a lot of work. So is it worth it? To answer this question, we need to find practical case where such a paradigm would become indispensable and such case should be really difficult to implement into a classic \gls{fsm} to justify choosing \gls{afa} as our main choice for the implementation of Nursery. Based on the concrete needs we had when we analyzed this possibility, we choose not to consider it as a good solution because none of the case we had prepared needed such complexity and using this would have made it difficult to design test by inexperienced users. This also follows from the fact that we wanted to avoid dealing with concurrency.\\
 
-There is a wide variety a \gls{fsm}, there isn't any limit on how many \gls{fsm} type you can think of but when we started implementing our solution, the best \gls{fsm} that our 3 ranking questions left us with was timed automaton. Those \gls{fsm} are really well adapted for our use case. Being able to manipulate time directly in our transitions and state gives us a lot of ease to write the code and its also very powerful too! With it, we are able, for example, to send a lot of data with a variable interval between them and then receive data accordingly. You can also decide to create a clock for timeout that will be reseted each time you receive a given data. There are really a lot of use case and some more will be described later on.\\
+There is a wide variety an \gls{fsm}, there isn't any limit on how many \gls{fsm} type you can think of but when we started implementing our solution, the best \gls{fsm} that our 3 ranking questions left us with was timed automaton. Those \gls{fsm} are really well adapted for our use case. Being able to manipulate time directly in our transitions and state gives us a lot of ease to write the code and its also very powerful too! With it, we are able, for example, to send a lot of data with a variable interval between them and then receive data accordingly. You can also decide to create a clock for timeout that will be reseted each time you receive a given data. There are really a lot of use case and some more will be described later on.\\
 
 This choice of tool is also motivated by the fact that writing and understanding automaton is a very easy process. Designing a \gls{ui} to create automata and generating valid scenario out of it is a relatively easy process so this could be a way to meet the strong requirement that our solution shall be easy to use for not seasoned programmers.\\
 
