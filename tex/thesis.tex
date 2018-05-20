@@ -8,6 +8,7 @@
 \usepackage{pdfpages}
 \usepackage{amsthm}
 \usepackage{amsmath}
+\usepackage{hyperref}
 \usepackage{amssymb}
 \usepackage{float}
 \usepackage[T1]{fontenc}
@@ -61,7 +62,7 @@
 \newacronym{ta}{TA}{Timed Automata}
 
 \newglossaryentry{railsteros}
-{ name=RailsterOS,
+{ name=Railster-OS,
   description={A set of sub-program running on the \gls{rug} defining the behavior of it}
 }
 \newglossaryentry{daemons}
@@ -106,13 +107,9 @@ This thesis is all about this particular testing step. The goal of it will be to
 
 To guide us during this work, we will focus on a concrete case study that was encountered at the Railnova company in Brussels. Of course, as the goal of this work is to stay generic, we will go from the concrete examples solution to more generic solutions that can easily be extended for any other software. Despite the fact that this thesis will try to stay generic, we will not talk about hardware testing even if we can see that as a particular case of testing in a development process. We think that focusing on software development will help the reader to get a better understanding of the principles used and developed ideas.\\
 
-// TODO concrete case here
+I divided this work in many blocs that introduces them-self one after the other. As this topic and all the techniques involved are closely related, there will often be references to area not already covered during the sequential reading of this thesis:
+First, the preliminaries will show why this work was started and what is the need that it satisfies. Then, we'll introduce software testing. We'll try to give an overview of all the main techniques and good practices currently used. After that, we will introduce the main tool we used to complete the task at hand, the \gls{fsm}. We will also give various alterations of \gls{fsm} which are relevant in our case. Then, we will introduce the context in which this work was done, where and why we had to solve such a task. Following this, we will show how we used all the previous chapters concepts to devellop our solution, what was used or not in the previously coverred topics and how we used them all together. Lastly, we will present the final product that was developed. Showing how it works and what it can do.
 
-I divided this work in many blocs that introduces them-self one after the other. As this topic and all the techniques involved are closely related, there will often be references to area not already covered during the sequential reading of this thesis: First, we'll introduce software testing. We'll try to give an overview of all the main techniques and good practices currently used. After that, we will introduce the main tool we used to complete the task at hand, the \gls{fsm}. We will also give various alterations of \gls{fsm} which are relevant in our case. Then, we will introduce the context in which this work was done, where and why we had to solve such a task. Following this, we will show how we used all the previous chapters concepts to devellop our solution, what was used or not in the previously coverred topics and how we used them all together. Lastly, we will present the final product that was developed. Showing how it works and what it can do.
-
-// TODO Related works
-%Chow:1978:TSD:1313335.1313730
-%10.1007/978-3-540-39929-2_3
 
 %------------------------------------------------------------------------%
 %                                                                        %
@@ -122,10 +119,74 @@ I divided this work in many blocs that introduces them-self one after the other.
 %                                                                        %
 %------------------------------------------------------------------------%
 
-%\clearpage
-%\part{Preliminaries}
+\clearpage
+\part{Preliminaries}
 
-%To begin with, we will present the very basics of software testing, what are the common practices and how we use them nowadays. This will allows us to introduce the technical terms used all along this thesis. Following this technical introduction, we will present the studied case that was the starting point of this work at the Railnova company to introduce \gls{fsm}. Finally, we will describe what is an \gls{fsm} exactly and some of its variations.
+In the following chapters, we will try to explain why software testing is an important task in any IT related buisness. We give some example of problems that can be solved using the product, Nursery, that was developped in this thesis.
+
+
+%-----------------------------------------------------------------------------
+
+\section{The economics of software testing}
+
+%-----------------------------------------------------------------------------
+
+Usually, when you work on a development project, you have many different development stages. The main ones are the proper development of the product and the final stage of the product, when it is shipped to the production environment.\\
+
+Shipping the product to production simply means that you put the product into its real environment. In other words, you begin to manipulates real world data and not the tests sets that you where probably using during the development. In our case, we install a RUG running \gls{railsteros} in some engine.\\
+
+But if the shipped product contains faults, it will probably begins to produce incorrect results and, depending on the product, it can even harm people or destroy things by using them incorrectly. The client will not be able to use the product he paid for to its full capabilities and will maybe want to switch to another company that produce more reliable products. Its easy to imagine other cases in which having fault in the final product must imperatively be avoided.\\
+
+All of this comes with a cost, for example, we can imagine that we are working on a assembly line controller. If our controller (product) does not work correctly, the assembly line can be damaged because of incorrect usage or the materials being manipulated can be damaged too resulting in repair cost for the assembly line and incorrect/damaged product assembled that cannot be sold afterwards.\\
+
+In the \gls{rug} ecosystem, if our product, \gls{railsteros} isn't working well, the \gls{rug} its running on will not send the intended data to the client. For him, it is like the engine itself is malfunctioning or not functioning at all if we are unable to send any data! He will then need to send a team to the engine to find the problems and a lot of work will be delayed because the engine is not running and, of course, every step in this process is very costly for the client and for the company itself because when a product in production is faulty, we also need to get back the devices that are malfunctioning and, perhaps, every other device running the same software of having the same hardware. And finally, we need to replace them and invest time in correcting them or, at least, solving the issue for the other product versions.\\
+
+\begin{figure}
+    \centering
+    \includegraphics[scale=0.8]{STBC-costfixs.jpg}
+    \caption{Relative costs of fixing faults~\cite{EconomicsSTBC:2017}}
+    \label{STBC-costfixs}
+\end{figure}
+
+It is commonly believed that the earliest a fault is found, the cheaper it is to correct it~\cite{EconomicsSTBC:2017}~\cite{EconomicsWiki:2017}. The case we mentioned is the latest possible time to detect a fault so, according to the previous statement, it is also the most expensive! Those reasons are why we want to create some process that can be used to drastically reduces the amount of unexpected faults in the final product. That's the main motivation behind the project that is the subject of this thesis called Nursery.\\
+
+
+%-----------------------------------------------------------------------------
+
+\section{Our case}
+\label{section:ourcase}
+
+%-----------------------------------------------------------------------------
+
+%// TODO concrete case here
+
+%-----------------------------------------------------------------------------
+
+\section{Related works}
+
+%-----------------------------------------------------------------------------
+
+%// TODO Related works
+%Chow:1978:TSD:1313335.1313730
+%10.1007/978-3-540-39929-2_3
+
+%-----------------------------------------------------------------------------
+
+\section{Conclusion}
+
+%-----------------------------------------------------------------------------
+
+We have explained briefly what is the final product expected from this thesis. Keeping that in mind should help you to understand the following chapters and the reasons why we need to talk about software development and finite state machine.
+
+
+%------------------------------------------------------------------------%
+%                                                                        %
+%                                                                        %
+% SOFTWARE TESTING                                                       %
+%                                                                        %
+%                                                                        %
+%------------------------------------------------------------------------%
+
 
 \clearpage
 \part{Software development and software testing}
@@ -136,7 +197,7 @@ Software development can be defined in different ways, every one of them being m
 
 Software is usually ordered by a client that can be ourself, some company or any set of users~\cite{SoftwareDevelopment:2016}. Clients have needs and our task as software developer will be to fulfill them by producing a software. The client's request will first be translated into requirements specifications that, to put it simply, are formal description of them. We usually create those requirements specifications during meetings with the client, this requires meetings and discussions to be sure that the idea we get from them is what they want.\\
 
-Then the software can be built. Of course, if we got the wrong requirements specifications, our software will not be what the client asked and therefore, they will want us to fix that and updates the requierements but modified requierements can invalidate the choosen architecture or software decisions thus requiring in depth mmodification of the current built product. Let's assume that those requirements are good, then, once the software is built, we want to test it to ensure that it works and that it meets the given requirements. Once those test are successfully passed, we can ship the software to our client.\\
+Then the software can be built. Of course, if we got the wrong requirements specifications, our software will not be what the client asked and therefore, they will want us to fix that and updates the requirements but modified requirements can invalidate the choosen architecture or software decisions thus requiring in depth mmodification of the current built product. Let's assume that those requirements are good, then, once the software is built, we want to test it to ensure that it works and that it meets the given requirements. Once those test are successfully passed, we can ship the software to our client.\\
 
 This whole process, starting from the client order to the shipping of the produced software is what we call the software development process. Of course, there is not one only way of doing it even for the most simple process like this one their can be divergence of work-flow from one team to another.~\cite{IIS2:IIS202348} The goal here is to show that testing is crucial wathever the choosen methodology or software development process, we will now introduce three of them that we think are the most used or accessible for neophytes:
 
@@ -310,7 +371,7 @@ Code coverage is a metrics used in software testing that basically tells you how
 
 The idea behind this metric usage is that, if all of your code is tested, then there is probably no bugs left, or at least, there is a good probability that we will encounter fewer bugs in a completely tested software than in an untested one. Getting a good code coverage is therefore a key point in testing as it improve the software quality by reducing the probability of faults left in it~\cite{TestingForContinuousDelivery:2016}.\\
 
-You can compute code coverage differently based on the testing requierements. Here is a non exhustive list of some criteria you can use to compute it:
+You can compute code coverage differently based on the testing requirements. Here is a non exhustive list of some criteria you can use to compute it:
 
 \begin{itemize}
 \item \textbf{Function coverage} Percentage of defined functions called during testing.
@@ -493,9 +554,6 @@ Requirements-based testing is exactly what we are trying to do with black-box te
 All the previously described type of testing are not necessarily requirements-based. For example, unit testing is about the code. We want to make sure that each part of the code work well but satisfying that does not imply that requirements are met! For a 3D modeling software, we can have a code that compute square roots, if the code works well, that does not imply that our software allows the user to design houses for example.\\
 
 
-\clearpage
-
-
 %-----------------------------------------------------------------------------
 
 \section{Conclusion}
@@ -516,7 +574,7 @@ You should now have a good idea of why testing is of crucial importance in any s
 \clearpage
 \part{Formal Verification and Model Checking}\label{ModelChecking}
 
-Our goal is to be able to verify that any kind of product, software or hardware, is working as expected. Formal verification can help us to achieve this goal. It is a process that allows us to check whether or not a given model satisfies given properties. You can, for example, create a model of a given software and verify that it does not contain bugs. To be able to do that, both the model and the specification must be formally described in a mathematical language. The model is an abstraction of the real system which can have some properties. The requierements we want to check must be expressed as properties which can then be checked against the model using \gls{fsm} that we will now introduce.\\
+Our goal is to be able to verify that any kind of product, software or hardware, is working as expected. Formal verification can help us to achieve this goal. It is a process that allows us to check whether or not a given model satisfies given properties. You can, for example, create a model of a given software and verify that it does not contain bugs. To be able to do that, both the model and the specification must be formally described in a mathematical language. The model is an abstraction of the real system which can have some properties. The requirements we want to check must be expressed as properties which can then be checked against the model using \gls{fsm} that we will now introduce.\\
 
 
 \clearpage
@@ -754,7 +812,7 @@ The computation of such an automaton is a tree. And deciding whether or not an \
 
 %-----------------------------------------------------------------------------
 
-// TODO: Motivation / Why was it created not why I use them
+%// TODO: Motivation / Why was it created not why I use them
 
 To define a timed automata, we need some more definitions. A timed automata works with timed sequences, timed words and timed languages.\\
 
@@ -767,7 +825,7 @@ To define a timed automata, we need some more definitions. A timed automata work
 
 For a given input alphabet $\Sigma$, a timed language is defined as a set of timed words over $\Sigma$. A timed word over $\Sigma$ is a pair $(\sigma, \tau)$ where $\sigma$ is a word over $\Sigma$ and $\tau$ is a timed sequence. Lastly, a timed sequence is a sequence of real time values increasing monotonically.~\cite{ALUR1994183} The goal is to map each symbol from the timed word $\sigma$ to a particular time from the timed sequence $\tau$. It allows us to mesure the time between each input symbol.
 
-// TODO EXAMPLES
+%// TODO EXAMPLES
 
 \theoremstyle{definition}
 \begin{definition}{Timed sequence.}
@@ -819,11 +877,11 @@ The clock constraint here is $x > 30$. This automata can be used to ensure that 
 We now have all the needed tools to define properly the type of timed automaton we'll need for this thesis:
 
 \theoremstyle{definition}
-\begin{definition}{Timed automaton.} A \gls{ta} $\T$ is a tuple $(\A, W, F)$ where $\A$ is a timed transition table, $W \subseteq S(\A)$ (with $S(\A)$ being the set of state of $\A$) is the set of \textit{success} states and $F \subseteq S(\A) \ W$ is the set of \textit{failure} states. We will only consider deterministic timed automaton in this thesis as ~\cite{10.1007/3-540-63174-7_12} shows that we can transform any \gls{nfa} into a \gls{dfa}.
+\begin{definition}{Timed automaton.} A \gls{ta} $\mathcal{T}$ is a tuple $(\A, W, F)$ where $\A$ is a timed transition table, $W \subseteq S(\A)$ (with $S(\A)$ being the set of state of $\A$) is the set of \textit{success} states and $F \subseteq S(\A) \ W$ is the set of \textit{failure} states. We will only consider deterministic timed automaton in this thesis as ~\cite{10.1007/3-540-63174-7_12} shows that we can transform any \gls{nfa} into a \gls{dfa}.
 \end{definition}
 
 \theoremstyle{definition}
-\begin{definition}{Run.} We define a run $r$ of a \gls{ta} $\T = (\A, W, F)$, where $\A$ is a transition table $(\Sigma, S, s_{0},C, E)$, over a timed word $(\sigma, \tau)$ as the sequence
+\begin{definition}{Run.} We define a run $r$ of a \gls{ta} $\mathcal{T} = (\A, W, F)$, where $\A$ is a transition table $(\Sigma, S, s_{0},C, E)$, over a timed word $(\sigma, \tau)$ as the sequence
 $$(\overline{s}, \overline{v}): (s_0, v_0) \xrightarrow[\tau_1]{\sigma_1} (s_1, v_1) \xrightarrow[\tau_2]{\sigma_2} (s_2, v_2) \xrightarrow[\tau_3]{\sigma_3} ...$$
 with $s_i \in S$ and $v_i$ is a clock interpretation $C \to \mathbb{N}_0$ $\forall i \ge 0$.
 \begin{itemize}
@@ -836,7 +894,7 @@ with $s_i \in S$ and $v_i$ is a clock interpretation $C \to \mathbb{N}_0$ $\fora
 %\theoremstyle{definition}
 %\begin{example}{Timed automaton.} An example of timed automaton where $C = \{x\}$ is given in figure~\ref{timed_automata_e1}.
 %\end{example}
-// TODO more example
+%// TODO more example
 
 Intuitively, a run is the sequence of states and clock interpretations characterizing the \textit{run}/processing of a given timed word to a given timed automata. For each tuple of state and clock interpretation, the clock interpretation is:
 \begin{itemize}
@@ -945,9 +1003,6 @@ endmodule
 Again, this tools uses \gls{fsm} to model different systems.
 
 
-\clearpage
-
-
 %-----------------------------------------------------------------------------
 
 \section{Conclusion}
@@ -997,11 +1052,11 @@ The main goal of this work is to develop a better testing suite for their embedd
 
 The \gls{railsteros} is executed on a dedicated hardware also built by Railnova which is called \gls{rug}. Those \gls{rug} are mainly installed in trains in Germany, France, Belgium, Netherlands and Spain at the time this work was written. More specifically, the \gls{rug} is installed in the engine of trains.\\
 
-This dedicated hardware provides a lot of data from the train. We can access informations like remaining fuel (if it is not an electrical engine), the total running time since last power on of the engine, where is the engine located, current speed if the engine is moving and all the data that the client wants to access remotely.\\
+This dedicated hardware is used to fetch data from the train's equipments. Those data are then stored in Railnova databases and are used for several applications like maintenance prediction, fuel monitoring, equipments monitoring and so on. We can access informations like remaining fuel (if it is not an electrical engine), the total running time since last power on of the engine, where is the engine located, current speed if the engine is moving and all the data that the client wants to access remotely.\\
 
 Every engine is more or less unique. They can use a wide range of different component and thus have different parameters like their maximal speed when loaded or not, the maximal weight they can carry or even the number of wheels the engine uses. Because of that \gls{railsteros} needs to accept a wide range of different configuration so we don't stream fuel remaining if we are on an electrical engine for example. We can also have two kinds of motors that give information about their speed without using the same type of cable or protocol. To achieve this flexibility, we allow \gls{railsteros} to start only a subset of its internal software using some configuration files. All this software's modules, which we call \gls{daemons}, are small applications used to interface with a given protocol. For example, we have one daemon that is dedicated to GPS location's informations. The set of daemon we use, which is defined in the configuration files, defines what type of engine we can handle and what operations we can do.\\
 
-To retrieve all those informations, we need to use different communication protocols and wires because engines built by different companies will have different behaviors and communication protocols. All of them, we will call interfaces. Each of those interface needs proper test that relies on the used protocol, we want to be able to describe our needs by saying things like "I want this particular data when I receive this kind of message on this interface". As there is a lot of them, this will take time to implement proper testing for all of them so we will only cover a subset of them in this thesis but we will provide a generic way of implementing test for them all.
+To retrieve all those informations, we need to use different communication protocols and wires because engines built by different companies will have different behaviors and communication protocols. All of them, we will call interfaces. Each of those interface needs proper test that relies on the used communication protocol with the underlying equipment, we want to be able to describe our needs, explains what data should be fetched by a specific interface, when we should fetch it. As there is a lot of interface, it will take time to implement proper testing for all of them so we will only cover a subset of them in this thesis but we will provide a generic way of implementing test for them all.
 
 
 \subsection{Railster Universal Gateway}
@@ -1032,44 +1087,14 @@ And that's without mentioning that the thermionic chamber makes a lot of noise t
 This is where the Nursery project comes in handy. The goal of it is to provide an environment fully automatized to realize all those testing when we want, like during the night so the room stays silent during the day for people to work in, without needing one or more persons to take weeks or years of works.
 
 
-%-----------------------------------------------------------------------------
-
-\section{The economics of software testing}
-
-%-----------------------------------------------------------------------------
-
-// TODO introduction ?
-Usually, when you work on a development project, you have many different development stages. The main ones are the proper development of the product and the final stage of the product, when it is shipped to the production environment.\\
-
-Shipping the product to production simply means that you put the product into its real environment. In other words, you begin to manipulates real world data and not the tests sets that you where probably using during the development. In our case, we install a RUG running \gls{railsteros} in some engine.\\
-
-But if the shipped product contains faults, it will probably begins to produce incorrect results and, depending on the product, it can even harm people or destroy things by using them incorrectly. The client will not be able to use the product he paid for to its full capabilities and will maybe want to switch to another company that produce more reliable products. Its easy to imagine other cases in which having fault in the final product must imperatively be avoided.\\
-
-All of this comes with a cost, for example, we can imagine that we are working on a assembly line controller. If our controller (product) does not work correctly, the assembly line can be damaged because of incorrect usage or the materials being manipulated can be damaged too resulting in repair cost for the assembly line and incorrect/damaged product assembled that cannot be sold afterwards.\\
-
-In the \gls{rug} ecosystem, if our product, \gls{railsteros} isn't working well, the \gls{rug} its running on will not send the intended data to the client. For him, it is like the engine itself is malfunctioning or not functioning at all if we are unable to send any data! He will then need to send a team to the engine to find the problems and a lot of work will be delayed because the engine is not running and, of course, every step in this process is very costly for the client and for the company itself because when a product in production is faulty, we also need to get back the devices that are malfunctioning and, perhaps, every other device running the same software of having the same hardware. And finally, we need to replace them and invest time in correcting them or, at least, solving the issue for the other product versions.\\
-
-\begin{figure}
-    \centering
-    \includegraphics[scale=0.8]{STBC-costfixs.jpg}
-    \caption{Relative costs of fixing faults~\cite{EconomicsSTBC:2017}}
-    \label{STBC-costfixs}
-\end{figure}
-
-It is commonly believed that the earliest a fault is found, the cheaper it is to correct it~\cite{EconomicsSTBC:2017}~\cite{EconomicsWiki:2017}. The case we mentioned is the latest possible time to detect a fault so, according to the previous statement, it is also the most expensive! Those reasons are why we want to create some process that can be used to drastically reduces the amount of unexpected faults in the final product. That's the main motivation behind the project that is the subject of this thesis called Nursery.\\
-
-
 \subsection{The Railnova Way}
 %-----------------------------------------------------------------------------
 
-At Railnova, development in general is lead by the Agile framework. Because of that, softwares and hardwares developed tend to welcome changes and new features are added every week as well as small bug fixes or minor modifications there and there.\\
+At Railnova, development in general is lead by the Agile framework. Because of that, software and hardware developed tend to welcome changes and new features are added every week as well as small bug fixes or minor modifications here and there.\\
 
 This tend to make it difficult to keep track of what is working and what is not during the life-cycle of any project. This is where Nursery becomes useful. By providing a tool to check whether or not features are broken after modifications have been applied would be a great time saver. Testing everything manually is a tedious work and waiting for things to break in production environment is a very bad idea like we saw previously.\\
 
 Usually, when one of the \gls{rug} fails in production, the product is called back to the Railnova HQ for \gls{fqm}. \gls{fqm} consists of several phases. During the first one also called "fingerprinting", we try to identify the root cause of the failure. Then, we re-direct the product either to "Debug HW" for hardware debugging if the root cause is hardware linked or to "Debug SW" if the root cause is software linked. After those steps, the problem should be solved. The product is sent to "Fixing" to apply other pending modifications that did not necessitate an immediate return of the product. Finally, the product is sent to "Flash \& Validate" to re-initialize it completely and flag it as "ready to ship".\\
-
-
-\clearpage
 
 
 %-----------------------------------------------------------------------------
@@ -1092,7 +1117,7 @@ This section should have given you a good idea of why testing is so important at
 \clearpage
 \part{Contribution}
 
-All the problems described above provides us a lot of informations. We know what can go wrong, we know what we need and we know that a proper validation of all the developed product is a key for success of any given product on the long run. So having a global view of what software testing is and what is the concrete problem we are dealing with, we will try to design a testing process that can be applied to it and possibly to any other given problem that needs black-box testing. One of our main goal is also to design a tool that will be useful and easy to use but we want it to be powerful enough to be able to handle every test case we might think of.\\
+All the problems described above provides with the necessary information to complete this work. We know what can go wrong, we know what we need and we know that a proper validation of all the developed product is a key for success of any given product on the long run. So having a global view of what software testing is and what is the concrete problem we are dealing with, we will try to design a testing process that can be applied to it and possibly to any other given problem that needs black-box testing. One of our main goal is also to design a tool that will be useful and easy to use but we want it to be powerful enough to be able to handle every test case we might think of.\\
 
 
 \clearpage
@@ -1104,17 +1129,17 @@ All the problems described above provides us a lot of informations. We know what
 
 %-----------------------------------------------------------------------------
 
-First of all, lets take back our software development concepts introduce during the first chapter of this thesis. We have described seven type of testing and now that we know what we are working on, lets try to summarize what type of testing we really need:\\
+First of all, lets take back our software development concepts introduce during the first chapter of this thesis. We have described seven types of testing and now that we know what we are working on, lets try to summarize what type of testing we really need:\\
 
 \begin{itemize}
-\item Unit and integration testing: Those kind of testing are great to test the code but that does not give us much informations in terms of requirements. Knowing that every functions works separately is not enough to tell that the requierements are met as the program behavior results from the interaction of all those function one with another.
+\item Unit and integration testing: Those kind of testing are great to test the code but that does not give us much informations in terms of requirements. Knowing that all functions work separately is not enough to tell that requirements are met as the program behavior results from the interaction of all those function one with another.
 \item System testing: We do want to make sure that our interfaces can run on different hardware. In our case, we want to be able to validate our software for at least RUG1 and RUG2.
 \item Functional testing: Testing that the software fullfils the requirements is, of course, our main preocupation. So this type of testing is of main importance.
 \item Regression testing: Being able to certify that a new feature or a bugfix does not break the whole system is a key point too. We dont want to re-introduce old bugs or break what is already working well.
 \item Acceptance testing: Automatizing client testing is not really in the scope of this thesis. Besides, we assumed earlier that the requirements are good and well validated.
 \end{itemize}
 
-Summed up, those are the 3 main requierements we absolutely want in our solution:
+Summed up, those are the 3 main requirements we absolutely want in our solution:
 
 \begin{itemize}
 \item Functional testing
@@ -1122,27 +1147,21 @@ Summed up, those are the 3 main requierements we absolutely want in our solution
 \item Regression testing
 \end{itemize}
 
-We now want to know what we need to satisfy those requierements. But first, let us introduce some concept that will be used to formalize our following ideas:
+We now want to know what we need to satisfy those requirements. We will use them to rate the developed solution in \autoref{chap:Results}. Let us now introduce some concept that will be used to formalize our following ideas:
 
 \theoremstyle{definition}
-\begin{definition}{Our software/Our program.} We will talk a lot about "our software" or "our program". All those notation refers to the software being tested.
-\end{definition}
-
-In our case, our software refers to railster-os which is the Unix based operating system we want to test.
-
-\theoremstyle{definition}
-\begin{definition}{Requierements.} Requierements $R$ is a set of requierement defined by our client(s). Keep in mind that we can be our own client.
+\begin{definition}{Requirements.} Requirements $R$ is a set of requirements defined by our client(s). Keep in mind that we can be our own client.
 \end{definition}
 
 \theoremstyle{definition}\label{def:Testing}
-\begin{definition}{Testing.} A test $t$ is used to map a particular requierement $r \in R$ to a satisfaction value:
+\begin{definition}{Testing.} A test $t$ is used to map a particular requirement $r \in R$ to a satisfaction value:
 $$
-T: r \to \{True, False\}
+t: r \to \{True, False\}
 $$
-When mapped to $True$, we say that the requierement is fullfilled and the requierement is not fullfilled when mapped to $False$.
+When mapped to $True$, we say that the requirement is fullfilled and the requirement is not fullfilled when mapped to $False$.
 \end{definition}
 
-This definition is still incomplete, we need to know how the mapping is done and that is the question we are going to answer in this chapter.
+This definition is still incomplete, we need to know how the mapping is done and that is the question we are going to answer in this chapter. Also, keep in mind that when we talk about "our software" or "our program", we want to refer to the software being tested. In our case, our software refers to \gls{railsteros} which is the Unix based operating system we want to test.
 
 
 %-----------------------------------------------------------------------------
@@ -1151,7 +1170,7 @@ This definition is still incomplete, we need to know how the mapping is done and
 
 %-----------------------------------------------------------------------------
 
-Given a set of requierements, we want to make sure every one of them is fullfilled, using the definition we stated earlier, this is pretty simple to formalize:
+Given a set of requirements, we want to make sure every one of them is fullfilled, using the definition we stated earlier, this is pretty simple to formalize:
 
 \theoremstyle{definition}
 \begin{definition}{Functional testing.} Functional testing is used to ensure that the following condition holds:
@@ -1167,9 +1186,9 @@ $$\forall r \in R: t(r) = True$$
 
 Now, you know what system testing is about. We want to verify if our program can run on more than one system. At Railnova, the practical case we had at hand was about two different hardware, RUG1 and RUG2, both of them handles inputs and outputs differently and we wanted to make sure that our custom Unix based OS would run as expected on both of them.\\
 
-Of course, the newest version, RUG2 had more features than the RUG1 and this lead us to our first observation: Different systems can have the same capabilities but they generaly don't and given that all capabilities should be tested, see functional testing if you don't recall why, the set of test we should run on a given system is system dependant. Different systems can have all their test in common if they have the same capbilities, none or some test in common if they don't\\
+Of course, the newest version, RUG2 had more features than the RUG1 and this lead us to our first observation: Different systems can have the same capabilities but they generaly don't and given that all capabilities should be tested, see functional testing if you don't recall why, the set of tests we should run on a given system is system dependant. Different systems can have all their tests in common if they have the same capbilities, none or some test in common if they don't\\
 
-Again, let's take a practical example: The RUG2 can handle more communication protocol than the RUG1 and can process more informations in the same amount of time. So our custom OS should be able to handle those new informations when run on the RUG2 but this is not requiered when run on the RUG1. To fullfil this need, we now know that our solution will have to provide a way of defining the subset of all existing requierement to be tested on a particular systems.\\
+Again, let's take a practical example: The RUG2 can handle more communication protocols than the RUG1 and can process more information in the same amount of time. So our custom OS should be able to handle those new informations when run on the RUG2 but this is not requiered when run on the RUG1. To fullfil this need, we now know that our solution will have to provide a way of defining the subset of all existing requirement to be tested on a particular system.\\
 
 \theoremstyle{definition}
 \begin{definition}{Systems.} $Systems$ is the set of all possible environment on which we want our program to run.
@@ -1182,7 +1201,7 @@ Again, let's take a practical example: The RUG2 can handle more communication pr
 A concrete example of two different systems is a smartphone and a computer. Both are used for different purposes but have some common features (display, user interface, processing power, ...).
 
 \theoremstyle{definition}
-\begin{definition}{System requierements.} The subset of requierement that are required for a given $System$ is $R(System)$
+\begin{definition}{System requirements.} The subset of requirement that are required for a given $System$ is $R(System)$
 \end{definition}
 
 \theoremstyle{definition}
@@ -1197,7 +1216,7 @@ $$
 $$
 \end{definition}
 
-Or simply put, for every requierement of our system, we want to have a test that can evaluate to \textit{true} if the requierement is met and \textit{false} otherwise and we want all those test to evaluate to \textit{true}.
+Or simply put, for every requirement of our system, we want to have a test that can evaluate to \textit{true} if the requirement is met and \textit{false} otherwise and we want all those test to evaluate to \textit{true}.
 
 
 %-----------------------------------------------------------------------------
@@ -1206,12 +1225,12 @@ Or simply put, for every requierement of our system, we want to have a test that
 
 %-----------------------------------------------------------------------------
 
-In regression testing, we want to make sure that the previous testing are, in the worst case, as efficient as before. If we only managed to fulfill a subset of the needed requierements, we want this subset of requierement still fullfilled in the newest revision of our software.
+In regression testing, we want to make sure that the previous testing are, in the worst case, as efficient as before. If we only managed to fulfill a subset of the needed requirements, we want this subset of requirement still fullfilled in the newest revision of our software.
 
 \theoremstyle{definition}
 \begin{definition}{Revision.} We are going to iterate on the tested software to improve it gradually. A revision $V$ of the software $s$ is a mapping of the software to $\real$:
 $$
-V: s \to \R
+V: s \to \mathbb{N}_0
 $$
 with the following conditions:
 \begin{itemize}
@@ -1232,26 +1251,26 @@ Having defined those notations, we now have:
 \theoremstyle{definition}
 \begin{definition}{Regression testing} Verify that, given any $System \in Systems$ and a given software revision $x$, the following condition holds:
 $$
-\forall r \in R(System): t(r, system, V(s_x)) = t(r, system, V(s_{x-1}))
+\forall r \in R(System): t(r, system, V(s_{x-1})) \rightarrow t(r, system, V(s_x))
 $$
 \end{definition}
 
 Basically, what worked before must still work now.
 
 \theoremstyle{remark}
-\begin{remark} Satisfying the functional testing is sufficent. We don't need to explicitly check the previous version's requierements for divergences as all requierements are mandatory because of functional testing.
+\begin{remark} Satisfying the functional testing is sufficent. We don't need to explicitly check the previous version's requirements for divergences as all requirements are mandatory because of functional testing.
 \end{remark}
 
 
 %-----------------------------------------------------------------------------
 
-\section{Requierements satisfaction}
+\section{Requirements satisfaction}
 
 %-----------------------------------------------------------------------------
 
-We now have a good idea of what we want to do, checking various requierements of a given software to make sure they are all satisfied on every different system used. But how to know when a requirement is fullfilled or not? In the chapter dedicated to them, we introduced the notion of failure and accepting states. If we manage to map all the interactions of our system with an input alphabet, we can easilly imagine that a run of a given \gls{fsm} extended with the concept of failure and accepting state can produce a the desired mapping for a given requierement. The underlying idea would be to create an \gls{fsm} for every requierement, run them using the defined input alphabet of the software's interactions and check that the resulting mapping is only made of \textit{True} values. If it is the case, we have successfully created a program that satisfies all the given requierements!
+We now have a good idea of what we want to do, checking various requirements of a given software to make sure they are all satisfied on every different system used. But how to know when a requirement is fullfilled or not? In the chapter dedicated to them, we introduced the notion of failure and accepting states. If we manage to map all the interactions of our system with an input alphabet, we can easilly imagine that a run of a given \gls{fsm} extended with the concept of failure and accepting state can produce the desired mapping for a given requirement. The underlying idea would be to create an \gls{fsm} for every requirement, run them using the defined input alphabet of the software's interactions and check that the resulting mapping is only made of \textit{True} values. If it is the case, we have successfully created a program that satisfies all the given requirements!
 
-All we have to do is to find the best \gls{fsm} type that suits our needs and to formalize the software interactions in a way that allows us to capture and manage them
+All we have to do is to find the best \gls{fsm} type that suits our needs and to formalize the software interactions in a way that allows us to capture and manage them.
 
 
 %-----------------------------------------------------------------------------
@@ -1260,9 +1279,12 @@ All we have to do is to find the best \gls{fsm} type that suits our needs and to
 
 %-----------------------------------------------------------------------------
 
-In our practical case, we need to know how the tested program is performing in order to test it's requierements. To do that, we need to analyse the output it produces. In this context, outputs can be data, reports, logs, screenshots and many other things as long as they are produced by the analysed program. At Railnova, the \gls{rug} communicate with data servers, it produces particular messages that are saved in Railnova databases. It also can be accessed using a serial communication. Using this serial communication, we can fetch a lot of informations from the \gls{rug} operating system. We want our solution to interface with such data stream. Based on this quick analysis, we can think of separate program whose purpose is to continuously check for new data and fetch them into our solution as \gls{fsm}'s inputs. Let's call those program "Output Providers". So the idea is to setup a set a output providers that will provide informations about how the program is performing. We can imagine a lot of other use cases for those output providers, for example, we can have an output providers that look at a screen whose output is coming from our program and push the screen status into our solution.\\
+%// TODO SCHEMA RUG interfaces Inputes Outputs
 
-So, is interfacing outputs from our system enough to build a viable solution? We figure out that it is not. Let's say you want to check that the software produces different output based on the room temperature. If you don't have the room temperature, you will not be able to check data's correctness. That's why we also need to fetch inputs of the tested program. Unfortunately, this was not considered early enoguh in the development process of our solution so the name "Output Provider" was also used for those in the final solution.
+%// TODO introduce that in introduction ?
+In our practical case, we need to know how the tested program is performing in order to test its requirements. To do that, we need to analyse the output it produces. In this context, outputs can be data, reports, logs, screenshots and many other things as long as they are produced by the analysed program. At Railnova, the \gls{rug} communicate with data servers, it produces particular messages that are saved in Railnova databases. It also can be accessed using a serial communication. Using this serial communication, we can fetch a lot of informations from the \gls{rug} operating system. We want our solution to interface with such data stream. Based on this quick analysis, we can think of separate program whose purpose is to continuously check for new data and fetch them into our solution as \gls{fsm}'s inputs. Let's call those program "Output Providers". So the idea is to setup a set an output providers that will provide informations about how the program is performing. We can imagine a lot of other use cases for those output providers, for example, we can have an output providers that look at a screen whose output is coming from our program and push the screen status into our solution.\\
+
+So, is interfacing outputs from our system enough to build a viable solution? We figure out that it is not. Let's say you want to check that the software produces different outputs based on the room temperature. If you don't have the room temperature, you will not be able to check data's correctness. That's why we also need to fetch inputs of the tested program. Unfortunately, this was not considered early enough in the development process of our solution so the name "Output Provider" was also used for those in the final solution.
 
 
 %-----------------------------------------------------------------------------
@@ -1271,27 +1293,32 @@ So, is interfacing outputs from our system enough to build a viable solution? We
 
 %-----------------------------------------------------------------------------
 
-The goal for those is to fetch or produce data that describes the state of the program or the various variables that can affect its processing/behavior. We decided to allow the user to create any ouptut providers needed. Those provider will then provide key-value dictionnary with up to date data in them. Each provider being identified, it is then easy in any test to use the data produced by knowing which ouptut provider produces it and which key is used to identify the data. Lets use some more formal definitions for this:
+The goal for those is to fetch or produce data that describes the state of the program or the various variables that can affect its processing/behavior. We decided to allow the user to create any ouptut providers needed. Those provider will then provide data in the form of key-value dictionnary with up to date data in them.
+%TODO example here
+Each provider being identified, it is then easy in any test to use the data produced by knowing which ouptut provider produces it and which key is used to identify the data. Lets use some more formal definitions for this:
 
 \theoremstyle{definition}
 \begin{definition}{Dictionary.} A Dictionary $D$, in this context, is a mapping of key $k \in K$, where $K$ is the set $K(D)$ of all the keys produced by $D$, and discrete values $v \in V$ where $V$ is the set of values $V(D, k)$ that can be assigned to a given key $k$ in this Dictionary:
 $$D: k \to v$$
+Two dictionary are of the same type if they share the same set of key.
 \end{definition}
 
 \theoremstyle{definition}
 \begin{definition}{Output/Input providers.} An Output/Input Provider $P$ is a user defined plugin that produces exactly one type of Dictionary $D$. From now on, we will call them \gls{op}.
 \end{definition}
 
-So with those definitions, we can have several Output/Input Providers producing the same type of data (Dictionary). A practical example for this would be a temperature sensor, one could read the sensor value on a screen or directly on the electrical wire. In this case, we would have one \gls{op} that would fetch the sensor value from the screen and produce a dictionary with only one key $K = { "sensor" }$ and another \gls{op} would do the same but reading the value from the wire.\\
+So with those definitions, we can have several Output/Input Providers producing the same type of data (Dictionary).
+%// TODO better example ,add one example sooner ?
+An example for this would be a temperature sensor, one could read the sensor value on a screen or directly on the electrical wire. In this case, we would have one \gls{op} that would fetch the sensor value from the screen and produce a dictionary with only one key $K = { "sensor" }$ and another \gls{op} would do the same but reading the value from the wire.\\
 
-But now, what if we want another sensor, let's say an oil sensor, the set of value that this sensor can be mapped to will probably not be the same and how does one differentiate between one or the other? We could use the \gls{op} as an identification for the Dictionary but instead of that, we decided to add a custom data to all our Dictionary to identify them one from the other:
+But now, what if we want another sensor, let's say an oil sensor, the set of value that this sensor can be mapped to will probably not be the same and how does one differentiate between one or the other? We could use the \gls{op} as an identification for the Dictionary but instead of that, we decided to add a custom data to all our dictionaries to identify them one from the other:
 
 \theoremstyle{definition}
-\begin{definition}{Dictionary (extended).} A Dictionary $D$, in this context, is an identification $i \in \mathbb{R}$ and a mapping of key $k \in K$, where $K$ is the set $K(i)$ of all the keys produced by a given Dictionary identified as $i$, and discrete values $v \in V$ where $V$ is the set of values $V(i, k)$ that can be assigned to a given key $k$ from a given Dictionary identified as $i$:
+\begin{definition}{Dictionary (extended).} A Dictionary $D$, in this context, is an identification $i \in \mathbb{N}$ and a mapping of key $k \in K$, where $K$ is the set $K(i)$ of all the keys produced by a given Dictionary identified as $i$, and discrete values $v \in V$ where $V$ is the set of values $V(i, k)$ that can be assigned to a given key $k$ from a given Dictionary identified as $i$:
 $$D: k \to v$$
 \end{definition}
 
-This now implies that all Dictionary that shares the same identification should produces the same set of key with the same set of boundaries for their values. A stronger assertion is that each identification of Dictionary denotes a particular context of data. In the previous example, we would now have a new \gls{op} that produces the same set of key only with a different identification for its Dictionary.
+This now implies that all Dictionary that shares the same identification should produces the same set of keys with the same set of boundaries for their values. A stronger assertion is that each identification of Dictionary denotes a particular context of data. In the previous example, we would now have a new \gls{op} that produces the same set of keys only with a different identification for its Dictionary.
 
 
 %-----------------------------------------------------------------------------
@@ -1360,13 +1387,13 @@ This now implies that all Dictionary that shares the same identification should 
 
 %-----------------------------------------------------------------------------
 
-We still need a way for the user to describe how the testing will be done. We decided to describes that using an \gls{fsm} for each requierement testing and to call such \gls{fsm} a scenario, we will refine this definition later after having explained which \gls{fsm} we will use:
+We still need a way for the user to describe how the testing will be done. We decided to describes that using an \gls{fsm} for each requirement testing and to call such \gls{fsm} a scenario, we will refine this definition later after having explained which \gls{fsm} we will use:
 
 \theoremstyle{definition}
 \begin{definition}{Scenario.} A scenario is an \gls{fsm} whose goal is to perform a test.
 \end{definition}
 
-In theoretical \gls{fsm}, the number of state is upper bound by the system's internal memory. If we want to test every possible state it would gives us $2^x$ states to analyze (where $x$ is the system's internal memory expressed in bit). Let's say that this memory can be around two to height gigabits and this is raising every passing years. So we would have to describe what should happen in $2^2*10^9$ different states. We don't say that this is not possible but if we can do the same using less than 25 states for example, it should be easier for any human being.\\
+In theoretical \gls{fsm}, the number of states is bounded above by the system's internal memory. If we want to test every possible state by explicitely stating what should happen in every memory configuration, it would gives us $2^x$ states to analyze (where $x$ is the system's internal memory expressed in bit). Let's say that this memory can be around two to eight gigabits and this is raising every year. So we would have to describe what should happen in $2^{8*10^9}$ different states. We don't say that this is not possible but if we can do the same using a model of how the system should behave (a scenario) with less than 25 states for example, it should be easier for any human being.\\
 
 So to address this problem, we need to abstract the state definition. We'll aggregate formal states into a more complex structure that we will still call a state but for the user, it will just be something like "initialization state", "error state", "processing data state" and so on. A state will simply be a set of computation that needs to be applied.
 We want to be able to react when leaving or entering a state, we are now programming so we will probably need to free ressources or allocate them for example. It would also be nice to be able to repeat some operation when we receive some input symbol. Of course, this behavior could be achieved using more states and transition but lets try to keep it simple, fewer states and transitions means less complexity, code and more readability. So we introduce three optional functions, one for the computation needed when we reach the state, one for when we leave the state and the last one for the computation we need to do every time a new symbol is read.\\
@@ -1374,15 +1401,17 @@ We want to be able to react when leaving or entering a state, we are now program
 Speaking of input symbols, we talked about data providers in section \ref{sec:providers}. We want to use them to get input symbols. So let's define our input alphabet as a set of dictionary:
 
 \theoremstyle{definition}
-\begin{definition}{Input alphabet.} The input alphabet we will be working with is a set $\Sigma$ of dictionary $D$.
+\begin{definition}{Input alphabet.} The input alphabet we will be working with is a set $\Sigma$ of dictionaries $D$.
 \end{definition}
 
 To choose the type of \gls{fsm} that best suits our needs, we need some kind of ranking system based on what we learn in the chapter \textit{Formal Verification and Model Checking}~\ref{ModelChecking}. We decided to use the following criteria:
 \begin{itemize}
 \item We want to make sure that a particular \gls{fsm} type is possible to apply in our case. If it is an abstract \gls{fsm} that uses infinite memory or another paradigms that is impossible to implement on modern computer, we know that we can discard it.
-\item How easy it is to describe a system's behavior with such \gls{fsm}? If it takes to much times or if we find it too difficult for non-technical peoples to describe a system's behavior using that particular \gls{fsm} type, we know that it will probably be deprecated over time and wont be used as it should be.
+\item How easy it is to describe a system's behavior with such \gls{fsm}? If it takes to much times or if we find it too difficult for non-technical people to describe a system's behavior using that particular \gls{fsm} type, we know that it will probably be deprecated over time and wont be used as it should be.
 \item If the chosen \gls{fsm} introduces restriction on what can be described, those restriction must not prevent us from doing every testing needed. And if it introduces new possibilities that allows us to describe more system's behaviors, the complexity that it introduces into the system should be worth it.
 \end{itemize}
+%// TODO ^ this earlier
+%// TODO describe what we want to describe
 
 We can summarize with the following questions:
 
@@ -1394,11 +1423,12 @@ We can summarize with the following questions:
 
 Now to the choice of \gls{fsm} model, why don't we simply pick the most simple case of \gls{fsm}? The reasons are very simple, take this case: You want to be able to detect a failure that happen if you receive a given data more than 10 seconds after some given data. How can you do this? Or even simpler, you want to detect a failure if you didn't receive any data for 30 seconds.\\
 
-All of those case requires you to create a new input type that will be the time. Say you receive this input each time a second pass. Already, it is a lot like timed state machine but lets say we want to use a pure \gls{fsm}. Now, we need to add state for each seconds passed, so if we want to wait 30 seconds, we need 30 states with 30 transitions for each seconds and 30 transitions for the event of "a data has been received" that will go back to initial state. And all of this needs to be written by someone. You can easily see why this is impracticable. So clearly, in this case, \gls{fsm} are too limited if we want to handle this in a simple and practicable way, that is, by limiting the number of states the user will need to use.\\
+With a basic \gls{fsm} that do not consider time, we would have to add a new input symbol to be used when no input data is received and assume that you use a reference time unit and that each time unit passed, you should receive a data or the newly introduced input symbol when no data is received. We need to add states for each seconds passed, so if we want to wait 30 seconds, we need 30 states with 30 transitions for each seconds and 30 transitions for the event of "a data has been received" that will go back to initial state. And all of this needs to be written by someone. You can easily see why this is impracticable. So clearly, in this case, \gls{fsm} are too limited if we want to handle this in a simple and practicable way, that is, by limiting the number of states the user will need to use. And of coruse, this is no longer a basic \gls{fsm} so clearly, those are not enough for us.\\
 
-Now with the \gls{afa}, the complexity of implementation required by this paradigm is quite important, we need to run multiple automaton, construct execution trees and analyze them. Compared to a simple \gls{fsm} implementation, this is quite a lot of work. So is it worth it? To answer this question, we need to find practical case where such a paradigm would become indispensable and such case should be really difficult to implement into a classic \gls{fsm} to justify choosing \gls{afa} as our main choice for the implementation of Nursery. Based on the concrete needs we had when we analyzed this possibility, we choose not to consider it as a good solution because none of the case we had prepared needed such complexity and using this would have made it difficult to design test by inexperienced users. This also follows from the fact that we wanted to avoid dealing with concurrency.\\
+%// TODO why is it complex ? why is it lot of work ?
+Now with the \gls{afa}, the complexity of implementation required by this paradigm is important, we need to run multiple automaton, construct execution trees and analyze them. Compared to a simple \gls{fsm} implementation, this is a lot of work. So is it worth it? To answer this question, we need to find practical cases where such a paradigm would become indispensable and such case should be really difficult to implement into a classic \gls{fsm} to justify choosing \gls{afa} as our main choice for the implementation of Nursery. Based on the concrete needs we had when we analyzed this possibility, we choose not to consider it as a good solution because none of the cases we had prepared (see section~\ref{section:ourcase}) needed such complexity and using this would have made it difficult to design test by inexperienced users. This also follows from the fact that we wanted to avoid dealing with concurrency.\\
 
-There is a wide variety an \gls{fsm}, there isn't any limit on how many \gls{fsm} type you can think of but when we started implementing our solution, the best \gls{fsm} that our 3 ranking questions left us with was timed automaton. Those \gls{fsm} are really well adapted for our use case. Being able to manipulate time directly in our transitions and state gives us a lot of ease to write the code and its also very powerful too! With it, we are able, for example, to send a lot of data with a variable interval between them and then receive data accordingly. You can also decide to create a clock for timeout that will be reseted each time you receive a given data. There are really a lot of use case and some more will be described later on.\\
+There is a wide variety of \gls{fsm}, there isn't any limit on how many \gls{fsm} type you can think of but when we started implementing our solution, the best \gls{fsm} that our 3 ranking questions left us with was timed automaton. Those \gls{fsm} are really well adapted for our use case. Being able to manipulate time directly in our transitions and state gives us a lot of ease to write the code and its also very powerful too! With it, we are able, for example, to send data with a variable interval between them and then receive data accordingly. You can also decide to create a clock for timeout that will be reseted each time you receive a given data. There are really a lot of use case and some more will be described later on.\\
 
 This choice of tool is also motivated by the fact that writing and understanding automaton is a very easy process. Designing a \gls{ui} to create automata and generating valid scenario out of it is a relatively easy process so this could be a way to meet the strong requirement that our solution shall be easy to use for not seasoned programmers.\\
 
@@ -1409,11 +1439,10 @@ Let's now refine a bit our definitions of a scenario:
 
 We also want to improve the input alphabet we will be working on, if we include the clocks in it, we will be able to perform operation every given time interval:
 \theoremstyle{definition}
-\begin{definition}{Input alphabet.} The input alphabet we will be working with is a set $\Sigma$ of dictionary $D$ along with a set of clocks $C$.
+\begin{definition}{Input alphabet.} The input alphabet we will be working with is a set $\Sigma$ of dictionary $D$ and a set of clocks $C$.
 \end{definition}
 
-
-\clearpage
+At each time step, we will receive a set of dictionary for every input received at this time and the set of clock of the \gls{ta} updated with the current time step.
 
 
 %-----------------------------------------------------------------------------
@@ -1422,7 +1451,11 @@ We also want to improve the input alphabet we will be working on, if we include 
 
 %-----------------------------------------------------------------------------
 
-We introduced the concept of portability when we talked about system testing and versioning when we talked about regression testing and with the third testing, functional testing, we stated that we want the software to run accordingly to our requierement on any system and for every revision of it and we also explained why we wanted to use time automaton. All of those aspect and tools will be used in the following chapter to explain how the final system works.
+We introduced the concept of portability when we talked about system testing and versioning when we talked about regression testing and with the third testing, functional testing, we stated that we want the software to run accordingly to our requirement on any system and for every revision of it and we also explained why we wanted to use time automaton. All of those aspect and tools will be used in the following chapter to explain how the final system works.
+
+%// TODO explain I/O producers example and usage is coming
+%// TODO exaplain whe are going to explain how to write scenario / TA
+%// TODO find ways to shows failing / succeeding relate to passing test
 
 
 %------------------------------------------------------------------------%
@@ -1435,6 +1468,7 @@ We introduced the concept of portability when we talked about system testing and
 
 \clearpage
 \part{Results}
+\label{chap:Results}
 
 This part is a in depth description of how the implemented system works, how it has been developed and what it can and cannot do. This is a more technical part dedicated to the implementation where we will not talk a lot about the mathematical concept behind it as those have already been explained before.\\
 
@@ -1460,7 +1494,7 @@ We start by explaining how we created the \gls{dsl} used to describes our scenar
 \item Set update processing for every states
 \end{itemize}
 
-As we uses Timed automaton, we also need to uses clocks:
+As we use Timed automata, we also need to uses clocks:
 
 \begin{itemize}
 \item Add/Remove/Set/Reset clocks
@@ -1468,11 +1502,11 @@ As we uses Timed automaton, we also need to uses clocks:
 \item Trigger transition using clocks
 \end{itemize}
 
-Regarding the data sources, we want our transition to be able to react on such data and to explicitly specify which kind of data our scenario will be working with. We should now distinguish between two kind of data, either the data is a discrete value, like e-mails, you want to be notified when you receive one or the data is continuous like the room temperature. We want to be able to get both of those data types:
+Regarding the data sources, we want our transitions to be able to react on such data and to explicitly specify which kind of data our scenario will be working with. We should now distinguish between two kind of data, either the data is a discrete value, like e-mails, you want to be notified when you receive one or the data is continuous like the room temperature. We want to be able to get both of those data types:
 
 \begin{itemize}
 \item Set data sources to be used
-\item Receive discrete data as they appears from data source
+\item Receive discrete data as they appear from data source
 \item Ask for continuous data reading from data source
 \end{itemize}
 
@@ -1496,13 +1530,15 @@ class Scenario(AbstractScenario):
 \subsection{Add states to scenario}
 %-----------------------------------------------------------------------------
 
-When adding a state to a scenario, you can also gives it several function that will be used for update, enter and leave trigger. You can also specify if it is a failure/success state. We satisfy the following requierement with one line of code:
+When adding a state to a scenario, you can also gives it several function that will be used for update, enter and leave trigger. You can also specify if it is a failure/success state. We satisfy the following requirement with one line of code:
 \begin{itemize}
 \item Add states to scenario
 \item Set success and failure states
 \item Set enter/leave processing for every states
 \item Set update processing for every states
 \end{itemize}
+
+%// TODO explain leave, update, enter handlers. Function ect ect
 
 \begin{figure}[H]
     \begin{lstlisting}[caption="Add states",label={lst:python-add-state}]
@@ -1552,11 +1588,14 @@ In the listing~\ref{lst:python-add-state}, \textbf{state\_status} is $0$ by defa
 \subsection{Add transition to state}
 %-----------------------------------------------------------------------------
 
-To do so, use the function \textbf{add\_transition} from any starting state and give it the goal state to which we should transition in case of success and a transition handler. The handler should return True if the transition must be taken and False otherwise. It takes $t$, the clock of the state as an input and $d$ a list of dictionnaries given by the data sources used (again, this will be defined later).
+To do so, use the function \textbf{add\_transition} from any starting state and give it the goal state to which we should transition in case of success and a transition handler. The handler should return True if the transition must be taken and False otherwise. It takes $t$, the state clock as an input (see section~\ref{ManipulateClocks} for the state clock) and $d$ a list of dictionnaries given by the data sources used (again, this will be defined later).
 
 \begin{figure}[H]
     \begin{lstlisting}[caption="Add transition to any state",label={lst:python-add-transition}]
+# Example using a python labmbda function
 from_state.add_transition(goal_state, lambda t, d: t > 60)
+
+# Example using a function defined elsewhere
 from_state.add_transition(failure_state, self.transition_handler)
     \end{lstlisting}
 \end{figure}
@@ -1574,10 +1613,10 @@ self.tsm.set_initial_state(state)
 \end{figure}
 
 
-\subsection{Manipulates clocks}
+\subsection{Manipulate clocks}\label{ManipulateClocks}
 %-----------------------------------------------------------------------------
 
-In every state, a clock is created. This clock is resetted every time we enter this specific state. We can also create new clocks when needed using the functions in listing~\ref{lst:python-clocks}. The main clock is used as the $t$ parameter for update handlers and transition functions. This implies that the following are satisfied:
+We have a global clock used for every state. This clock is resetted every time we enter a new state. We can also create new clocks when needed using the functions in listing~\ref{lst:python-clocks}. The main clock is used as the $t$ parameter for update handlers and transition functions. This satisfies the following points:
 \begin{itemize}
 \item Add/Remove/Set/Reset clocks
 \item Get given clocks time
@@ -1600,11 +1639,15 @@ clock1.stop()
     \end{lstlisting}
 \end{figure}
 
+This feature allows us to create clocks that are not dependant of any state. You could see the states clock as a clock that is resetted at every transition. More formally, this clock is always in the set of resetted clocks for the transition function: Given a \gls{ta} $\mathcal{T} = (\A, W, F)$ where $\A = (\Sigma, S, s_{0},C, E)$, we call the state clock $m$ with $m \in C$. This clock will be used as the state clock and $\forall t \in \A: m \in t(\lambda)$ where $t(\lambda)$ is the $\lambda$ set of clocks to be resetted with this transition.\\
 
-\subsection{Manipulates data sources}
+The additional clock we can create are not related to any specific state by default. They work like any clock as defined in \gls{ta} definition.
+
+
+\subsection{Manipulate data sources}
 %-----------------------------------------------------------------------------
 
-Here we want to satisfy the last three requierements:
+Here we want to satisfy the last three requirements:
 \begin{itemize}
 \item Set data sources to be used
 \item Receive discrete data as they appears from data source
@@ -1633,7 +1676,7 @@ if d is not None and d['type'] == "ROOM_TEMP":
 \subsection{Determinism}
 %-----------------------------------------------------------------------------
 
-A question you should be asking yourself now is, is this system deterministic? The answer is not yet. In the current state, if we have two transition that maps to True, we do not know which one should be taken. To solve this problem, we mapped every transition to a integer in $\R$ always growing for each added transition. Trnasition are then evaluated from the lowest integer value to the biggest. The first succeeding transition will then be taken and we completely ignores the following ones. When designing scenarion, ones should keep that in mind otherwise some unexpected cases can appear. Every time the scenario is used, this mapping should stay the same. It can only be modified by modifying the source code itself. This is why every scenario should be verionned too. At Railnova, we uses Github for that purpose. It is not garanteed that two different version of a scenario will have the same behavior but for a given version number, every time the scenario is used, it will give have the same behavior.
+A question you should be asking yourself now is, is this system deterministic? The answer is not yet. In the current state, if we have two transition that are satisfied from the same state at the same time, we do not know which one should be taken. To solve this problem, we mapped every transition to a integer in $\mathbb{N}_0$ always growing for each added transition. Transition are then evaluated from the lowest integer value to the biggest. The first succeeding transition will then be taken and we completely ignore the following ones. When designing scenarios, one should keep that in mind otherwise some unexpected cases can appear. Every time the scenario is used, this mapping should stay the same. It can only be modified by modifying the source code itself. This is why every scenario should be versionned too. At Railnova, we uses Github for that purpose. It is not garanteed that two different versions of a scenario will have the same behavior but for a given version number, every time the scenario is used, it will have the same behavior.
 
 
 %-----------------------------------------------------------------------------
@@ -1648,17 +1691,17 @@ As we already mentionned earlier, we uses Python as the programming language. Mo
 \subsection{Architecture}
 %-----------------------------------------------------------------------------
 
-Nursery works on top of two main features, logging and reporting. Logging allows us to keep track of Nursery outputs. For every test, a file is created to log every one of them. Each line of output have an additional property which is the level of urgency of the output. The possible levels are the following:
+Nursery works on top of two main features, logging and reporting. Logging allows us to keep track of Nursery outputs. For every test, a file is created to log every one of them. Each line of output has an additional property which is the level of urgency of the output. The possible levels are the following:
 
 \begin{itemize}
 \item DEBUG. Used to output values that are not vital to understand what is going on but are of absolute necessity for debugging purposes.
 \item INFO. The default output level. Simple information messages.
-\item WARNING. Used for warnings. When an expected error occurs which is not broking the system.
+\item WARNING. Used for warnings. When an expected error occurs which is not breaking the system.
 \item ERROR. Error messages. For the messages that should not happen.
 \item CRITICAL. When the system is broken, this kind of message should be used.
 \end{itemize}
 
-The goal of this logging feature is to produce files that contains every single informations needed to identify the reasons of test failure and contains all the tests parameters. A lot of time was put into this feature to allow for useful context related informations for every line of output which, we find, is a key component for Nursery.\\
+The goal of this logging feature is to produce files that contains every single information needed to identify the reasons of test failure and contains all the tests parameters. A lot of time was put into this feature to allow for useful context related informations for every line of output which, we find, is a key component for Nursery.\\
 
 On top of this logging facility, we added a reporting feature. This one is intended to update bug trackers, product tracking facilities or anything else needing informations about the status of a particular hardware or software. Typically, this is used to update a product tracking server, Redmine, used at Railnova to keep an history of what happened in fingerprinting. When a test is done, the results is added on Redmine by saying: "Test <name> success/failure on RUG <serial number>", of course, other informations are added such as the test version, test criteria and why the test failed. This can also be used to keep track of the status of a production line. At every stage of the production line, we can update the status of the product being build with this reporting tool.\\
 
@@ -1667,7 +1710,7 @@ Each type of reporting is described by a Python file. Adding one is a very easy 
 \begin{figure}
     \centering
     \includegraphics[scale=0.8]{class_diagram.png}
-    \caption{Class diagram of the timed state machine implementation. Each scenario is a timed state machine and each test is composed of one or many scenario.}
+    \caption{Class diagram of the timed automata implementation. Each scenario is a timed automata and each test is composed of one or many scenario.}
     \label{class_diagram}
 \end{figure}
 
@@ -1713,11 +1756,11 @@ l_test = [
 
     # CAT test
     {   "name": "cat",
-        "description": "CAT bullshit",
+        "description": "CAT simulator",
         "duration": 500,
         "l_scenario": [
-            {"name": "ReplayBullshiter", "settings": {
-                "filename": "cat.bullshit",
+            {"name": "ReplaySimulator", "settings": {
+                "filename": "cat.simulator",
                 "csv_delimiter": ",",
                 "muted": True,
             }},
