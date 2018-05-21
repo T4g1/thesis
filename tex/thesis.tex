@@ -158,7 +158,22 @@ It is commonly believed that the earliest a fault is found, the cheaper it is to
 
 %-----------------------------------------------------------------------------
 
-%// TODO concrete case here
+We will now try to introduce the problem we solve in this thesis with some of the use cases we had to solve. We are working on an embedded device that can be installed in trains to collect data and monitor them. This device is controlled using a software we develop and this software provides features. We want to check that, every time we update a new version of the software that is used to control the device, every features is still working as expected. Some of those features are:
+
+\begin{itemize}
+\item Data flow: We want that data are retrieved at least every 30 seconds.
+\item Date: We want the device date to be synchronized with the real date.
+\item Battery: Device battery must be able to power the device when it is not powered by the train.
+\end{itemize}
+
+In this thesis, we develop an approach that can be used to answer the following questions for every new version of the device and/or the software that controls it:
+\begin{itemize}
+\item \guillemotleft Are all the feature still working as expected ? \guillemotright: Does my system fetch data every 30 seconds ? Does the battery work ? System date is still synchronized ?
+\item \guillemotleft Does the newly introduced feature works ? \guillemotright
+\end{itemize}
+
+We will try to answer those type of question for any software or hardware using user defined scenario used to check that the software is working as expected. You can see the final implementation of those three use case in Section~\ref{sec:testcases}.
+
 
 %-----------------------------------------------------------------------------
 
@@ -169,6 +184,7 @@ It is commonly believed that the earliest a fault is found, the cheaper it is to
 %// TODO Related works
 %Chow:1978:TSD:1313335.1313730
 %10.1007/978-3-540-39929-2_3
+%https://www.fi.muni.cz/~xpelanek/IA158/slides/timed-automata.pdf
 
 %-----------------------------------------------------------------------------
 
@@ -202,14 +218,12 @@ Then the software can be built. Of course, if we got the wrong requirements spec
 This whole process, starting from the client order to the shipping of the produced software is what we call the software development process. Of course, there is not one only way of doing it even for the most simple process like this one their can be divergence of work-flow from one team to another.~\cite{IIS2:IIS202348} The goal here is to show that testing is crucial wathever the choosen methodology or software development process, we will now introduce three of them that we think are the most used or accessible for neophytes:
 
 \begin{itemize}
-
 \item Waterfall
 \item Prototyping
 \item Design: resulting in the software architecture
 \item Coding: the development, proving, and integration of software
 \item Testing: the systematic discovery and debugging of defects
 \item Operations: the installation, migration, support, and maintenance of complete systems
-
 \end{itemize}
 
 
@@ -792,19 +806,6 @@ To implement this automaton, we need to be able to store the system's current st
 
 The computation of such an automaton is a tree. And deciding whether or not an \gls{afa} accepts a word $w$ if there exists a run tree on $w$ such that every path ends in an accepting state.~\cite{AFA:2017}\\
 
-%\subsection{Markov model}
-%
-%Markov Model is a stochastic model used to model randomly changing systems~\cite{1165342}~\cite{MarkovModel:2017}. The difference between a classic \gls{fsm} and a Markov Model is simply that %the Markov Model take transitions randomly based on given probabilities.\\
-%
-%This particular type of Markov Model is the simplest one. Probabilities are not influenced by previous state of the system. We will not introduce the other types of Markov Model here as we %don't need them later on.
-%
-%\begin{figure}
-    %\centering
-    %\includegraphics[scale=0.3]{MarkovModel.png}
-    %\caption{Example of a Markov Model. It shows the probabilities for the weather to be sunny %or rainy and then, the probabilities for the person to go take a walk, clean or go shopping.}
-    %\label{MarkovModel}
-%\end{figure}
-
 
 %-----------------------------------------------------------------------------
 
@@ -812,9 +813,7 @@ The computation of such an automaton is a tree. And deciding whether or not an \
 
 %-----------------------------------------------------------------------------
 
-%// TODO: Motivation / Why was it created not why I use them
-
-To define a timed automata, we need some more definitions. A timed automata works with timed sequences, timed words and timed languages.\\
+In the previous \gls{fsm}, we do not have any time measure. The only time order we have is the sequence of input we use with the \gls{fsm} but we don't know how many time, in second for example, is elapsed between two consecutive symbols from the word used as the \gls{fsm} input. How can you manage to produce an \gls{fsm} that should fail anytime this time interval is greater than thirty seconds for example? You can't without introducing time units into the \gls{fsm}. This is the motivation behind \gls{ta}. To define a timed automata, we need some more definitions. A timed automata works with timed sequences, timed words and timed languages.\\
 
 \begin{figure}[H]
     \centering
@@ -836,6 +835,15 @@ A timed sequence is an infinite sequence of values increasing monotonically $\ta
 \begin{definition}{Timed word.}
 A timed word over an alphabet $\Sigma$ is a pair $(\sigma, \tau)$ where $\sigma = \sigma_1 \sigma_2 ...$ is an infinite word over $\Sigma$ and $\tau$ is a timed sequence.
 \end{definition}
+
+This is used to map every input symbol of $\sigma$ to one value of $\tau$. $\sigma_i$ is mapped to $\tau_i$ for all $i \in \mathbb{N}$. For example, with an input alphabet being $\Sigma = {a, B}$, instead of having a word $aBaaBaBB$, you have a timed word like the one in Figure~\ref{timed_word}.
+
+\begin{figure}
+    \centering
+    \includegraphics[scale=3]{timed_word.png}
+    \caption{Example of a timed word from the input alphabet $\Sigma = {a, B}$. The space between each input symbol is the time elapsed}
+    \label{timed_word}
+\end{figure}
 
 \theoremstyle{definition}
 \begin{definition}{Timed language.}
@@ -931,6 +939,25 @@ We will use those definition to allows us to use non finite timed words later.
 
 %-----------------------------------------------------------------------------
 
+\section{Markov model}
+\label{sec:markov}
+
+%-----------------------------------------------------------------------------
+
+Markov Model is a stochastic model used to model randomly changing systems~\cite{1165342}~\cite{MarkovModel:2017}. The difference between a deterministic \gls{fsm} and a Markov Model is simply that the Markov Model take transitions randomly based on given probabilities.\\
+
+This particular type of Markov Model is the simplest one. Probabilities are not influenced by previous state of the system. We will not introduce the other types of Markov Model here as we don't need them later on.
+
+\begin{figure}
+    \centering
+    \includegraphics[scale=1.6]{MarkovModel.png}
+    \caption{Example of a Markov Model. It shows the probabilities for the weather to be sunny or rainy.}
+    \label{MarkovModel}
+\end{figure}
+
+
+%-----------------------------------------------------------------------------
+
 \section{Applications}
 
 %-----------------------------------------------------------------------------
@@ -956,8 +983,6 @@ UPPAAL was a great source of inspiration for some features of our own tool. We w
 \subsection{PRISM}
 %-----------------------------------------------------------------------------
 
-// TODO intuition for probabilistic models
-
 \begin{figure}
     \centering
     \includegraphics[scale=0.6]{PRISM_model.png}
@@ -965,7 +990,7 @@ UPPAAL was a great source of inspiration for some features of our own tool. We w
     \label{PRISM_model}
 \end{figure}
 
-We where also interested by PRISM, which is a tool for modeling and verification of probabilistic systems. PRISM supports different kind of probabilistic models like \gls{dtmc}, \gls{mdp}, \gls{pa}, \gls{ctmc} and \gls{pta}.\footnote{Probabilistic Automaton are Markov Chains that also supports deterministic transitions.}~\cite{Kwiatkowska2011}~\cite{Hinton2006}\\
+We where also interested by PRISM, which is a tool for modeling and verification of probabilistic systems (see Section~\ref{sec:markov}). PRISM supports different kind of probabilistic models like \gls{dtmc}, \gls{mdp}, \gls{pa}, \gls{ctmc} and \gls{pta}.\footnote{Probabilistic Automaton are Markov model that also supports deterministic transitions.}~\cite{Kwiatkowska2011}~\cite{Hinton2006}\\
 
 PRISM uses a uniform modeling language for all the probabilistic models that it supports. This is a textual language, based on guarded command notation. See Figure~\ref{PRISM_model}, this model was generated using the following lines of code:
 
@@ -1421,7 +1446,11 @@ We can summarize with the following questions:
 \item Does this introduces restrictions?
 \end{itemize}
 
-Now to the choice of \gls{fsm} model, why don't we simply pick the most simple case of \gls{fsm}? The reasons are very simple, take this case: You want to be able to detect a failure that happen if you receive a given data more than 10 seconds after some given data. How can you do this? Or even simpler, you want to detect a failure if you didn't receive any data for 30 seconds.\\
+Now to the choice of \gls{fsm} model, why don't we simply pick the most simple
+case of \gls{fsm}? The reasons are very simple, take this case: You want to be
+able to detect a failure that happen if you receive a given data more than 10
+seconds after some given data. How can you do this? Or even simpler, you want
+to detect a failure if you didn't receive any data for 30 seconds.\\
 
 With a basic \gls{fsm} that do not consider time, we would have to add a new input symbol to be used when no input data is received and assume that you use a reference time unit and that each time unit passed, you should receive a data or the newly introduced input symbol when no data is received. We need to add states for each seconds passed, so if we want to wait 30 seconds, we need 30 states with 30 transitions for each seconds and 30 transitions for the event of "a data has been received" that will go back to initial state. And all of this needs to be written by someone. You can easily see why this is impracticable. So clearly, in this case, \gls{fsm} are too limited if we want to handle this in a simple and practicable way, that is, by limiting the number of states the user will need to use. And of coruse, this is no longer a basic \gls{fsm} so clearly, those are not enough for us.\\
 
@@ -2054,6 +2083,7 @@ Another example, more specific, was a software used to control a device that cou
 
 \clearpage
 \section{Test cases}
+\label{sec:testcases}
 
 Here we will give explanation and details on some practical cases we had to deal with.
 
