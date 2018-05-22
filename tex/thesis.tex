@@ -158,7 +158,7 @@ It is commonly believed that the earliest a fault is found, the cheaper it is to
 
 %-----------------------------------------------------------------------------
 
-We will now try to introduce the problem we solve in this thesis with some of the use cases we had to solve. We are working on an embedded device that can be installed in trains to collect data and monitor them. This device is controlled using a software we develop and this software provides features. We want to check that, every time we update a new version of the software that is used to control the device, every features is still working as expected. Some of those features are:
+We will now try to briefly introduce the problem we solve in this thesis with some of the use cases we had to solve. We are working on an embedded device that can be installed in trains to collect data and monitor them. This device is controlled using a software we develop and this software provides features. We want to check that, every time we update a new version of the software that is used to control the device, every features is still working as expected. Some of those features are:
 
 \begin{itemize}
 \item Data flow: We want that data are retrieved at least every 30 seconds.
@@ -172,7 +172,15 @@ In this thesis, we develop an approach that can be used to answer the following 
 \item \guillemotleft Does the newly introduced feature works ? \guillemotright
 \end{itemize}
 
-We will try to answer those type of question for any software or hardware using user defined scenario used to check that the software is working as expected. You can see the final implementation of those three use case in Section~\ref{sec:testcases}.
+To answer those questions, we will need to know how the software is performing and to know that, we will need to analyse it's output, react to them to simulate the desired environment. In this context, outputs can be data, reports, logs, screenshots and many other things as long as they are produced by the analysed program. Testing different environment allows us to answer questions like the following ones:
+\begin{itemize}
+\item What happen if the device is not connected to any equipment ?
+\item What happen when the train is shutdown ?
+\item What happen while the train is moving ?
+\item What happen when temperature is under some threshold ?
+\end{itemize}
+
+We will try to answer all those questions for any software or hardware using user defined scenario used to check that the software is working as expected. You can see the final implementation of those three use case in Section~\ref{sec:testcases}.
 
 
 %-----------------------------------------------------------------------------
@@ -824,8 +832,6 @@ In the previous \gls{fsm}, we do not have any time measure. The only time order 
 
 For a given input alphabet $\Sigma$, a timed language is defined as a set of timed words over $\Sigma$. A timed word over $\Sigma$ is a pair $(\sigma, \tau)$ where $\sigma$ is a word over $\Sigma$ and $\tau$ is a timed sequence. Lastly, a timed sequence is a sequence of real time values increasing monotonically.~\cite{ALUR1994183} The goal is to map each symbol from the timed word $\sigma$ to a particular time from the timed sequence $\tau$. It allows us to mesure the time between each input symbol.
 
-%// TODO EXAMPLES
-
 \theoremstyle{definition}
 \begin{definition}{Timed sequence.}
 A timed sequence is an infinite sequence of values increasing monotonically $\tau = \tau_1 \tau_2 ...$ where $\tau \in \R$ and $\forall i : \tau_i > 0$ and $\forall i \in \mathbb{N}: \tau_i < \tau_{i+1}$.
@@ -902,7 +908,12 @@ with $s_i \in S$ and $v_i$ is a clock interpretation $C \to \mathbb{N}_0$ $\fora
 %\theoremstyle{definition}
 %\begin{example}{Timed automaton.} An example of timed automaton where $C = \{x\}$ is given in figure~\ref{timed_automata_e1}.
 %\end{example}
-%// TODO more example
+\begin{figure}
+    \centering
+    \includegraphics[scale=0.8]{timed_automata_lamp.png}
+    \caption{Example of a timed automata. This simple example shows a possible lamp controller that shutdown the lamp after 30 seconds.}
+    \label{timed_word}
+\end{figure}
 
 Intuitively, a run is the sequence of states and clock interpretations characterizing the \textit{run}/processing of a given timed word to a given timed automata. For each tuple of state and clock interpretation, the clock interpretation is:
 \begin{itemize}
@@ -1304,12 +1315,16 @@ All we have to do is to find the best \gls{fsm} type that suits our needs and to
 
 %-----------------------------------------------------------------------------
 
-%// TODO SCHEMA RUG interfaces Inputes Outputs
+\begin{figure}
+    \centering
+    \includegraphics[scale=0.8]{rug_io_simulation.png}
+    \caption{This is how we use the interface to intercepts outputs from the RUG and simulate the desired environment.}
+    \label{rug_io_simulation}
+\end{figure}
 
-%// TODO introduce that in introduction ?
 In our practical case, we need to know how the tested program is performing in order to test its requirements. To do that, we need to analyse the output it produces. In this context, outputs can be data, reports, logs, screenshots and many other things as long as they are produced by the analysed program. At Railnova, the \gls{rug} communicate with data servers, it produces particular messages that are saved in Railnova databases. It also can be accessed using a serial communication. Using this serial communication, we can fetch a lot of informations from the \gls{rug} operating system. We want our solution to interface with such data stream. Based on this quick analysis, we can think of separate program whose purpose is to continuously check for new data and fetch them into our solution as \gls{fsm}'s inputs. Let's call those program "Output Providers". So the idea is to setup a set an output providers that will provide informations about how the program is performing. We can imagine a lot of other use cases for those output providers, for example, we can have an output providers that look at a screen whose output is coming from our program and push the screen status into our solution.\\
 
-So, is interfacing outputs from our system enough to build a viable solution? We figure out that it is not. Let's say you want to check that the software produces different outputs based on the room temperature. If you don't have the room temperature, you will not be able to check data's correctness. That's why we also need to fetch inputs of the tested program. Unfortunately, this was not considered early enough in the development process of our solution so the name "Output Provider" was also used for those in the final solution.
+So, is interfacing outputs from our system enough to build a viable solution? We figure out that it is not. Let's say you want to check that the software produces different outputs based on the room temperature. If you don't have the room temperature, you will not be able to check data's correctness. That's why we also need to fetch inputs of the tested program. We also need to control the system's inputs to simulate a desired environment. We can send data to the \gls{rug} the same way any train's equipement would. Figure~\ref{rug_io_simulation} shows an overview of this concept. Unfortunately, this was not considered early enough in the development process of our solution so the name "Output Provider" was also used for those in the final solution.
 
 
 %-----------------------------------------------------------------------------
@@ -1318,8 +1333,43 @@ So, is interfacing outputs from our system enough to build a viable solution? We
 
 %-----------------------------------------------------------------------------
 
-The goal for those is to fetch or produce data that describes the state of the program or the various variables that can affect its processing/behavior. We decided to allow the user to create any ouptut providers needed. Those provider will then provide data in the form of key-value dictionnary with up to date data in them.
-%TODO example here
+The goal for those is to fetch or produce data that describes the state of the program or the various variables that can affect its processing/behavior. We decided to allow the user to create any ouptut providers needed. Those provider will then provide data in the form of key-value dictionnary with up to date data in them like the three dictionnary in Listing~\ref{lst:dictionary_sample}.
+
+\begin{figure}
+\label{unit_testing_sample}
+\begin{lstlisting}[caption=Example of a data dictionnary received at different time.,label={lst:dictionary_sample}]
+# Dictionary 1 at t=5
+{
+    "tandelta_runtime": 5,
+    "tandelta_query_failed": 0,
+    "tandelta_bad_reply": 1,
+    "tandelta_var_oil_temp": 14.5,
+    "tandelta_var_ambient_temp": 42.4,
+    "tandelta_var_oil_condition": 92
+}
+
+# Dictionary 1 at t=15
+{
+    "tandelta_runtime": 15,
+    "tandelta_query_failed": 2,
+    "tandelta_bad_reply": 4,
+    "tandelta_var_oil_temp": 14.5,
+    "tandelta_var_ambient_temp": 42.5,
+    "tandelta_var_oil_condition": 91
+}
+
+# Dictionary 1 at t=50
+{
+    "tandelta_runtime": 50,
+    "tandelta_query_failed": 2,
+    "tandelta_bad_reply": 4,
+    "tandelta_var_oil_temp": 14.4,
+    "tandelta_var_ambient_temp": 42.4,
+    "tandelta_var_oil_condition": 93
+}
+\end{lstlisting}
+\end{figure}
+
 Each provider being identified, it is then easy in any test to use the data produced by knowing which ouptut provider produces it and which key is used to identify the data. Lets use some more formal definitions for this:
 
 \theoremstyle{definition}
@@ -1332,8 +1382,23 @@ Two dictionary are of the same type if they share the same set of key.
 \begin{definition}{Output/Input providers.} An Output/Input Provider $P$ is a user defined plugin that produces exactly one type of Dictionary $D$. From now on, we will call them \gls{op}.
 \end{definition}
 
-So with those definitions, we can have several Output/Input Providers producing the same type of data (Dictionary).
-%// TODO better example ,add one example sooner ?
+So with those definitions, we can have several Output/Input Providers producing the same type of data (Dictionary) like in Listing~\ref{lst:multiple_temp}.
+
+\begin{figure}
+\label{unit_testing_sample}
+\begin{lstlisting}[caption=Example of a dictionnary that contains the same keys. Each one of them being identified by the name preceding the curly bracket,label={lst:multiple_temp}]
+"rear_captor": {
+    "temp": 5,
+    "humidity": 6
+}
+
+"front_captor": {
+    "temp": 25,
+    "humidity": 0
+}
+\end{lstlisting}
+\end{figure}
+
 An example for this would be a temperature sensor, one could read the sensor value on a screen or directly on the electrical wire. In this case, we would have one \gls{op} that would fetch the sensor value from the screen and produce a dictionary with only one key $K = { "sensor" }$ and another \gls{op} would do the same but reading the value from the wire.\\
 
 But now, what if we want another sensor, let's say an oil sensor, the set of value that this sensor can be mapped to will probably not be the same and how does one differentiate between one or the other? We could use the \gls{op} as an identification for the Dictionary but instead of that, we decided to add a custom data to all our dictionaries to identify them one from the other:
@@ -1454,7 +1519,6 @@ to detect a failure if you didn't receive any data for 30 seconds.\\
 
 With a basic \gls{fsm} that do not consider time, we would have to add a new input symbol to be used when no input data is received and assume that you use a reference time unit and that each time unit passed, you should receive a data or the newly introduced input symbol when no data is received. We need to add states for each seconds passed, so if we want to wait 30 seconds, we need 30 states with 30 transitions for each seconds and 30 transitions for the event of "a data has been received" that will go back to initial state. And all of this needs to be written by someone. You can easily see why this is impracticable. So clearly, in this case, \gls{fsm} are too limited if we want to handle this in a simple and practicable way, that is, by limiting the number of states the user will need to use. And of coruse, this is no longer a basic \gls{fsm} so clearly, those are not enough for us.\\
 
-%// TODO why is it complex ? why is it lot of work ?
 Now with the \gls{afa}, the complexity of implementation required by this paradigm is important, we need to run multiple automaton, construct execution trees and analyze them. Compared to a simple \gls{fsm} implementation, this is a lot of work. So is it worth it? To answer this question, we need to find practical cases where such a paradigm would become indispensable and such case should be really difficult to implement into a classic \gls{fsm} to justify choosing \gls{afa} as our main choice for the implementation of Nursery. Based on the concrete needs we had when we analyzed this possibility, we choose not to consider it as a good solution because none of the cases we had prepared (see section~\ref{section:ourcase}) needed such complexity and using this would have made it difficult to design test by inexperienced users. This also follows from the fact that we wanted to avoid dealing with concurrency.\\
 
 There is a wide variety of \gls{fsm}, there isn't any limit on how many \gls{fsm} type you can think of but when we started implementing our solution, the best \gls{fsm} that our 3 ranking questions left us with was timed automaton. Those \gls{fsm} are really well adapted for our use case. Being able to manipulate time directly in our transitions and state gives us a lot of ease to write the code and its also very powerful too! With it, we are able, for example, to send data with a variable interval between them and then receive data accordingly. You can also decide to create a clock for timeout that will be reseted each time you receive a given data. There are really a lot of use case and some more will be described later on.\\

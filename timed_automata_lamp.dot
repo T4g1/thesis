@@ -1,0 +1,9 @@
+digraph G {
+    rankdir="LR";
+    node [shape = circle];
+    S [ label = "", style = invis ];
+    S -> "off";
+    "off" -> "on" [ label = "press?\nt := 0" ];
+    "on" -> "off" [ label = "press?" ];
+    "on" -> "off" [ label = "t > 30" ];
+}
