@@ -12,6 +12,7 @@
 \usepackage{amssymb}
 \usepackage{float}
 \usepackage[T1]{fontenc}
+%\usepackage{fancyhdr}
 
 \theoremstyle{definition}
 \newtheorem{definition}{Definition}[section]
@@ -71,11 +72,12 @@
 }
 \makeglossaries
 
-\begin{document}
-
 %\title{Practical case of Black-box driven verification}
 %\author{Thomas Van Gysegem}
 %\date\today
+
+\begin{document}
+
 %\maketitle
 
 \includepdf[pages={1}]{template.pdf}
@@ -85,6 +87,7 @@
 This thesis will describe a practical case of software testing and explain all the choices that where made during the implementation process. It will also try to provide some generic way of doing the same for a different use case given a similar running environment and constraints.
 
 \clearpage
+\pagestyle{plain}
 \pagebreak
 \hspace{0pt}
 \vfill
@@ -143,7 +146,7 @@ In the \gls{rug} ecosystem, if our product, \gls{railsteros} isn't working well,
 
 \begin{figure}
     \centering
-    \includegraphics[scale=0.8]{STBC-costfixs.jpg}
+    \includegraphics[scale=0.8]{STBC-costfixs}
     \caption{Relative costs of fixing faults~\cite{EconomicsSTBC:2017}}
     \label{STBC-costfixs}
 \end{figure}
@@ -189,10 +192,7 @@ We will try to answer all those questions for any software or hardware using use
 
 %-----------------------------------------------------------------------------
 
-%// TODO Related works
-%Chow:1978:TSD:1313335.1313730
-%10.1007/978-3-540-39929-2_3
-%https://www.fi.muni.cz/~xpelanek/IA158/slides/timed-automata.pdf
+This thesis is not the first attempt at software verification automatization. Some tried to apply \gls{fsm} to verify the design of a given software~\cite{Chow:1978:TSD:1313335.1313730}. However, this approach is not usefull to check the actual implementation of that design or to check the data-manipulation done by that implementation. Another work tried to use \gls{fsm} to provide insight on test cases that should be designed~\cite{10.1007/978-3-540-39929-2_3}. While both techniques provides usefull informations for software development, none of them does a complete black-box verification of an implemented system which is what we are trying to achieve in this thesis.
 
 %-----------------------------------------------------------------------------
 
@@ -912,7 +912,7 @@ with $s_i \in S$ and $v_i$ is a clock interpretation $C \to \mathbb{N}_0$ $\fora
     \centering
     \includegraphics[scale=0.8]{timed_automata_lamp.png}
     \caption{Example of a timed automata. This simple example shows a possible lamp controller that shutdown the lamp after 30 seconds.}
-    \label{timed_word}
+    \label{timed_automata_lamp}
 \end{figure}
 
 Intuitively, a run is the sequence of states and clock interpretations characterizing the \textit{run}/processing of a given timed word to a given timed automata. For each tuple of state and clock interpretation, the clock interpretation is:
@@ -1336,7 +1336,7 @@ So, is interfacing outputs from our system enough to build a viable solution? We
 The goal for those is to fetch or produce data that describes the state of the program or the various variables that can affect its processing/behavior. We decided to allow the user to create any ouptut providers needed. Those provider will then provide data in the form of key-value dictionnary with up to date data in them like the three dictionnary in Listing~\ref{lst:dictionary_sample}.
 
 \begin{figure}
-\label{unit_testing_sample}
+\label{dictionary_sample}
 \begin{lstlisting}[caption=Example of a data dictionnary received at different time.,label={lst:dictionary_sample}]
 # Dictionary 1 at t=5
 {
@@ -1385,7 +1385,7 @@ Two dictionary are of the same type if they share the same set of key.
 So with those definitions, we can have several Output/Input Providers producing the same type of data (Dictionary) like in Listing~\ref{lst:multiple_temp}.
 
 \begin{figure}
-\label{unit_testing_sample}
+\label{multiple_temp}
 \begin{lstlisting}[caption=Example of a dictionnary that contains the same keys. Each one of them being identified by the name preceding the curly bracket,label={lst:multiple_temp}]
 "rear_captor": {
     "temp": 5,
@@ -1500,8 +1500,6 @@ To choose the type of \gls{fsm} that best suits our needs, we need some kind of 
 \item How easy it is to describe a system's behavior with such \gls{fsm}? If it takes to much times or if we find it too difficult for non-technical people to describe a system's behavior using that particular \gls{fsm} type, we know that it will probably be deprecated over time and wont be used as it should be.
 \item If the chosen \gls{fsm} introduces restriction on what can be described, those restriction must not prevent us from doing every testing needed. And if it introduces new possibilities that allows us to describe more system's behaviors, the complexity that it introduces into the system should be worth it.
 \end{itemize}
-%// TODO ^ this earlier
-%// TODO describe what we want to describe
 
 We can summarize with the following questions:
 
@@ -1540,15 +1538,37 @@ At each time step, we will receive a set of dictionary for every input received 
 
 %-----------------------------------------------------------------------------
 
+\section{Application}
+\label{secApplication}
+
+%-----------------------------------------------------------------------------
+
+Let's take a very simple example of a \gls{ta} used to test the behavior of a software used to fetch data from a serial equipement using a simple protocol where the equipment can only reply to received commands and the reply can only be the room temperature reading or an error message.
+
+\begin{figure}
+    \centering
+    \includegraphics[scale=0.7]{ta_serial_equipment.png}
+    \caption{Simple \gls{ta} that shows how to test the simple equipment desribed in Section~\ref{secApplication}.}
+    \label{fig:ta_serial_equipment}
+\end{figure}
+
+To test this, we need to design a \gls{ta} that will simulate the equipement behavior. That is what we did in Figure~\ref{fig:ta_serial_equipment}. Here, we start in the state \textit{iddle\_1}, we wait for any command from the software being tested. Upon entering the state, we send a query to be received. If no such query is received within a given delay, we go to the state \textit{failure}, the test is over and the software failed it. Otherwise, we go to \textit{reply\_temp} state and we reply with a room temperature. Then, we test the software output by checking if it contains the desired temperature. If it does not, the test is failed and if it does, we go to the state \textit{iddle\_2}. Here, the behavior is the same as in state \textit{iddle\_1} exept that we now send an error reply. In state \textit{reply\_error}, we finally check that the error is received by the software being tested. If it isn't, we failed otherwise the test is over and succeed. We implies that the clock $t$ is resetted each time we change the current state. We now have an automata that is failing under the following conditions:
+\begin{itemize}
+\item No command received
+\item Temperature does not exists or is not correct
+\item Errors not processed
+\end{itemize}
+
+In this \gls{ta}, we use outputs provider to fetch the outputs from the software. This is what allows us to test wether or not the errors and temperature are produced by the software. But we also use them to read commands from the software. Inputs providers are used to send replies to the software, in this case, using serial communications.
+
+
+%-----------------------------------------------------------------------------
+
 \section{Conclusion}
 
 %-----------------------------------------------------------------------------
 
-We introduced the concept of portability when we talked about system testing and versioning when we talked about regression testing and with the third testing, functional testing, we stated that we want the software to run accordingly to our requirement on any system and for every revision of it and we also explained why we wanted to use time automaton. All of those aspect and tools will be used in the following chapter to explain how the final system works.
-
-%// TODO explain I/O producers example and usage is coming
-%// TODO exaplain whe are going to explain how to write scenario / TA
-%// TODO find ways to shows failing / succeeding relate to passing test
+We introduced the concept of portability when we talked about system testing and versioning when we talked about regression testing and with the third testing, functional testing, we stated that we want the software to run accordingly to our requirement on any system and for every revision of it and we also explained why we wanted to use time automaton. All of those aspect and tools will be used in the following chapter to explain how the final system works, how we are going to design \gls{ta} and how to use interfaces.
 
 
 %------------------------------------------------------------------------%
@@ -1631,7 +1651,7 @@ When adding a state to a scenario, you can also gives it several function that w
 \item Set update processing for every states
 \end{itemize}
 
-%// TODO explain leave, update, enter handlers. Function ect ect
+Enter, leave and update processing are specified using user defined functions. They give the ability to fine tune what happen when we enter a given state, when we leave a state and what happen while we stay in a given state for every time unit.
 
 \begin{figure}[H]
     \begin{lstlisting}[caption="Add states",label={lst:python-add-state}]
@@ -2006,7 +2026,9 @@ My personal analysis lead me to think that the success of Nursery is based on th
 
 Clearly, detecting fault earlier allows us to save money and time. No need to call back some hardware and less fault in production means less loss of money. We do not longer need to invest days of analyze for fingerprinting, all it takes is to plug the faulty RUG into Nursery and click a button. This could easily take up to 3 hours per RUG where now, we can do it in just one day of work for height RUG using more intensive testing cases! Lastly, some guys of the hardware team and from the supply chain were introduced with Nursery. We showed them how to write test for Nursery and they loved the way things were made and how simple it was. Their test were done in approximately one hour. This lead us to think that, with proper formations and documentation, other users could gladly uses Nursery.\\
 
-I think that Nursery is a key assets that will become more and more used inside of Railnova. We even talked about using it for production lines in the future. But a lot of work is yet to be done on the accessibility aspect of it. Proper documentation needs to be written, some ideas are expected to ease a bit more the writing of tests like adding a generic state allowing us to create a transition from "any state" to one particular state without needing to repeat this transition to every other states and theres probably a lot more thing we didn't think about.
+I think that Nursery is a key assets that will become more and more used inside of Railnova. We even talked about using it for production lines in the future. But a lot of work is yet to be done on the accessibility aspect of it. Proper documentation needs to be written, some ideas are expected to ease a bit more the writing of tests like adding a generic state allowing us to create a transition from "any state" to one particular state without needing to repeat this transition to every other states and theres probably a lot more thing we didn't think about.\\
+
+It is important to notice that while Nursery is usefull to check that software requierements are met, it is still important to perform unit testing and integration testing based on a code coverage criterion. Nursery use is limited to functional testing, system testing, regression testing and acceptance testing.
 
 %------------------------------------------------------------------------%
 %                                                                        %
@@ -2208,6 +2230,6 @@ As shown in the figure~\ref{battcycle2}, we made several cycle of charge/dischar
 \clearpage
 \printglossaries
 
-\includepdf[pages={3}]{template.pdf}
+%\includepdf[pages={3}]{template.pdf}
 
 \end{document}
