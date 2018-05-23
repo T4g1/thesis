@@ -8,13 +8,13 @@ digraph G {
     node [shape = circle];
     S [ label = "", style = invis ];
     S -> "iddle_1" [ label = "" ];
-    "iddle_1" -> "reply_temp" [ label = "query received" ];
-    "iddle_1" -> "failure" [ label = "t > 30" ];
+    "idle_1" -> "reply_temp" [ label = "query received" ];
+    "idle_1" -> "failure" [ label = "t > 30" ];
     "reply_temp" -> "iddle_2" [ label = "temp in outputs" ];
     "reply_temp" -> "failure" [ label = "temp not in outputs" ];
-    "iddle_2" -> "reply_error" [ label = "query error" ];
-    "iddle_2" -> "failure" [ label = "t > 30" ];
+    "idle_2" -> "reply_error" [ label = "query error" ];
+    "idle_2" -> "failure" [ label = "t > 30" ];
     "reply_error" -> "success" [ label = "error in outputs" ];
     "reply_error" -> "failure" [ label = "error not in outputs" ];
-    { rank=same; "iddle_1"; "reply_temp"; "iddle_2"; "reply_error" };
+    { rank=same; "idle_1"; "reply_temp"; "idle_2"; "reply_error" };
 }
